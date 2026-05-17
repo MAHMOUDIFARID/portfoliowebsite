@@ -1,0 +1,149 @@
+---
+const navLinks = [
+  { name: 'Work', href: '/#work' },
+  { name: 'Experience', href: '/#experience' },
+  { name: 'Process', href: '/#process' },
+  { name: 'Contact', href: '/contact' },
+];
+---
+
+<header class="fixed top-6 left-0 w-full z-50 px-4 flex justify-center pointer-events-none">
+  <nav 
+    class="pointer-events-auto w-full max-w-[900px] bg-white/95 backdrop-blur-xl border border-black/10 rounded-full shadow-2xl flex items-center justify-between px-2 py-2 md:px-3 md:py-3 transition-all duration-500 hover:border-black/20"
+    aria-label="Main navigation"
+  >
+    <a href="/" class="flex items-center group outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full pl-2 md:pl-3">
+      <div class="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
+        <img src="/Logo.png" alt="Farid Mahmoudi logo" class="w-full h-full object-contain logo-theme-filter transition-all duration-500" />
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-2">
+      {navLinks.map((link) => (
+        <a 
+          href={link.href} 
+          class="text-[13px] font-medium text-black/60 hover:text-black hover:bg-black/5 px-4 py-1.5 rounded-full transition-all outline-none focus-visible:bg-black/5"
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-2 pr-1">
+      <a 
+        href="/contact" 
+        class="bg-brand-black text-white px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium hover:bg-brand-black/90 hover:scale-105 transition-transform shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-black/50 hidden md:block"
+      >
+        Let's talk
+      </a>
+
+      <button 
+        id="theme-toggle"
+        class="w-10 h-10 rounded-full bg-black/5 border border-black/10 flex items-center justify-center text-black outline-none focus-visible:ring-2 focus-visible:ring-black/50 hover:bg-black/10 transition-colors"
+        aria-label="Toggle theme"
+      >
+        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="hidden transition-transform hover:rotate-45 duration-300">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2"/>
+          <path d="M12 20v2"/>
+          <path d="m4.93 4.93 1.41 1.41"/>
+          <path d="m17.66 17.66 1.41 1.41"/>
+          <path d="M2 12h2"/>
+          <path d="M20 12h2"/>
+          <path d="m6.34 17.66-1.41 1.41"/>
+          <path d="m19.07 4.93-1.41 1.41"/>
+        </svg>
+        <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="hidden transition-transform hover:-rotate-12 duration-300">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+      </button>
+
+      <button 
+        id="mobile-menu-btn"
+        class="md:hidden w-10 h-10 rounded-full bg-black/5 border border-black/10 flex items-center justify-center text-black outline-none focus-visible:ring-2 focus-visible:ring-black/50 hover:bg-black/10 transition-colors"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256" class="menu-open-icon"><path d="M224,128a8,8,0,0,1-8,8H32a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM32,72H224a8,8,0,0,0,0-16H32a8,8,0,0,0,0,16ZM224,184H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256" class="menu-close-icon hidden"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div 
+  id="mobile-menu"
+  class="fixed top-24 left-4 right-4 z-40 bg-white/95 backdrop-blur-2xl border border-black/10 rounded-3xl shadow-2xl p-6 flex flex-col gap-4 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-300 md:hidden"
+>
+  {navLinks.map((link) => (
+    <a 
+      href={link.href} 
+      class="text-lg font-medium text-black/80 hover:text-black hover:bg-black/5 px-4 py-3 rounded-2xl transition-colors mobile-link"
+    >
+      {link.name}
+    </a>
+  ))}
+  <div class="h-px w-full bg-black/10 my-2"></div>
+  <a 
+    href="/contact" 
+    class="bg-brand-black text-white px-6 py-4 rounded-full text-center text-sm font-semibold hover:bg-brand-black/90 transition-colors"
+  >
+    Let's talk
+  </a>
+</div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const openIcon = btn?.querySelector('.menu-open-icon');
+  const closeIcon = btn?.querySelector('.menu-close-icon');
+  const links = document.querySelectorAll('.mobile-link');
+
+  let isOpen = false;
+
+  const toggleMenu = () => {
+    isOpen = !isOpen;
+    if (btn) btn.setAttribute('aria-expanded', isOpen.toString());
+    
+    if (isOpen) {
+      menu?.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
+      openIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+    } else {
+      menu?.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
+      openIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  };
+
+  btn?.addEventListener('click', toggleMenu);
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      if (isOpen) toggleMenu();
+    });
+  });
+
+  const themeBtn = document.getElementById('theme-toggle');
+  const lightIcon = document.getElementById('theme-icon-light');
+  const darkIcon = document.getElementById('theme-icon-dark');
+
+  const updateIcon = () => {
+    const isLight = document.documentElement.classList.contains('light');
+    if (isLight) {
+      lightIcon?.classList.add('hidden');
+      darkIcon?.classList.remove('hidden');
+    } else {
+      darkIcon?.classList.add('hidden');
+      lightIcon?.classList.remove('hidden');
+    }
+  };
+
+  updateIcon();
+
+  themeBtn?.addEventListener('click', () => {
+    const isLight = document.documentElement.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    updateIcon();
+  });
+</script>

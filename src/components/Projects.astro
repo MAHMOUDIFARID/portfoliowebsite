@@ -1,0 +1,64 @@
+---
+const projects = [
+  {
+    title: "Maroc Des Merveilles",
+    description: "A Drupal website for presenting Morocco's destinations and travel experiences through structured content.",
+    tags: ["Drupal", "CMS", "Tourism"],
+    image: "/Background.jpg",
+    link: "https://marocdesmerveilles.com"
+  }
+];
+---
+
+<section id="work" class="py-32 md:py-48 bg-transparent">
+  <div class="section-container">
+    <div class="mb-20">
+      <h2 class="text-4xl md:text-6xl font-semibold tracking-tighter text-white mb-6">
+        Selected Project
+      </h2>
+      <p class="text-lg md:text-xl text-white/50 max-w-2xl font-medium">
+        A real project with a live URL and a clear technology stack.
+      </p>
+    </div>
+
+    <div class="space-y-32">
+      {projects.map((project, index) => (
+        <div class="group grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class={`order-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
+            <div class="flex gap-2 mb-6">
+              {project.tags.map(tag => (
+                <span class="px-3 py-1 bg-white/5 border border-white/5 text-white/40 text-[10px] font-medium uppercase tracking-wider rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h3 class="text-3xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
+              {project.title}
+            </h3>
+            <p class="text-lg text-white/50 mb-10 leading-relaxed font-medium">
+              {project.description}
+            </p>
+            <a 
+              href={project.link} 
+              class="inline-flex items-center gap-2 bg-white text-brand-black px-8 py-4 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-lg shadow-white/5"
+            >
+              Visit project
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path></svg>
+            </a>
+          </div>
+          
+          <div class={`order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
+            <div class="aspect-video bg-white/5 rounded-4xl md:rounded-5xl overflow-hidden border border-white/10 shadow-2xl relative">
+              <img 
+                src={project.image} 
+                alt={project.title} 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-60 group-hover:opacity-80 transition-opacity"
+              />
+              <div class="absolute inset-0 bg-brand-black/20 group-hover:bg-transparent transition-colors"></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

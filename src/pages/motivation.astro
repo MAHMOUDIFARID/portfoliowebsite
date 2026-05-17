@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import MotivationReact from '../components/MotivationReact';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Motivation Letter | Farid Mahmoudi">
+	<main class="min-h-screen flex flex-col justify-between">
+		<div>
+			<Navbar />
+			<MotivationReact client:visible />
+		</div>
+		<Footer />
+	</main>
+</Layout>
