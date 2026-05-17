@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   GithubLogoIcon,
   LinkedinLogoIcon,
-  MagnifyingGlassIcon,
   PaperPlaneRightIcon
 } from '@phosphor-icons/react';
 
@@ -45,7 +44,6 @@ export default function ContactReact() {
       <div className="w-full max-w-3xl mx-auto px-6 relative z-10 flex flex-col items-center">
         <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-8">
           <div className="flex items-center gap-2 text-white/80 text-sm font-medium">
-            <MagnifyingGlassIcon size={18} weight="bold" />
             <span>Open to tech, data & ML roles</span>
           </div>
           <div className="w-px h-4 bg-white/20"></div>
@@ -133,7 +131,7 @@ export default function ContactReact() {
 
           <button
             type="submit"
-            className="w-full bg-white text-brand-black font-semibold py-4 rounded-xl transition-all duration-300 mt-2 hover:bg-white/90 inline-flex items-center justify-center gap-2"
+            className="w-full bg-white text-brand-black font-semibold py-4 rounded-xl transition-all duration-300 mt-2 hover:bg-white/90 inline-flex items-center justify-center gap-2 cursor-pointer"
           >
             Send message <PaperPlaneRightIcon weight="fill" />
           </button>
@@ -156,9 +154,11 @@ export default function ContactReact() {
             <GithubLogoIcon size={26} weight="fill" />
           </a>
           <a
-            href="#"
+            href="https://www.linkedin.com/in/faridmahmoudi/"
             aria-label="LinkedIn profile"
             className="text-white/60 hover:text-white transition-colors"
+            target="_blank"
+            rel="noreferrer"
           >
             <LinkedinLogoIcon size={26} weight="fill" />
           </a>
