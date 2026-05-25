@@ -31,24 +31,24 @@
 
 html.light {
   /* Light Mode */
-  --site-bg: #FAFAFA;
-  --site-bg-gradient: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.03) 0%, transparent 70%);
-  --site-text: rgba(17, 24, 39, 0.9);
-  --selection-bg: #111827;
-  --selection-text: #FAFAFA;
+  --site-bg: #FFFFFF;
+  --site-bg-gradient: none;
+  --site-text: #000000;
+  --selection-bg: #000000;
+  --selection-text: #FFFFFF;
   --grain-opacity: 0.06;
   --grain-filter: invert(1);
 
   /* Swapped Dynamic RGB Variables for Light Mode */
-  --color-white-base: 17 24 39;      /* white becomes very dark gray/blackish */
-  --color-black-base: 250 250 250;   /* black becomes off-white */
-  --color-brand-black-base: 245 245 245; /* brand black becomes light gray */
-  --color-brand-charcoal-base: 229 229 229; /* charcoal becomes lighter gray */
-  --color-brand-gray-base: 212 212 212;
+  --color-white-base: 0 0 0;      /* white text utilities become black */
+  --color-black-base: 0 0 0;
+  --color-brand-black-base: 255 255 255;
+  --color-brand-charcoal-base: 255 255 255;
+  --color-brand-gray-base: 245 245 245;
 }
 
 @theme {
-  --font-sans: 'Manrope Variable', sans-serif;
+  --font-sans: 'Inter', sans-serif;
   --font-reenie: 'Reenie Beanie', cursive;
   --font-handwriting: 'Caveat Brush', cursive;
   --font-kalam: 'Kalam', cursive;
@@ -60,7 +60,7 @@ html.light {
   --color-brand-black: rgb(var(--color-brand-black-base));
   --color-brand-charcoal: rgb(var(--color-brand-charcoal-base));
   --color-brand-gray: rgb(var(--color-brand-gray-base));
-  --color-brand-accent: #0071E3;
+  --color-brand-accent: rgb(var(--color-white-base));
   
   --radius-4xl: 2rem;
   --radius-5xl: 3rem;

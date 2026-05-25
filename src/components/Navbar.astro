@@ -1,20 +1,21 @@
 ---
 const navLinks = [
   { name: 'Work', href: '/#work' },
+  { name: 'Skills', href: '/#skills' },
   { name: 'Experience', href: '/#experience' },
-  { name: 'Process', href: '/#process' },
+  { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '/contact' },
 ];
 ---
 
 <header class="fixed top-6 left-0 w-full z-50 px-4 flex justify-center pointer-events-none">
   <nav 
-    class="pointer-events-auto w-full max-w-[900px] bg-white/95 backdrop-blur-xl border border-black/10 rounded-full shadow-2xl flex items-center justify-between px-2 py-2 md:px-3 md:py-3 transition-all duration-500 hover:border-black/20"
+    class="site-nav-shell pointer-events-auto w-full max-w-[900px] backdrop-blur-xl border rounded-full flex items-center justify-between px-2 py-2 md:px-3 md:py-3 transition-all duration-500"
     aria-label="Main navigation"
   >
     <a href="/" class="flex items-center group outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full pl-2 md:pl-3">
       <div class="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
-        <img src="/Logo.png" alt="Farid Mahmoudi logo" class="w-full h-full object-contain logo-theme-filter transition-all duration-500" />
+        <img src="/Logo.png" alt="Farid Mahmoudi logo" class="site-nav-logo w-full h-full object-contain transition-all duration-500" />
       </div>
     </a>
 
@@ -22,7 +23,7 @@ const navLinks = [
       {navLinks.map((link) => (
         <a 
           href={link.href} 
-          class="text-[13px] font-medium text-black/60 hover:text-black hover:bg-black/5 px-4 py-1.5 rounded-full transition-all outline-none focus-visible:bg-black/5"
+          class="site-nav-link text-[13px] font-medium px-4 py-1.5 rounded-full transition-all outline-none"
         >
           {link.name}
         </a>
@@ -32,14 +33,14 @@ const navLinks = [
     <div class="flex items-center gap-2 pr-1">
       <a 
         href="/contact" 
-        class="bg-brand-black text-white px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium hover:bg-brand-black/90 hover:scale-105 transition-transform shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-black/50 hidden md:block"
+        class="site-nav-cta px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium hover:scale-105 transition-transform shadow-sm outline-none hidden md:block"
       >
         Let's talk
       </a>
 
       <button 
         id="theme-toggle"
-        class="w-10 h-10 rounded-full bg-black/5 border border-black/10 flex items-center justify-center text-black outline-none focus-visible:ring-2 focus-visible:ring-black/50 hover:bg-black/10 transition-colors"
+        class="site-nav-icon-button w-10 h-10 rounded-full border flex items-center justify-center outline-none transition-colors"
         aria-label="Toggle theme"
       >
         <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="hidden transition-transform hover:rotate-45 duration-300">
@@ -60,7 +61,7 @@ const navLinks = [
 
       <button 
         id="mobile-menu-btn"
-        class="md:hidden w-10 h-10 rounded-full bg-black/5 border border-black/10 flex items-center justify-center text-black outline-none focus-visible:ring-2 focus-visible:ring-black/50 hover:bg-black/10 transition-colors"
+        class="site-nav-icon-button md:hidden w-10 h-10 rounded-full border flex items-center justify-center outline-none transition-colors"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
@@ -73,20 +74,20 @@ const navLinks = [
 
 <div 
   id="mobile-menu"
-  class="fixed top-24 left-4 right-4 z-40 bg-white/95 backdrop-blur-2xl border border-black/10 rounded-3xl shadow-2xl p-6 flex flex-col gap-4 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-300 md:hidden"
+  class="site-mobile-menu fixed top-24 left-4 right-4 z-40 backdrop-blur-2xl border rounded-3xl p-6 flex flex-col gap-4 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-300 md:hidden"
 >
   {navLinks.map((link) => (
     <a 
       href={link.href} 
-      class="text-lg font-medium text-black/80 hover:text-black hover:bg-black/5 px-4 py-3 rounded-2xl transition-colors mobile-link"
+      class="site-nav-link text-lg font-medium px-4 py-3 rounded-2xl transition-colors mobile-link"
     >
       {link.name}
     </a>
   ))}
-  <div class="h-px w-full bg-black/10 my-2"></div>
+  <div class="site-mobile-menu-divider h-px w-full my-2"></div>
   <a 
     href="/contact" 
-    class="bg-brand-black text-white px-6 py-4 rounded-full text-center text-sm font-semibold hover:bg-brand-black/90 transition-colors"
+    class="site-nav-cta px-6 py-4 rounded-full text-center text-sm font-semibold transition-colors"
   >
     Let's talk
   </a>
@@ -147,3 +148,107 @@ const navLinks = [
     updateIcon();
   });
 </script>
+
+<style>
+  .site-nav-shell,
+  .site-mobile-menu {
+    background: rgba(10, 10, 10, 0.92);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
+  }
+
+  .site-nav-shell:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .site-nav-link {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .site-nav-logo {
+    filter: brightness(0) invert(1);
+    opacity: 1;
+  }
+
+  .site-nav-link:hover,
+  .site-nav-link:focus-visible {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .site-nav-cta {
+    background: #ffffff;
+    color: #0a0a0a;
+  }
+
+  .site-nav-cta:hover,
+  .site-nav-cta:focus-visible {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .site-nav-icon-button {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  .site-nav-icon-button:hover,
+  .site-nav-icon-button:focus-visible {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .site-mobile-menu-divider {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  :global(html.light) .site-nav-shell,
+  :global(html.light) .site-mobile-menu {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.12);
+  }
+
+  :global(html.light) .site-nav-shell:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  :global(html.light) .site-nav-link {
+    color: rgba(0, 0, 0, 0.64);
+  }
+
+  :global(html.light) .site-nav-logo {
+    filter: brightness(0);
+  }
+
+  :global(html.light) .site-nav-link:hover,
+  :global(html.light) .site-nav-link:focus-visible {
+    color: #000000;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  :global(html.light) .site-nav-cta {
+    background: #0a0a0a;
+    color: #ffffff;
+  }
+
+  :global(html.light) .site-nav-cta:hover,
+  :global(html.light) .site-nav-cta:focus-visible {
+    background: rgba(10, 10, 10, 0.9);
+  }
+
+  :global(html.light) .site-nav-icon-button {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #000000;
+  }
+
+  :global(html.light) .site-nav-icon-button:hover,
+  :global(html.light) .site-nav-icon-button:focus-visible {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  :global(html.light) .site-mobile-menu-divider {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+</style>

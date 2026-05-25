@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="Blog | FARID MAHMOUDI">
+	<main>
+		<Navbar />
+		
+		<section class="blog-hero pb-20 overflow-hidden">
+			<div class="section-container">
+				<div class="max-w-3xl">
+					<h1 class="text-5xl md:text-7xl font-semibold tracking-tighter text-white mb-8 leading-tight reveal-up">
+						Thoughts, stories and <span class="text-white/40 italic font-kalam">ideas.</span>
+					</h1>
+					<p class="text-xl text-white/60 leading-relaxed reveal-up" style="animation-delay: 0.1s">
+						A collection of articles about web development, design, and my journey as a creative developer.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="pb-32">
+			<div class="section-container">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{posts.map((post, index) => (
+						<a 
+							href={`/blog/${post.id}`}
+							class="glass-card group flex flex-col rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-500 reveal-up"
+							style={`animation-delay: ${0.2 + index * 0.1}s`}
+						>
+							{post.data.image && (
+								<div class="aspect-[16/10] overflow-hidden">
+									<img 
+										src={post.data.image} 
+										alt={post.data.title}
+										class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+									/>
+								</div>
+							)}
+							<div class="p-8 flex flex-col flex-grow">
+								<div class="flex flex-wrap gap-2 mb-4">
+									{post.data.tags.map(tag => (
+										<span class="text-[10px] uppercase tracking-widest font-bold text-white/30 px-2 py-1 bg-white/5 rounded-md">
+											{tag}
+										</span>
+									))}
+								</div>
+								<h2 class="text-2xl font-semibold text-white mb-4 group-hover:text-brand-accent transition-colors">
+									{post.data.title}
+								</h2>
+								<p class="text-white/50 text-sm leading-relaxed mb-8 flex-grow">
+									{post.data.description}
+								</p>
+								<div class="flex items-center justify-between mt-auto pt-6 border-t border-white/10">
+									<span class="text-xs text-white/30">
+										{post.data.pubDate.toLocaleDateString('en-US', {
+											year: 'numeric',
+											month: 'short',
+											day: 'numeric'
+										})}
+									</span>
+									<span class="text-xs font-semibold text-white uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+										Read More →
+									</span>
+								</div>
+							</div>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<Footer />
+	</main>
+</Layout>
+
+<style>
+	main {
+		width: 100%;
+		min-height: 100vh;
+	}
+
+	.blog-hero {
+		padding-top: clamp(14rem, 24vh, 16rem);
+	}
+
+	@media (max-width: 767px) {
+		.blog-hero {
+			padding-top: 10rem;
+		}
+	}
+</style>

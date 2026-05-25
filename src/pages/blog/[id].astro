@@ -1,0 +1,175 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { id: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} | FARID MAHMOUDI`}>
+	<main>
+		<Navbar />
+
+		<article class="pt-48 pb-32">
+			<div class="section-container max-w-4xl">
+				<!-- Header -->
+				<header class="mb-16 reveal-up">
+					<a 
+						href="/blog" 
+						class="inline-flex items-center gap-2 text-sm font-medium text-white/40 hover:text-white transition-colors mb-8 group"
+					>
+						<span class="group-hover:-translate-x-1 transition-transform">←</span> Back to Blog
+					</a>
+
+					<div class="flex flex-wrap gap-3 mb-6">
+						{post.data.tags.map(tag => (
+							<span class="text-xs uppercase tracking-widest font-bold text-brand-accent px-3 py-1 bg-brand-accent/10 rounded-full">
+								{tag}
+							</span>
+						))}
+					</div>
+
+					<h1 class="text-4xl md:text-6xl font-semibold tracking-tighter text-white mb-8 leading-tight">
+						{post.data.title}
+					</h1>
+
+					<div class="flex items-center gap-6 text-white/40 text-sm border-y border-white/5 py-6">
+						<div class="flex flex-col">
+							<span class="uppercase tracking-widest text-[10px] font-bold mb-1">Published on</span>
+							<span class="text-white/70">
+								{post.data.pubDate.toLocaleDateString('en-US', {
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric'
+								})}
+							</span>
+						</div>
+						{post.data.updatedDate && (
+							<div class="flex flex-col">
+								<span class="uppercase tracking-widest text-[10px] font-bold mb-1">Updated on</span>
+								<span class="text-white/70">
+									{post.data.updatedDate.toLocaleDateString('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric'
+									})}
+								</span>
+							</div>
+						)}
+					</div>
+				</header>
+
+				<!-- Featured Image -->
+				{post.data.image && (
+					<div class="aspect-video w-full rounded-3xl overflow-hidden mb-16 reveal-up" style="animation-delay: 0.1s">
+						<img 
+							src={post.data.image} 
+							alt={post.data.title}
+							class="w-full h-full object-cover"
+						/>
+					</div>
+				)}
+
+				<!-- Content -->
+				<div class="blog-content reveal-up" style="animation-delay: 0.2s">
+					<Content />
+				</div>
+			</div>
+		</article>
+
+		<Footer />
+	</main>
+</Layout>
+
+<style is:global>
+	/* Custom Markdown Styling */
+	.blog-content {
+		color: rgb(var(--color-white-base) / 0.7);
+		line-height: 1.8;
+		font-size: 1.125rem;
+	}
+
+	.blog-content h2, .blog-content h3, .blog-content h4 {
+		margin-top: 2.5em;
+		margin-bottom: 1.25em;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		color: rgb(var(--color-white-base));
+	}
+
+	.blog-content h2 { font-size: 1.875rem; }
+	.blog-content h3 { font-size: 1.5rem; }
+
+	.blog-content p {
+		margin-bottom: 1.75em;
+	}
+
+	.blog-content ul, .blog-content ol {
+		margin-bottom: 1.75em;
+		padding-left: 1.5em;
+		list-style-type: disc;
+	}
+
+	.blog-content li {
+		margin-bottom: 0.75em;
+	}
+
+	.blog-content strong {
+		color: rgb(var(--color-white-base));
+		font-weight: 600;
+	}
+
+	.blog-content a {
+		color: rgb(var(--color-white-base) / 0.9);
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+
+	.blog-content pre {
+		padding: 1.5rem;
+		border-radius: 1rem;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		margin: 2.5rem 0;
+		background: rgba(255, 255, 255, 0.03) !important;
+		overflow-x: auto;
+	}
+
+	.blog-content code {
+		font-family: monospace;
+		background: rgba(255, 255, 255, 0.1);
+		padding: 0.2em 0.4em;
+		border-radius: 0.25em;
+		font-size: 0.9em;
+	}
+
+	.blog-content pre code {
+		background: transparent;
+		padding: 0;
+		font-size: 0.9rem;
+	}
+
+	.blog-content blockquote {
+		border-left: 4px solid rgb(var(--color-white-base) / 0.45);
+		padding-left: 1.5rem;
+		font-style: italic;
+		color: rgb(var(--color-white-base) / 0.9);
+		margin: 2.5rem 0;
+	}
+
+	.blog-content img {
+		border-radius: 1.5rem;
+		margin: 3rem 0;
+		width: 100%;
+		height: auto;
+	}
+</style>
