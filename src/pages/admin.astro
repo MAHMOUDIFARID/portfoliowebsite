@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import AdminBlogReact from '../components/AdminBlogReact';
+---
+
+<Layout title="Admin | FARID MAHMOUDI" description="Private blog publishing admin for Farid Mahmoudi." robots="noindex,nofollow">
+  <Navbar />
+  <main class="min-h-screen px-6 pb-24 pt-36 md:px-12">
+    <AdminBlogReact client:load />
+  </main>
+</Layout>
+
+<style is:global>
+  .admin-input {
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid rgb(var(--color-white-base) / 0.12);
+    background: rgb(var(--color-white-base) / 0.05);
+    padding: 0.9rem 1rem;
+    color: rgb(var(--color-white-base));
+    outline: none;
+    transition: border-color 180ms ease, background 180ms ease;
+  }
+
+  .admin-input::placeholder {
+    color: rgb(var(--color-white-base) / 0.3);
+  }
+
+  .admin-input:focus {
+    border-color: rgb(var(--color-white-base) / 0.35);
+    background: rgb(var(--color-white-base) / 0.08);
+  }
+
+  .admin-content-input {
+    font-family: 'Google Sans Code', monospace;
+  }
+
+  .admin-publish-button {
+    margin-top: 0.5rem;
+    width: 100%;
+    border-radius: 999px;
+    border: 1px solid #ffffff;
+    background: #ffffff;
+    color: #000000;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 18px 45px rgba(255, 255, 255, 0.08);
+    transition: transform 180ms ease, background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .admin-publish-button:hover {
+    transform: translateY(-1px);
+    background: transparent;
+    color: #ffffff;
+    box-shadow: 0 20px 55px rgba(255, 255, 255, 0.12);
+  }
+
+  .admin-publish-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+  }
+
+  html.light .admin-publish-button {
+    border-color: #000000;
+    background: #000000;
+    color: #ffffff;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+  }
+
+  html.light .admin-publish-button:hover {
+    background: #ffffff;
+    color: #000000;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.16);
+  }
+</style>
