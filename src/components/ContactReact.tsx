@@ -42,15 +42,7 @@ export default function ContactReact() {
       <div className="absolute -bottom-[40%] md:-bottom-[60%] left-1/2 -translate-x-1/2 w-[200%] md:w-[150%] h-[100%] border-t border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent rounded-[100%] pointer-events-none blur-[2px]"></div>
 
       <div className="w-full max-w-3xl mx-auto px-6 relative z-10 flex flex-col items-center">
-        <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-8">
-          <div className="flex items-center gap-2 text-white/80 text-sm font-medium">
-            <span>Open to tech, data & ML roles</span>
-          </div>
-          <div className="w-px h-4 bg-white/20"></div>
-          <a href={`mailto:${CONTACT_EMAIL}`} className="text-white/60 hover:text-white text-sm font-medium transition-colors">
-            Contact me
-          </a>
-        </div>
+
 
         <div className="text-center mb-16 w-full">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6">

@@ -27,13 +27,13 @@ export default function MotivationReact() {
             As a recent graduate specializing in Big Data and Cloud Computing, I have spent the last few years immersing myself in the architecture, deployment, and optimization of large-scale distributed systems. I am writing to express my strong interest in joining a forward-thinking engineering team where I can translate my academic background into high-impact, production-ready solutions.
           </p>
           <p>
-            My academic journey has equipped me with a deep understanding of cloud infrastructure, data pipelines, and scalable computing. Beyond the classroom, I've actively applied these concepts by building full-stack applications and experimenting with modern frontend frameworks to ensure that the data systems I build are not only robust but also accessible through seamless user interfaces.
+            My academic journey has equipped me with a deep understanding of machine learning algorithms, statistical modeling, data pipelines, and cloud computing. Beyond the classroom, I've actively applied these concepts by training models on diverse datasets, building analytics pipelines, and creating interactive visualization dashboards to make complex data insights accessible and actionable.
           </p>
           <p>
-            I am particularly passionate about the intersection of data engineering and software development. I believe that the best products are built when scalable backends meet intuitive frontends. My goal is to join a company that values innovation, clean architecture, and continuous learning.
+            I am particularly passionate about the intersection of data science and scalable engineering. I believe that data models deliver the most value when they are seamlessly integrated into production-ready software systems. My goal is to join a team that values innovation, analytical rigor, and continuous learning.
           </p>
           <p>
-            I am highly adaptable, thrive in collaborative environments, and am eager to tackle complex engineering challenges. I would welcome the opportunity to discuss how my skills in Big Data, Cloud Computing, and Software Engineering align with your team's goals.
+            I am highly adaptable, thrive in collaborative environments, and am eager to tackle complex analytical and engineering challenges. I would welcome the opportunity to discuss how my skills in Data Science, Big Data, and Cloud Computing align with your team's goals.
           </p>
           <p>
             Thank you for your time and consideration.

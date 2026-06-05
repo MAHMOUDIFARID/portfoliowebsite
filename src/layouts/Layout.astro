@@ -7,7 +7,7 @@ interface Props {
 	robots?: string;
 }
 
-const { title, description = "Farid Mahmoudi - Frontend and CRM Developer focused on polished, responsive web experiences.", robots } = Astro.props;
+const { title, description = "Farid Mahmoudi - Data Scientist focused on machine learning, data engineering, and scalable computing.", robots } = Astro.props;
 ---
 
 <!doctype html>
@@ -30,17 +30,30 @@ const { title, description = "Farid Mahmoudi - Frontend and CRM Developer focuse
 				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
 					return localStorage.getItem('theme');
 				}
-				if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-					return 'light';
-				}
-				return 'dark';
+				return 'system';
 			})();
-			if (theme === 'light') {
-				document.documentElement.classList.add('light');
-			} else {
-				document.documentElement.classList.remove('light');
-			}
+			
+			const applyTheme = (t) => {
+				let resolvedTheme = t;
+				if (t === 'system') {
+					resolvedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+				}
+				if (resolvedTheme === 'light') {
+					document.documentElement.classList.add('light');
+				} else {
+					document.documentElement.classList.remove('light');
+				}
+			};
+			
+			applyTheme(theme);
 			window.localStorage.setItem('theme', theme);
+
+			// Listen for system preference changes live
+			window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+				if (localStorage.getItem('theme') === 'system') {
+					applyTheme('system');
+				}
+			});
 		</script>
 	</head>
 	<body>

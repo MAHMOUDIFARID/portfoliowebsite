@@ -7,33 +7,33 @@ import {
 const experiences = [
   {
     id: 1,
-    title: "Low-Code Architect / CRM Developer",
+    title: "Data & Automation Engineer",
     company: "Voila.partners",
     type: "Internship",
     date: "Sep 2024 - Dec 2024",
     duration: "4 months",
     location: "Bruxelles",
     workMode: "Remote",
-    description: "Led the architecture and development of a custom No-Code/Low-Code Customer Relationship Management CRM system.",
-    skills: ["CRM Development", "Workflow Automation", "Business Process Automation", "Airtable Systems", "Make.com Integrations", "Low-Code Development", "No-Code Architecture"],
+    description: "Designed and implemented robust relational database structures, automated ETL pipelines, and created unified process dashboards.",
+    skills: ["Data Engineering", "ETL Pipelines", "Relational Databases", "Airtable Systems", "Make.com Automation", "Workflow Optimization", "Process Analytics"],
     logo: "/logos/voila-partners.png",
     logoAlt: "Voila.partners logo"
   },
   {
     id: 2,
-    title: "Full Stack Developer",
+    title: "Software & Data Engineer",
     company: "Norsys Afrique",
     type: "Internship",
     date: "Nov 2023 - Dec 2023",
     duration: "2 months",
     location: "Marrakesh-Safi, Morocco",
     workMode: "Hybrid",
-    description: "Delivered end-to-end web solutions in an Agile environment, contributing to both frontend and backend development. Led the complete technical development of a web platform project for an association.",
+    description: "Delivered backend system logic, database designs, and interactive web dashboard solutions in an Agile environment. Supported the complete technical development of a solidary web platform.",
     featuredProject: {
       title: "Plateforme Web Solidaire - Association Abbed, Enfants Diabetiques",
-      description: "Designed and developed a full-stack web platform for Association Abbed to help digitize their presence through a modern, intuitive interface."
+      description: "Architected and implemented a backend relational database structure and clean dashboard views to help manage diabetes tracking analytics."
     },
-    skills: ["Full-Stack Development", "Frontend Development", "Backend Development", "Database Management", "Git Version Control", "Agile Development", "Web Platform Development"],
+    skills: ["Backend Development", "Database Management", "Data Modeling", "Web App Development", "Git Version Control", "Agile Development", "React Systems"],
     logo: "/logos/norsys-afrique.png",
     logoAlt: "Norsys Afrique logo"
   }
@@ -50,7 +50,7 @@ export default function ExperienceReact() {
               Professional Experience
             </h2>
             <p className="text-lg text-white/50 font-medium leading-relaxed">
-              A focused timeline of internships, client-facing systems, and full-stack projects built with modern frontend and automation tools.
+              A focused timeline of internships and data-driven systems built with modern cloud, backend, and analytical tools.
             </p>
           </div>
 
@@ -99,6 +99,17 @@ export default function ExperienceReact() {
                 <p className="text-white/50 text-lg leading-relaxed mb-8 font-medium">
                   {exp.description}
                 </p>
+
+                {exp.featuredProject && (
+                  <div className="mb-8 p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
+                    <h4 className="text-sm font-semibold text-white/80 uppercase tracking-wider mb-2">
+                      Featured Work: {exp.featuredProject.title}
+                    </h4>
+                    <p className="text-sm text-white/40 leading-relaxed font-light">
+                      {exp.featuredProject.description}
+                    </p>
+                  </div>
+                )}
 
                 <div className="flex flex-wrap gap-2">
                   {exp.skills.map(skill => (

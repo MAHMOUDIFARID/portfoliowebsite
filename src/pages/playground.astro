@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import PlaygroundReact from '../components/PlaygroundReact';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Data Playground | Farid Mahmoudi">
+	<main class="min-h-screen flex flex-col justify-between">
+		<div>
+			<Navbar />
+			<PlaygroundReact client:load />
+		</div>
+		<Footer />
+	</main>
+</Layout>
