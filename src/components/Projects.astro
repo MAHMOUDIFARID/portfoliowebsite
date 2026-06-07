@@ -3,62 +3,235 @@ const projects = [
   {
     title: "Maroc Des Merveilles",
     description: "A Drupal website for presenting Morocco's destinations and travel experiences through structured content.",
-    tags: ["Drupal", "CMS", "Tourism"],
+    tags: ["Drupal", "PHP", "MySQL", "Twig"],
     image: "/Background.jpg",
     link: "https://marocdesmerveilles.com"
+  },
+  {
+    title: "TidyX",
+    description: "A safe, undoable Python CLI for organizing messy folders. It scans files, previews moves with dry-run, normalizes filenames, detects duplicates with SHA-256, generates storage reports, supports YAML rules, and records operation history for safe undo.",
+    tags: ["Python", "Typer", "Pydantic", "Rich"],
+    image: "/logos/skills/python.svg",
+    link: "https://github.com/MAHMOUDIFARID/tidyx",
+    logoPreview: true
   }
 ];
 ---
 
-<section id="work" class="py-32 md:py-48 bg-transparent">
-  <div class="section-container">
-    <div class="mb-20">
-      <h2 class="text-4xl md:text-6xl font-semibold tracking-tighter text-white mb-6">
-        Selected Project
-      </h2>
-      <p class="text-lg md:text-xl text-white/50 max-w-2xl font-medium">
-        A real project with a live URL and a clear technology stack.
-      </p>
-    </div>
-
-    <div class="space-y-32">
-      {projects.map((project, index) => (
-        <div class="group grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div class={`order-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
-            <div class="flex gap-2 mb-6">
-              {project.tags.map(tag => (
-                <span class="px-3 py-1 bg-white/5 border border-white/5 text-white/40 text-[10px] font-medium uppercase tracking-wider rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <h3 class="text-3xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
-              {project.title}
-            </h3>
-            <p class="text-lg text-white/50 mb-10 leading-relaxed font-medium">
-              {project.description}
-            </p>
-            <a 
-              href={project.link} 
-              class="inline-flex items-center gap-2 bg-white text-brand-black px-8 py-4 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-lg shadow-white/5"
-            >
-              Visit project
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path></svg>
-            </a>
-          </div>
-          
-          <div class={`order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
-            <div class="aspect-video bg-white/5 rounded-4xl md:rounded-5xl overflow-hidden border border-white/10 shadow-2xl relative">
-              <img 
-                src={project.image} 
-                alt={project.title} 
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 opacity-60 group-hover:opacity-80 transition-opacity"
-              />
-              <div class="absolute inset-0 bg-brand-black/20 group-hover:bg-transparent transition-colors"></div>
-            </div>
-          </div>
-        </div>
-      ))}
+<section id="work" class="py-32 md:py-48 bg-transparent overflow-hidden">
+  <div class="section-container mb-12">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <h2 class="text-4xl md:text-6xl font-semibold tracking-tighter text-white mb-4">
+          Selected Projects
+        </h2>
+        <p class="text-lg md:text-xl text-white/50 max-w-2xl font-medium">
+          Real projects with clear technology stacks and practical use cases.
+        </p>
+      </div>
+      
+      <!-- Carousel Navigation Buttons -->
+      <div class="flex gap-3">
+        <button id="prev-btn" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300 active:scale-95 cursor-pointer" aria-label="Previous Project">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path></svg>
+        </button>
+        <button id="next-btn" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300 active:scale-95 cursor-pointer" aria-label="Next Project">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
+        </button>
+      </div>
     </div>
   </div>
+
+  <!-- Carousel Wrapper (Overflow Hidden, Snaps) -->
+  <div class="relative w-full">
+    <div 
+      id="project-carousel" 
+      class="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 scroll-smooth pb-8 px-6 md:px-[calc((100vw-80rem)/2+3rem)]"
+    >
+      {projects.map((project) => {
+        const isGitHub = project.link.includes("github.com");
+        return (
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[380px] md:w-[400px] min-h-[580px] bg-brand-charcoal border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-white/20 transition-all duration-500 hover:shadow-2xl flex flex-col group/card relative">
+            <!-- Top half: Image / Logo -->
+            <div class="relative w-full h-[230px] overflow-hidden shrink-0">
+              {project.logoPreview ? (
+                <div class="flex h-full w-full items-center justify-center bg-white/[0.03]">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    class="h-20 w-20 object-contain opacity-70 transition-transform duration-700 group-hover/card:scale-110 group-hover/card:opacity-90"
+                  />
+                </div>
+              ) : (
+                <img 
+                  src={project.image} 
+                  alt={project.title} 
+                  class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-[1000ms] opacity-60 group-hover/card:opacity-80 transition-opacity"
+                />
+              )}
+              <!-- Dark gradient fade overlay to card background -->
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/20 to-transparent"></div>
+            </div>
+
+            <!-- Bottom half: Info & Action Button -->
+            <div class="flex-1 p-6 md:p-8 flex flex-col justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold text-white mb-2 tracking-tight">
+                  {project.title}
+                </h3>
+                <p class="text-sm text-white/50 mb-6 leading-relaxed font-light">
+                  {project.description}
+                </p>
+              </div>
+
+              <div>
+                <!-- Badges -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map(tag => (
+                    <span class="px-3.5 py-1.5 bg-white/[0.04] border border-white/10 text-white/70 text-xs font-normal tracking-wide rounded-full cursor-default hover:bg-white/[0.08] hover:text-white transition-all duration-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <!-- Call to Action Button -->
+                <a 
+                  href={project.link} 
+                  target="_blank"
+                  rel="noreferrer"
+                  class="w-full bg-white text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-white/5"
+                >
+                  <span>{isGitHub ? "Visit GitHub Repository" : "Visit Live Site"}</span>
+                  {isGitHub ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM215.17,120H176.62c-2.31-29.21-12.87-55.51-28.53-73.49A88.16,88.16,0,0,1,215.17,120ZM128,40.17c16,21.57,26.54,49.25,28.43,79.83H99.57C101.46,89.42,112,61.74,128,40.17ZM40.83,120A88.16,88.16,0,0,1,107.91,46.51C92.25,64.49,81.69,90.79,79.38,120ZM40.83,136H79.38c2.31,29.21,12.87,55.51,28.53,73.49A88.16,88.16,0,0,1,40.83,136Zm87.17,79.83C112,194.26,101.46,166.58,99.57,136h56.86C154.54,166.58,144,194.26,128,219.83Zm20.09-6.34C163.75,195.51,174.31,169.21,176.62,136h38.55A88.16,88.16,0,0,1,148.09,213.49Z"/>
+                    </svg>
+                  )}
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- Indicator Dots -->
+  <div class="flex justify-center gap-2.5 mt-8">
+    {projects.map((_, index) => (
+      <button 
+        class="carousel-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 transition-all duration-300 cursor-pointer"
+        data-index={index}
+        aria-label={`Go to slide ${index + 1}`}
+      ></button>
+    ))}
+  </div>
 </section>
+
+<style>
+  #project-carousel {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    scroll-padding-left: 1.5rem; /* px-6 on mobile */
+    scroll-padding-right: 1.5rem;
+  }
+  #project-carousel::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+  
+  @media (min-width: 768px) {
+    #project-carousel {
+      scroll-padding-left: calc((100vw - 80rem) / 2 + 3rem);
+      scroll-padding-right: calc((100vw - 80rem) / 2 + 3rem);
+    }
+  }
+  
+  /* Active Indicator Pill Style */
+  .carousel-dot.active {
+    width: 24px;
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  
+  html.light .carousel-dot.active {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+  html.light .carousel-dot {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById('project-carousel');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const dots = document.querySelectorAll('.carousel-dot');
+
+  if (carousel) {
+    // Handle Next / Prev Clicks
+    const getScrollAmount = () => {
+      const firstCard = carousel.querySelector('.snap-start');
+      if (firstCard) {
+        const style = window.getComputedStyle(carousel);
+        const gap = parseInt(style.gap || '32', 10);
+        return firstCard.clientWidth + gap; // card width + gap
+      }
+      return carousel.clientWidth * 0.75;
+    };
+
+    prevBtn?.addEventListener('click', () => {
+      carousel.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      carousel.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    });
+
+    // Update Active Dot
+    const updateActiveDot = () => {
+      const scrollPosition = carousel.scrollLeft;
+      const firstCard = carousel.querySelector('.snap-start');
+      if (!firstCard) return;
+
+      const style = window.getComputedStyle(carousel);
+      const gap = parseInt(style.gap || '32', 10);
+      const cardWidth = firstCard.clientWidth + gap;
+      const activeIndex = Math.round(scrollPosition / cardWidth);
+      
+      dots.forEach((dot, index) => {
+        if (index === activeIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    };
+
+    // Listen for scroll events to update dots
+    carousel.addEventListener('scroll', updateActiveDot);
+    
+    // Initialize active dot
+    updateActiveDot();
+
+    // Click on dot to scroll to card
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.getAttribute('data-index') || '0', 10);
+        const firstCard = carousel.querySelector('.snap-start');
+        if (!firstCard) return;
+
+        const style = window.getComputedStyle(carousel);
+        const gap = parseInt(style.gap || '32', 10);
+        const cardWidth = firstCard.clientWidth + gap;
+
+        carousel.scrollTo({
+          left: index * cardWidth,
+          behavior: 'smooth'
+        });
+      });
+    });
+  }
+</script>
