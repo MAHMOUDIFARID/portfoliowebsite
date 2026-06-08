@@ -1,51 +1,23 @@
 # Farid Mahmoudi Portfolio
 
-Personal portfolio website for Farid Mahmoudi, built with Astro, React, Tailwind CSS, and TypeScript.
+A clean personal portfolio for FARID MAHMOUDI, built to present my background, skills, projects, and contact information in one focused website.
 
-The site presents my background in Big Data and Cloud Computing, professional experience, education, selected work, motivation letter, and contact form.
+## Overview
 
-## Live Project
-
-Repository: [MAHMOUDIFARID/portfoliowebsite](https://github.com/MAHMOUDIFARID/portfoliowebsite)
+This portfolio highlights my work across data science, Big Data, cloud computing, and frontend development. It includes an introduction section, selected projects, skills, experience, education, a motivation page, a blog area, and a contact page.
 
 ## Tech Stack
 
-- [Astro](https://astro.build/) for the static site architecture
-- [React](https://react.dev/) for interactive sections
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-- [TypeScript](https://www.typescriptlang.org/) for type checking
-- [Phosphor Icons](https://phosphoricons.com/) for interface icons
+- Astro
+- React
+- TypeScript
+- Tailwind CSS
+- Phosphor Icons
 
-## Main Sections
+## Featured Projects
 
-- Hero introduction
-- About
-- Professional experience
-- Education
-- Process
-- Selected project: Maroc Des Merveilles
-- Motivation letter
-- Contact form
-
-## Project Structure
-
-```text
-.
-|-- public/              Static assets, images, logos, fonts, favicon
-|-- src/
-|   |-- components/      Astro and React components
-|   |-- layouts/         Shared page layout
-|   |-- pages/           Astro routes
-|   `-- styles/          Global styles and Tailwind setup
-|-- astro.config.mjs
-|-- package.json
-|-- package-lock.json
-`-- tsconfig.json
-```
-
-## Requirements
-
-Node.js `>=22.12.0`
+- Maroc Des Merveilles: A Drupal website for presenting Morocco's destinations and travel experiences.
+- TidyX: A safe, undoable Python CLI for organizing messy folders.
 
 ## Getting Started
 
@@ -61,49 +33,39 @@ Start the development server:
 npm run dev
 ```
 
-By default, Astro serves the site at:
-
-```text
-http://localhost:4321
-```
-
-## Scripts
-
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the local development server |
-| `npm run build` | Build the production site into `dist/` |
-| `npm run preview` | Preview the production build locally |
-| `npm run astro` | Run Astro CLI commands |
-
-## Quality Checks
-
-Run Astro diagnostics:
-
-```sh
-npx astro check
-```
-
-Build the production site:
+Build for production:
 
 ```sh
 npm run build
 ```
 
-## Deployment
+Preview the production build:
 
-This is a static Astro site. The production output is generated in `dist/`.
+```sh
+npm run preview
+```
 
-The repository intentionally does not commit:
+The local development server usually runs at:
 
-- `node_modules/`
-- `dist/`
-- `.astro/`
-- local editor settings
-- local design references
+```text
+http://localhost:4321
+```
+
+## Project Structure
+
+```text
+public/          Static assets, images, logos, fonts, and favicon
+src/components/ Astro and React components
+src/layouts/    Shared page layout
+src/pages/      Website routes
+src/styles/     Global styles
+```
+
+## Requirements
+
+Node.js `>=22.12.0`
 
 ## Contact
 
-Email: [faridmahmoudicontact@gmail.com](mailto:faridmahmoudicontact@gmail.com)
-
-GitHub: [MAHMOUDIFARID](https://github.com/MAHMOUDIFARID)
+- Email: [faridmahmoudicontact@gmail.com](mailto:faridmahmoudicontact@gmail.com)
+- GitHub: [MAHMOUDIFARID](https://github.com/MAHMOUDIFARID)
