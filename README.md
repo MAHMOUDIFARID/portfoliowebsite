@@ -14,11 +14,6 @@ This portfolio highlights my work across data science, Big Data, cloud computing
 - Tailwind CSS
 - Phosphor Icons
 
-## Featured Projects
-
-- Maroc Des Merveilles: A Drupal website for presenting Morocco's destinations and travel experiences.
-- TidyX: A safe, undoable Python CLI for organizing messy folders.
-
 ## Getting Started
 
 Install dependencies:
