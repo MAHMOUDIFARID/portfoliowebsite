@@ -14,6 +14,14 @@ const projects = [
     image: "/tidyx.png",
     link: "https://github.com/MAHMOUDIFARID/tidyx",
     logoPreview: false
+  },
+  {
+    title: "Malicious QR Code Detection",
+    description: "A machine learning project for detecting malicious QR codes used in quishing attacks. Built a full pipeline for data loading, EDA, image preprocessing, feature extraction, model training, evaluation, and inference on a balanced Kaggle dataset of 200,000 QR images, with a focus on improving malicious-code recall.",
+    tags: ["Python", "Machine Learning", "EDA", "Image Processing"],
+    image: "",
+    visual: "qr",
+    link: "https://github.com/MAHMOUDIFARID/quishing-detection"
   }
 ];
 ---
@@ -49,12 +57,22 @@ const projects = [
       class="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 scroll-smooth pb-8 px-6 md:px-[calc((100vw-80rem)/2+3rem)]"
     >
       {projects.map((project) => {
-        const isGitHub = project.link.includes("github.com");
+        const isGitHub = project.link?.includes("github.com") ?? false;
         return (
           <div class="snap-start shrink-0 w-[85vw] sm:w-[380px] md:w-[400px] min-h-[580px] bg-brand-charcoal border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-white/20 transition-all duration-500 hover:shadow-2xl flex flex-col group/card relative">
             <!-- Top half: Image / Logo -->
             <div class="relative w-full h-[230px] overflow-hidden shrink-0">
-              {project.logoPreview ? (
+              {project.visual === "qr" ? (
+                <div class="qr-project-visual">
+                  <div class="qr-grid" aria-hidden="true">
+                    {Array.from({ length: 49 }).map((_, index) => (
+                      <span class={`qr-cell ${(index * 7 + index + 3) % 5 === 0 || [0, 1, 2, 7, 14, 34, 41, 48, 46, 45, 44, 6, 13, 20].includes(index) ? "active" : ""}`}></span>
+                    ))}
+                  </div>
+                  <div class="qr-scan-line"></div>
+                  <span class="qr-label">Quishing Detection</span>
+                </div>
+              ) : project.logoPreview ? (
                 <div class="flex h-full w-full items-center justify-center bg-white/[0.03]">
                   <img 
                     src={project.image} 
@@ -95,23 +113,25 @@ const projects = [
                 </div>
 
                 <!-- Call to Action Button -->
-                <a 
-                  href={project.link} 
-                  target="_blank"
-                  rel="noreferrer"
-                  class="w-full bg-white text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-white/5"
-                >
-                  <span>{isGitHub ? "Visit GitHub Repository" : "Visit Live Site"}</span>
-                  {isGitHub ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
-                      <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM215.17,120H176.62c-2.31-29.21-12.87-55.51-28.53-73.49A88.16,88.16,0,0,1,215.17,120ZM128,40.17c16,21.57,26.54,49.25,28.43,79.83H99.57C101.46,89.42,112,61.74,128,40.17ZM40.83,120A88.16,88.16,0,0,1,107.91,46.51C92.25,64.49,81.69,90.79,79.38,120ZM40.83,136H79.38c2.31,29.21,12.87,55.51,28.53,73.49A88.16,88.16,0,0,1,40.83,136Zm87.17,79.83C112,194.26,101.46,166.58,99.57,136h56.86C154.54,166.58,144,194.26,128,219.83Zm20.09-6.34C163.75,195.51,174.31,169.21,176.62,136h38.55A88.16,88.16,0,0,1,148.09,213.49Z"/>
-                    </svg>
-                  )}
-                </a>
+                {project.link && (
+                  <a 
+                    href={project.link} 
+                    target="_blank"
+                    rel="noreferrer"
+                    class="w-full bg-white text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-white/5"
+                  >
+                    <span>{isGitHub ? "Visit GitHub Repository" : "Visit Live Site"}</span>
+                    {isGitHub ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM215.17,120H176.62c-2.31-29.21-12.87-55.51-28.53-73.49A88.16,88.16,0,0,1,215.17,120ZM128,40.17c16,21.57,26.54,49.25,28.43,79.83H99.57C101.46,89.42,112,61.74,128,40.17ZM40.83,120A88.16,88.16,0,0,1,107.91,46.51C92.25,64.49,81.69,90.79,79.38,120ZM40.83,136H79.38c2.31,29.21,12.87,55.51,28.53,73.49A88.16,88.16,0,0,1,40.83,136Zm87.17,79.83C112,194.26,101.46,166.58,99.57,136h56.86C154.54,166.58,144,194.26,128,219.83Zm20.09-6.34C163.75,195.51,174.31,169.21,176.62,136h38.55A88.16,88.16,0,0,1,148.09,213.49Z"/>
+                      </svg>
+                    )}
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -161,6 +181,67 @@ const projects = [
   }
   html.light .carousel-dot {
     background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  .qr-project-visual {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.14), transparent 26%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  }
+
+  .qr-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 116px;
+    height: 116px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 22px;
+    background: rgba(0, 0, 0, 0.28);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+  }
+
+  .qr-cell {
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .qr-cell.active {
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .qr-scan-line {
+    position: absolute;
+    left: 24%;
+    right: 24%;
+    top: 48%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+  }
+
+  .qr-label {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.28);
+    padding: 8px 14px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 </style>
 
