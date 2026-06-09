@@ -1,17 +1,17 @@
 ---
 ---
 
-<section id="updates" class="bg-transparent py-24 md:py-32">
+<section id="updates" class="bg-transparent py-20 md:py-28">
   <div class="section-container">
-    <div class="mx-auto max-w-4xl border-y border-white/10 py-12 md:py-16">
-      <div class="grid gap-8 md:grid-cols-[1fr_1.1fr] md:items-end">
+    <div class="mx-auto max-w-4xl rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-6 md:p-8">
+      <div class="space-y-7 text-center">
         <div>
-          <p class="mb-4 text-xs uppercase tracking-[0.28em] text-white/40">
-            Updates
-          </p>
-          <h2 class="max-w-xl text-4xl leading-tight tracking-tight text-white md:text-5xl">
+          <h2 class="mx-auto max-w-2xl text-3xl leading-tight tracking-tight text-white md:text-4xl">
             Get new blogs and projects in your inbox.
           </h2>
+          <p class="mx-auto mt-4 max-w-md text-sm leading-relaxed text-white/45">
+            No spam. Only updates when I publish a new blog or finish a project worth sharing.
+          </p>
         </div>
 
         <form
@@ -25,26 +25,22 @@
           <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" />
 
           <label class="sr-only" for="subscriber-email">Email address</label>
-          <div class="flex flex-col gap-3 sm:flex-row">
+          <div class="mx-auto grid max-w-md gap-3">
             <input
               id="subscriber-email"
               type="email"
               name="email"
               required
               placeholder="your@email.com"
-              class="min-h-14 flex-1 rounded-full border border-white/10 bg-white/[0.03] px-5 text-base text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/40"
+              class="min-h-14 w-full rounded-2xl border border-white/12 bg-white/[0.035] px-5 text-center text-base text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/35"
             />
             <button
               type="submit"
-              class="min-h-14 rounded-full bg-white px-7 text-base text-brand-black transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              class="min-h-14 w-full rounded-2xl bg-white px-8 text-base text-brand-black transition-colors duration-300 hover:bg-white/90 cursor-pointer"
             >
               Subscribe
             </button>
           </div>
-
-          <p class="text-sm leading-relaxed text-white/45">
-            No spam. Only updates when I publish a new blog or finish a project worth sharing.
-          </p>
         </form>
       </div>
     </div>
