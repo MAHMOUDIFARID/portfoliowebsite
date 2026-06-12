@@ -2,231 +2,180 @@
 const skills = [
   {
     category: "Data Science & Big Data",
-    outcome: "Build reliable data workflows, analyze large datasets, and train models that support practical decisions.",
-    fit: "Best fit: Data Science, ML, Big Data, analytics engineering.",
+    desc: "Analyzing large datasets, building machine learning pipelines, and deploying cloud computing resources.",
     items: [
       { name: "Python", logo: "/logos/skills/python.svg", alt: "Python logo" },
+      { name: "PostgreSQL", logo: "/logos/skills/sql.svg", alt: "PostgreSQL logo" },
       { name: "Big Data (Spark)", logo: "/logos/skills/apache-spark.svg", alt: "Apache Spark logo" },
       { name: "Cloud (GCP)", logo: "/logos/skills/google-cloud.svg", alt: "Google Cloud logo" },
-      { name: "TypeScript", logo: "/logos/skills/typescript.svg", alt: "TypeScript logo" },
-      { name: "JavaScript", logo: "/logos/skills/javascript.svg", alt: "JavaScript logo" }
+      { name: "Pandas", logo: "/logos/skills/pandas.svg", alt: "Pandas logo" },
+      { name: "Scikit-Learn", logo: "/logos/skills/scikit-learn.svg", alt: "Scikit-Learn logo" }
     ]
   },
   {
     category: "Operations & MLOps",
-    outcome: "Package, version, and maintain project environments so data and web work stays reproducible.",
-    fit: "Best fit: junior data roles, ML projects, cloud-ready development teams.",
+    desc: "Managing data version control, containerized application environments, backend systems, and agile planning.",
     items: [
       { name: "Git", logo: "/logos/skills/git.svg", alt: "Git logo" },
+      { name: "GitHub", logo: "/logos/skills/github.svg", alt: "GitHub logo" },
       { name: "Docker", logo: "/logos/skills/docker.svg", alt: "Docker logo" },
       { name: "Node.js", logo: "/logos/skills/nodejs.svg", alt: "Node.js logo" },
+      { name: "FastAPI", logo: "/logos/skills/fastapi.svg", alt: "FastAPI logo" },
+      { name: "Supabase", logo: "/logos/skills/supabase.svg", alt: "Supabase logo" },
       { name: "Agile (Jira)", logo: "/logos/skills/jira.svg", alt: "Jira logo" }
     ]
   },
   {
     category: "Visualization & Interfaces",
-    outcome: "Turn backend logic and data outputs into clean interfaces, dashboards, and portfolio-ready products.",
-    fit: "Best fit: frontend, data apps, dashboards, and product-minded engineering.",
+    desc: "Engineering premium user interfaces, interactive data dashboards, and functional web applications.",
     items: [
       { name: "React", logo: "/logos/skills/react.svg", alt: "React logo" },
       { name: "Next.js", logo: "/logos/skills/nextjs.svg", alt: "Next.js logo" },
       { name: "Astro", logo: "/logos/skills/astro.svg", alt: "Astro logo" },
+      { name: "TypeScript", logo: "/logos/skills/typescript.svg", alt: "TypeScript logo" },
+      { name: "JavaScript", logo: "/logos/skills/javascript.svg", alt: "JavaScript logo" },
       { name: "Tailwind CSS", logo: "/logos/skills/tailwindcss.svg", alt: "Tailwind CSS logo" },
       { name: "Figma", logo: "/logos/skills/figma.svg", alt: "Figma logo" }
     ]
   }
 ];
+
+const flatSkills = skills.flatMap(group => group.items.map(item => ({ ...item, category: group.category })));
 ---
 
-<section id="skills" class="py-24 md:py-32 bg-transparent">
-  <div class="section-container">
-    <div class="recruiter-skills mx-auto max-w-7xl">
-      <div class="skills-brief">
-        <p class="skills-kicker">Recruiter snapshot</p>
-        <h2>What I can bring to a team</h2>
-        <p>
-          A practical mix of data science, big data tooling, and frontend development for teams that need someone who can understand the pipeline and still care about the final user experience.
-        </p>
-      </div>
+<section id="skills" class="relative py-28 md:py-36 bg-transparent overflow-hidden">
+  <div class="relative z-10 max-w-[1500px] mx-auto px-6 sm:px-12 md:px-16">
+    <!-- Header -->
+    <div class="text-center mb-16 max-w-3xl mx-auto">
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-sans font-black text-white tracking-tighter leading-[1.1]">
+        Working with Latest<br class="hidden sm:block" /> Technologies & Stack
+      </h2>
+    </div>
 
-      <div class="capability-list">
-        {skills.map((skillGroup, index) => (
-          <article class="capability-row">
-            <div class="capability-heading">
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{skillGroup.category}</h3>
-            </div>
+    <!-- Domain Filter Tabs -->
+    <div class="relative flex items-center bg-white/[0.03] border border-white/10 rounded-full p-1 max-w-2xl mx-auto mb-16 select-none">
+      <!-- Active sliding background pill -->
+      <div 
+        id="filter-active-pill" 
+        class="absolute top-1 bottom-1 rounded-full bg-white transition-all duration-300 ease-out-expo shadow-md pointer-events-none"
+        style="width: calc(25% - 2px); left: 4px;"
+      ></div>
 
-            <div class="capability-copy">
-              <p>{skillGroup.outcome}</p>
-              <small>{skillGroup.fit}</small>
-            </div>
+      <!-- Filter buttons -->
+      <button 
+        class="filter-btn active relative z-10 flex-1 py-2.5 sm:py-3 rounded-full text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-300 cursor-pointer text-[var(--site-bg)]" 
+        data-filter="all"
+      >
+        All
+      </button>
+      <button 
+        class="filter-btn relative z-10 flex-1 py-2.5 sm:py-3 rounded-full text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-300 cursor-pointer text-white/60 hover:text-white" 
+        data-filter="Data Science & Big Data"
+      >
+        Data Science
+      </button>
+      <button 
+        class="filter-btn relative z-10 flex-1 py-2.5 sm:py-3 rounded-full text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-300 cursor-pointer text-white/60 hover:text-white" 
+        data-filter="Operations & MLOps"
+      >
+        MLOps & DevOps
+      </button>
+      <button 
+        class="filter-btn relative z-10 flex-1 py-2.5 sm:py-3 rounded-full text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-300 cursor-pointer text-white/60 hover:text-white" 
+        data-filter="Visualization & Interfaces"
+      >
+        Web Dev
+      </button>
+    </div>
 
-            <div class="tool-strip">
-              {skillGroup.items.map((skill) => (
-                <div class="tool-chip">
-                  <img src={skill.logo} alt={skill.alt} loading="lazy" />
-                  <span>{skill.name}</span>
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
+    <!-- Centered Tech Grid -->
+    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-y-12 gap-x-4 max-w-5xl mx-auto justify-center justify-items-center">
+      {flatSkills.map((skill) => (
+        <div 
+          class="skill-card group flex flex-col items-center justify-center text-center p-3 rounded-2xl w-24 sm:w-28 hover:bg-white/[0.02] border border-transparent hover:border-white/5"
+          data-category={skill.category}
+        >
+          <div class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:-translate-y-1.5">
+            <img src={skill.logo} alt={skill.alt} class="max-h-full max-w-full object-contain" loading="lazy" />
+          </div>
+          <span class="text-xs md:text-sm text-white/60 group-hover:text-white transition-colors duration-300 font-medium tracking-wide">
+            {skill.name}
+          </span>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.skill-card');
+  const activePill = document.getElementById('filter-active-pill');
+
+  // Initialize active pill size and position
+  const initPill = () => {
+    const activeBtn = document.querySelector('.filter-btn.active') as HTMLElement;
+    if (activeBtn && activePill) {
+      activePill.style.left = `${activeBtn.offsetLeft}px`;
+      activePill.style.width = `${activeBtn.offsetWidth}px`;
+    }
+  };
+
+  // Run on mount
+  initPill();
+  
+  // Re-run on resize to maintain correct alignment
+  window.addEventListener('resize', initPill);
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Toggle active states
+      buttons.forEach(b => {
+        b.classList.remove('active', 'text-[var(--site-bg)]');
+        b.classList.add('text-white/60');
+      });
+      
+      btn.classList.add('active', 'text-[var(--site-bg)]');
+      btn.classList.remove('text-white/60');
+
+      // Slide the background pill
+      const targetBtn = btn as HTMLElement;
+      if (activePill) {
+        activePill.style.left = `${targetBtn.offsetLeft}px`;
+        activePill.style.width = `${targetBtn.offsetWidth}px`;
+      }
+
+      const filter = btn.getAttribute('data-filter');
+
+      items.forEach(item => {
+        const cat = item.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          item.classList.remove('hidden-filter');
+        } else {
+          item.classList.add('hidden-filter');
+        }
+      });
+    });
+  });
+</script>
+
 <style>
-  .recruiter-skills {
-    display: grid;
-    gap: 2.5rem;
-  }
-
-  .skills-brief {
-    max-width: 56rem;
-  }
-
-  .skills-kicker {
-    margin-bottom: 1rem;
-    color: rgb(var(--color-white-base) / 0.42);
-    font-size: 0.75rem;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-  }
-
-  .skills-brief h2 {
-    color: rgb(var(--color-white-base));
-    font-size: clamp(2.5rem, 5.5vw, 5.25rem);
-    line-height: 1;
-    letter-spacing: 0;
-  }
-
-  .skills-brief > p {
-    margin-top: 1.35rem;
-    max-width: 46rem;
-    color: rgb(var(--color-white-base) / 0.56);
-    font-size: 1.05rem;
-    line-height: 1.75;
-  }
-
-  .capability-list {
-    border-top: 1px solid rgb(var(--color-white-base) / 0.12);
-  }
-
-  .capability-row {
-    display: grid;
-    gap: 1.5rem;
-    border-bottom: 1px solid rgb(var(--color-white-base) / 0.12);
-    padding: 1.8rem 0;
-  }
-
-  .capability-row:last-child {
-    border-bottom: 0;
-  }
-
-  .capability-heading {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-  }
-
-  .capability-heading span {
-    color: rgb(var(--color-white-base) / 0.36);
-    font-size: 0.85rem;
-    letter-spacing: 0.18em;
-  }
-
-  .capability-heading h3 {
-    color: rgb(var(--color-white-base));
-    font-size: clamp(1.5rem, 2.5vw, 2.65rem);
-    line-height: 1.1;
-    letter-spacing: 0;
-  }
-
-  .capability-copy p {
-    max-width: 35rem;
-    color: rgb(var(--color-white-base) / 0.68);
-    font-size: 1rem;
-    line-height: 1.65;
-  }
-
-  .capability-copy small {
-    display: block;
-    margin-top: 0.85rem;
-    color: rgb(var(--color-white-base) / 0.42);
-    font-size: 0.85rem;
-    line-height: 1.5;
-  }
-
-  .tool-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-  }
-
-  .tool-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    border: 1px solid rgb(var(--color-white-base) / 0.09);
-    border-radius: 999px;
-    padding: 0.65rem 0.9rem;
-    color: rgb(var(--color-white-base) / 0.68);
-    background: rgb(var(--color-white-base) / 0.025);
-    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
-  }
-
-  .tool-chip:hover {
-    transform: translateY(-1px);
-    border-color: rgb(var(--color-white-base) / 0.22);
-    background: rgb(var(--color-white-base) / 0.055);
-    color: rgb(var(--color-white-base));
-  }
-
-  .tool-chip img {
-    height: 1rem;
-    width: 1rem;
-    object-fit: contain;
-    opacity: 0.72;
-    filter: grayscale(1);
-    transition: filter 180ms ease, opacity 180ms ease;
-  }
-
-  .tool-chip:hover img {
+  .skill-card {
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, background-color 0.3s;
     opacity: 1;
-    filter: grayscale(0);
+    transform: scale(1);
+    cursor: pointer;
   }
-
-  .tool-chip span {
-    font-size: 0.86rem;
-  }
-
-  @media (min-width: 768px) {
-    .capability-row {
-      grid-template-columns: 0.9fr 1fr;
-      gap: 2rem;
-      padding: 2.2rem 0;
-    }
-
-    .tool-strip {
-      grid-column: 2;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .recruiter-skills {
-      grid-template-columns: 0.75fr 1.25fr;
-      align-items: start;
-  }
-
-    .skills-brief {
-      position: sticky;
-      top: 7rem;
-    }
-
-    .capability-row {
-      grid-template-columns: 0.75fr 1fr;
-    }
+  .skill-card.hidden-filter {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border: none;
   }
 </style>
