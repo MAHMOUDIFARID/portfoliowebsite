@@ -3,7 +3,7 @@ title: "Building a Modern Portfolio with Astro 6"
 description: "Exploring the latest features in Astro 6 and how they help creative developers build faster, more interactive websites."
 pubDate: 2026-05-18
 tags: ["Astro", "Web Dev", "Performance"]
-image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop"
+image: "/1.png"
 ---
 
 Welcome to my first blog post! In this article, I'll walk you through the process of building this portfolio using **Astro 6**, **Tailwind CSS**, and **React**.

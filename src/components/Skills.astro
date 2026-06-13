@@ -95,7 +95,7 @@ const flatSkills = skills.flatMap(group => group.items.map(item => ({ ...item, c
     <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-y-12 gap-x-4 max-w-5xl mx-auto justify-center justify-items-center">
       {flatSkills.map((skill) => (
         <div 
-          class="skill-card group flex flex-col items-center justify-center text-center p-3 rounded-2xl w-24 sm:w-28 hover:bg-white/[0.02] border border-transparent hover:border-white/5"
+          class="skill-card group flex flex-col items-center justify-center text-center p-3 rounded-2xl w-24 sm:w-28"
           data-category={skill.category}
         >
           <div class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:-translate-y-1.5">
@@ -164,7 +164,7 @@ const flatSkills = skills.flatMap(group => group.items.map(item => ({ ...item, c
 
 <style>
   .skill-card {
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, background-color 0.3s;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     opacity: 1;
     transform: scale(1);
     cursor: pointer;

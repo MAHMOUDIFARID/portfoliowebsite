@@ -159,6 +159,7 @@ const navLinks = [
         <span>System</span>
       </button>
     </div>
+
   </div>
 </div>
 
@@ -205,7 +206,7 @@ const navLinks = [
     return localStorage.getItem('theme') || 'system';
   };
 
-  const applyTheme = (theme) => {
+  const applyTheme = (theme: string) => {
     let resolved = theme;
     if (theme === 'system') {
       resolved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
@@ -226,7 +227,7 @@ const navLinks = [
       const rowTheme = row.getAttribute('data-theme-val');
       if (rowTheme === activeTheme) {
         row.classList.add('active');
-        if (activeIndicator) {
+        if (activeIndicator && row instanceof HTMLElement) {
           activeIndicator.style.left = `${row.offsetLeft}px`;
           activeIndicator.style.width = `${row.offsetWidth}px`;
         }
@@ -313,6 +314,7 @@ const navLinks = [
 
   // Initial load UI alignment
   updateUI();
+
 </script>
 
 <style>
