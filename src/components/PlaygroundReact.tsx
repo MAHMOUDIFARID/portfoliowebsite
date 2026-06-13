@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CaretRightIcon, ArrowLeftIcon, ArrowUpRightIcon } from '@phosphor-icons/react';
 import EdaToolReact from './EdaToolReact';
+import YoutubeDownloaderReact from './YoutubeDownloaderReact';
 
 interface Tool {
   id: string;
@@ -26,8 +27,17 @@ export default function PlaygroundReact() {
       tags: ['Local Processing', 'ETL Engine', 'SVG Charts']
     },
     {
-      id: 'sentiment',
+      id: 'yt-downloader',
       num: '02',
+      title: 'YouTube Media Sync',
+      description: 'Download video or audio streams from YouTube and other platforms. Customize tags and embed cover art directly into downloaded MP3 files.',
+      category: 'Media Processing',
+      status: 'active',
+      tags: ['Cobalt API', 'ID3v2 Tagger', 'File Streams']
+    },
+    {
+      id: 'sentiment',
+      num: '03',
       title: 'NLP Sentiment Profiler',
       description: 'Analyze conversational texts or articles to calculate positive/negative sentiment scores using local dictionary tokens.',
       category: 'Natural Language Processing',
@@ -36,7 +46,7 @@ export default function PlaygroundReact() {
     },
     {
       id: 'predict',
-      num: '03',
+      num: '04',
       title: 'ML Salary Predictor',
       description: 'Estimate market salaries for tech and data roles based on sliding parameters for experience, tools, and certifications.',
       category: 'Machine Learning',
@@ -58,6 +68,24 @@ export default function PlaygroundReact() {
             <span>Back to Playground</span>
           </button>
           <EdaToolReact />
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTool === 'yt-downloader') {
+    return (
+      <div className="relative min-h-screen bg-transparent pt-32 pb-32">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none"></div>
+        <div className="section-container max-w-6xl mx-auto px-6 lg:px-8 relative z-10">
+          <button 
+            onClick={() => setActiveTool(null)}
+            className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-white/40 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer mb-12 group bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10 px-5 py-2.5 rounded-full w-fit hover:shadow-sm"
+          >
+            <ArrowLeftIcon className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Back to Playground</span>
+          </button>
+          <YoutubeDownloaderReact />
         </div>
       </div>
     );
