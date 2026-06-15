@@ -1,6 +1,5 @@
 import {
   CalendarBlankIcon,
-  MapPinIcon,
 } from '@phosphor-icons/react';
 
 const education = [
@@ -70,10 +69,7 @@ export default function EducationReact() {
                     <CalendarBlankIcon weight="bold" size={16} />
                     <span>{edu.date}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <MapPinIcon weight="bold" size={16} />
-                    <span className="normal-case">{edu.location}</span>
-                  </div>
+
                 </div>
 
                 <p className="text-white/50 text-lg leading-relaxed mb-8 font-medium relative z-10">
