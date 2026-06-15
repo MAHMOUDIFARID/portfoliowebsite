@@ -9,7 +9,7 @@ const navLinks = [
 ];
 ---
 
-<header class="absolute top-0 left-0 w-full z-50 px-6 py-6 sm:px-12 md:px-16 pointer-events-none">
+<header class="fixed top-0 left-0 w-full z-50 px-6 py-6 sm:px-12 md:px-16 pointer-events-none transition-all duration-500 ease-out-expo">
   <nav 
     class="site-nav-shell pointer-events-auto w-full max-w-[1500px] mx-auto flex items-center justify-between transition-all duration-500"
     aria-label="Main navigation"
@@ -315,13 +315,63 @@ const navLinks = [
   // Initial load UI alignment
   updateUI();
 
+  // Scroll handling to toggle floating state
+  const headerEl = document.querySelector('header');
+  const handleScroll = () => {
+    if (window.scrollY > 20) {
+      headerEl?.classList.add('is-scrolled');
+    } else {
+      headerEl?.classList.remove('is-scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
 </script>
 
 <style>
+  header {
+    transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   .site-nav-shell {
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     box-shadow: none;
+    border-radius: 9999px;
+    padding: 0.5rem 0rem;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  header.is-scrolled {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  header.is-scrolled .site-nav-shell {
+    max-width: 950px;
+    background: rgba(10, 10, 10, 0.75);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(16px);
+    padding: 0.5rem 1.5rem;
+  }
+
+  .site-nav-cta {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  header.is-scrolled .site-nav-cta {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
+  header.is-scrolled .site-nav-cta:hover {
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1 !important;
   }
 
   .site-nav-link {
@@ -360,8 +410,19 @@ const navLinks = [
   }
 
   .site-mobile-menu {
-    background: rgba(10, 10, 10, 0.98);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: fixed;
+    top: 6rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  header.is-scrolled ~ .site-mobile-menu {
+    top: 4.75rem;
   }
 
   .site-mobile-menu-divider {
@@ -402,8 +463,25 @@ const navLinks = [
   }
 
   :global(html.light) .site-mobile-menu {
-    background: rgba(255, 255, 255, 0.98);
-    border-bottom-color: rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  :global(html.light) header.is-scrolled .site-nav-shell {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.1);
+  }
+
+  :global(html.light) header.is-scrolled .site-nav-cta {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    background: rgba(0, 0, 0, 0.05);
+    color: #000000;
+  }
+
+  :global(html.light) header.is-scrolled .site-nav-cta:hover {
+    background: rgba(0, 0, 0, 0.1);
   }
 
   :global(html.light) .site-mobile-menu-divider {
