@@ -1,6 +1,14 @@
 ---
 const projects = [
   {
+    title: "Mitex",
+    description: "A premium, data-driven product sourcing and supplier intelligence SaaS for COD e-commerce operators, replacing manual sourcing with real-time database statistics and a responsive analytics dashboard.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS v4", "Firebase", "Node.js"],
+    image: "/mitex.png",
+    link: "https://github.com/Moad666/mitex_ecomm",
+    visual: "normal"
+  },
+  {
     title: "Maroc Des Merveilles",
     description: "A Drupal website for presenting Morocco's destinations and travel experiences through structured content.",
     tags: ["Drupal", "PHP", "MySQL", "Twig"],
@@ -99,8 +107,7 @@ const projects = [
                 <h3 class="text-2xl font-semibold text-white mb-2 tracking-tight">
                   {project.title}
                 </h3>
-                <p class="text-sm text-white/50 mb-6 leading-relaxed font-light">
-                  {project.description}
+                <p class="text-sm text-white/50 mb-6 leading-relaxed font-light" set:html={project.description}>
                 </p>
               </div>
 

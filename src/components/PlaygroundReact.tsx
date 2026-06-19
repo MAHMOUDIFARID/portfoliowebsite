@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CaretRightIcon, ArrowLeftIcon, ArrowUpRightIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon, ArrowUpRightIcon } from '@phosphor-icons/react';
 import EdaToolReact from './EdaToolReact';
 import YoutubeDownloaderReact from './YoutubeDownloaderReact';
 
@@ -92,42 +92,65 @@ export default function PlaygroundReact() {
   }
 
   return (
-    <div className="relative min-h-screen bg-transparent pt-32 pb-32">
-      {/* Background Accent Gradients & Grid Pattern */}
+    <div className="relative bg-transparent pt-44 pb-16">
+      {/* Background Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
-      <div className="absolute top-[20%] left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      <div className="section-container max-w-5xl mx-auto px-6 lg:px-8 relative z-10">
+      <div className="section-container max-w-[1500px] mx-auto px-6 sm:px-12 md:px-16 relative z-10">
         
-        {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-neutral-400 dark:text-white/30 mb-12">
-          <a href="/" className="hover:text-black dark:hover:text-white transition-colors cursor-pointer">FARID MAHMOUDI</a>
-          <CaretRightIcon size={8} weight="bold" />
-          <span className="text-neutral-900 dark:text-white">PLAYGROUND</span>
-        </div>
 
-        {/* Heading Section */}
-        <div className="max-w-xl mb-20">
-          <span className="text-[9px] font-extrabold tracking-[0.25em] text-indigo-600 dark:text-indigo-400 uppercase bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/10">
-            DATA LABS
-          </span>
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-neutral-900 dark:text-white mt-6 mb-6">
-            Data Playground.
-          </h1>
-          <p className="text-sm md:text-base text-neutral-500 dark:text-white/40 leading-relaxed font-light">
-            An interactive workspace hosting client-side analytical engines, data schemas analyzers, and planned predictive models.
-          </p>
-        </div>
 
-        {/* Premium Grid Layout with Cursor Spotlight Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          {tools.map((tool) => (
-            <PlaygroundCard 
-              key={tool.id} 
-              tool={tool} 
-              onLaunch={() => setActiveTool(tool.id)} 
-            />
-          ))}
+        {/* Split Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          
+          {/* Left Column (Sticky info panel & subscribe form) */}
+          <div className="lg:col-span-4 lg:sticky lg:top-36 flex flex-col justify-between">
+            <div>
+
+              <h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter leading-[1.05] mb-6">
+                Code Labs.<br />
+                Analyze Data.<br />
+                Play Hard.
+              </h1>
+              <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
+                An interactive sandbox hosting client-side analytical engines, media utilities, and planned predictive models. Test ideas, process files, and explore algorithms.
+              </p>
+            </div>
+
+            {/* Subscribe Form styled like the screenshot */}
+            <form className="mt-12 max-w-sm w-full" onSubmit={(e) => e.preventDefault()}>
+              <div className="border-b border-white/20 py-2 mb-4">
+                <input 
+                  type="email" 
+                  placeholder="email address" 
+                  className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white/30 text-sm font-medium"
+                />
+              </div>
+              <div className="flex">
+                <button 
+                  type="submit" 
+                  className="w-full bg-white hover:opacity-90 text-brand-black text-sm font-bold py-3.5 px-6 rounded-xl transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-[0.98]"
+                >
+                  Subscribe
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* Right Column (Horizontal snapping card list) */}
+          <div className="lg:col-span-8 overflow-hidden w-full">
+            <div className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-none -mx-6 px-6 lg:mx-0 lg:px-0">
+              {tools.map((tool, index) => (
+                <PlaygroundCard 
+                  key={tool.id} 
+                  tool={tool} 
+                  index={index}
+                  onLaunch={() => setActiveTool(tool.id)} 
+                />
+              ))}
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -137,105 +160,101 @@ export default function PlaygroundReact() {
 
 interface CardProps {
   tool: Tool;
+  index: number;
   onLaunch: () => void;
 }
 
-function PlaygroundCard({ tool, onLaunch }: CardProps) {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+const pastelColors = [
+  'bg-[#A494BF]', // Pastel Purple
+  'bg-[#B5DC8C]', // Pastel Green
+  'bg-[#A4C4E2]', // Pastel Blue
+  'bg-[#F2B088]', // Pastel Peach
+];
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
+const SVGIllustrations = [
+  // 01: CSV Auto-EDA
+  <svg className="w-24 h-24 text-neutral-950" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="25" y="25" width="70" height="50" rx="8" stroke="currentColor" strokeWidth="2.5" fill="none" />
+    <line x1="25" y1="42" x2="95" y2="42" stroke="currentColor" strokeWidth="2.5" />
+    <line x1="48" y1="25" x2="48" y2="75" stroke="currentColor" strokeWidth="2.5" />
+    <line x1="72" y1="25" x2="72" y2="75" stroke="currentColor" strokeWidth="2.5" />
+    <path d="M38 54C38 52 40 50 42 50C44 50 46 52 46 54" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M72 54C72 52 74 50 76 50C78 50 80 52 80 54" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M53 58C56 61 62 61 65 58" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M20 90 L45 75 L70 85 L100 55" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="100" cy="55" r="4.5" fill="currentColor" />
+  </svg>,
 
+  // 02: YouTube Sync
+  <svg className="w-24 h-24 text-neutral-950" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 40C35 25 85 25 100 40" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M30 50C45 38 75 38 90 50" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <rect x="35" y="60" width="50" height="35" rx="8" stroke="currentColor" strokeWidth="2.5" />
+    <polygon points="56,70 72,77.5 56,85" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M44 70C44 69 45 68 46 68C47 68 48 69 48 70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>,
+
+  // 03: NLP Sentiment
+  <svg className="w-24 h-24 text-neutral-950" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M25 35C25 26.7 31.7 20 40 20H80C88.3 20 95 26.7 95 35V65C95 73.3 88.3 80 80 80H45L25 95V35Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    <path d="M48 45C48 43 50 41 52 41C54 41 56 43 56 45" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M68 45C68 43 70 41 72 41C74 41 76 43 76 45" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M54 58C57 61 63 61 66 58" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>,
+
+  // 04: ML Salary
+  <svg className="w-24 h-24 text-neutral-950" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="25" y="70" width="22" height="12" rx="4" stroke="currentColor" strokeWidth="2.5" />
+    <rect x="25" y="82" width="22" height="12" rx="4" stroke="currentColor" strokeWidth="2.5" />
+    <rect x="73" y="60" width="22" height="12" rx="4" stroke="currentColor" strokeWidth="2.5" />
+    <path d="M30 45 L55 35 L80 50 L100 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="100" cy="20" r="4.5" fill="currentColor" />
+    <path d="M52 76C52 75 53 74 54 74C55 74 56 75 56 76" stroke="currentColor" strokeWidth="2" />
+    <path d="M64 76C64 75 65 74 66 74C67 74 68 75 68 76" stroke="currentColor" strokeWidth="2" />
+  </svg>
+];
+
+function PlaygroundCard({ tool, index, onLaunch }: CardProps) {
   const isActive = tool.status === 'active';
 
   return (
     <div 
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onClick={() => isActive && onLaunch()}
-      style={{
-        background: isHovered && isActive
-          ? `radial-gradient(180px circle at ${coords.x}px ${coords.y}px, rgba(99, 102, 241, 0.45), rgba(255, 255, 255, 0.05))`
-          : undefined
-      }}
-      className={`relative p-[1.5px] rounded-4xl bg-neutral-200 dark:bg-white/10 transition-all duration-300 ${
+      className={`snap-start shrink-0 w-[290px] sm:w-[325px] rounded-[36px] bg-brand-gray p-7 flex flex-col justify-between min-h-[580px] border border-white/5 ${
         isActive 
-          ? 'hover:shadow-2xl hover:shadow-indigo-500/[0.04] cursor-pointer group' 
+          ? 'cursor-pointer group' 
           : 'opacity-50 select-none'
       }`}
     >
-      <div className="relative overflow-hidden bg-white dark:bg-[#070708] rounded-[30px] p-8 flex flex-col justify-between min-h-[280px]">
-        {/* Subtle grid pattern inside card */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.01)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.005)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.005)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-40"></div>
-
-        {/* Cursor background highlight */}
-        {isActive && (
-          <div 
-            style={{
-              background: `radial-gradient(280px circle at ${coords.x}px ${coords.y}px, rgba(99, 102, 241, 0.08), transparent 85%)`
-            }}
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          />
-        )}
-
-        {/* Content */}
-        <div className="relative z-10">
-          <div className="flex items-center justify-between mb-6">
-            <span className="text-[9px] font-mono font-bold tracking-widest text-neutral-400 dark:text-white/25">
-              {tool.num} / {tool.category.toUpperCase()}
-            </span>
-            
-            {isActive ? (
-              <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-emerald-500 bg-emerald-500/10 border border-emerald-500/10 px-2.5 py-0.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                Ready
-              </span>
-            ) : (
-              <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-400 bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/5 px-2.5 py-0.5 rounded-full">
-                Pipeline
-              </span>
-            )}
-          </div>
-
-          <h3 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight mb-3">
-            {tool.title}
-          </h3>
-          <p className="text-neutral-500 dark:text-white/40 text-xs md:text-sm leading-relaxed font-light mb-6">
-            {tool.description}
-          </p>
-        </div>
-
-        {/* Footer info & CTA */}
-        <div className="relative z-10 mt-4 pt-6 border-t border-neutral-200/50 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex flex-wrap gap-1.5">
-            {tool.tags.map((tag) => (
-              <span 
-                key={tag} 
-                className={`text-[8px] font-extrabold uppercase tracking-wider px-2 py-1 rounded-lg border ${
-                  tag === 'planned'
-                    ? 'bg-neutral-50 dark:bg-transparent text-neutral-400 dark:text-white/20 border-neutral-200 dark:border-white/5'
-                    : 'bg-neutral-50 dark:bg-white/5 text-neutral-400 dark:text-white/35 border-neutral-200 dark:border-white/5'
-                }`}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {isActive && (
-            <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-neutral-950 dark:text-white group-hover:text-indigo-500 dark:group-hover:text-white transition-colors shrink-0">
-              <span>Execute</span>
-              <ArrowUpRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+      {/* Top Section */}
+      <div>
+        <div className="flex items-center justify-between mb-8">
+          <span className="text-[10px] font-bold tracking-wider text-white/50 uppercase bg-white/5 px-3.5 py-1 rounded-full">
+            {tool.category}
+          </span>
+          
+          {isActive ? (
+            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white shadow-sm border border-white/10 group-hover:bg-white group-hover:text-brand-black transition-colors duration-300">
+              <ArrowUpRightIcon className="w-4 h-4" />
             </div>
+          ) : (
+            <span className="text-[9px] font-bold uppercase tracking-wider text-white/45 bg-white/5 px-2.5 py-0.5 rounded-full">
+              Pipeline
+            </span>
           )}
         </div>
+
+        <h3 className="text-2xl font-black text-white tracking-tight mb-3">
+          {tool.title}
+        </h3>
+        <p className="text-white/60 text-xs leading-relaxed font-normal">
+          {tool.description}
+        </p>
+      </div>
+
+      {/* Bottom Illustration Container */}
+      <div className={`w-full h-[180px] rounded-2xl flex items-center justify-center overflow-hidden mt-6 ${pastelColors[index % pastelColors.length]}`}>
+        {SVGIllustrations[index % SVGIllustrations.length]}
       </div>
     </div>
   );
