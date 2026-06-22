@@ -7,71 +7,184 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+// Define rich colors for visual panels
+const colors = [
+	{
+		bg: "bg-[#e5dfd3]", // beige
+		text: "text-[#2e2b26]",
+		tagBorder: "border-[#2e2b26]/20",
+		tagText: "text-[#2e2b26]/75",
+		gradient: "from-[#e5dfd3] to-[#7fa1b5]"
+	},
+	{
+		bg: "bg-[#d2e0db]", // sage green
+		text: "text-[#1d2d27]",
+		tagBorder: "border-[#1d2d27]/20",
+		tagText: "text-[#1d2d27]/75",
+		gradient: "from-[#d2e0db] to-[#a890bd]"
+	},
+	{
+		bg: "bg-[#d1e5e7]", // light blue/cyan
+		text: "text-[#1b2b2c]",
+		tagBorder: "border-[#1b2b2c]/20",
+		tagText: "text-[#1b2b2c]/75",
+		gradient: "from-[#d1e5e7] to-[#809ef5]"
+	}
+];
 ---
 
 <Layout title="Blog | FARID MAHMOUDI">
 	<main>
 		<Navbar />
 		
-		<!-- Hero Section -->
-		<section class="blog-hero pb-20 overflow-hidden">
+		<!-- Hero / Header Section -->
+		<section class="blog-hero pb-8 overflow-hidden">
 			<div class="section-container">
-				<div class="max-w-4xl text-left reveal-up">
-					<p class="text-base md:text-lg text-white/50 leading-relaxed font-light">
-						Thoughts, stories, and ideas about software development, data science, and web engineering. View my <a href="/#work" class="underline underline-offset-4 decoration-white/30 hover:decoration-white hover:text-white transition-colors">Selected Projects</a>.
-					</p>
+				<div class="flex flex-col gap-6 reveal-up">
+					<!-- Header Row with Title and Filter Search -->
+					<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 dark:border-black/10 pb-8 mt-8 filter-row">
+						<h1 class="text-3xl md:text-4xl font-semibold tracking-tight font-sans blog-title">
+							Read past writings
+						</h1>
+						
+						<!-- Filters Row -->
+						<div class="flex flex-wrap items-center gap-3">
+							<!-- Search Input -->
+							<div class="relative flex items-center w-full sm:w-auto">
+								<span class="absolute left-4 text-white/40 dark:text-black/40">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+										<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+									</svg>
+								</span>
+								<input 
+									type="text" 
+									id="blog-search" 
+									placeholder="Search writings..." 
+									class="search-input rounded-xl pl-10 pr-4 py-2 text-sm w-full sm:w-60"
+								/>
+							</div>
+
+							<!-- Sort Dropdown -->
+							<div class="relative w-full sm:w-auto">
+								<select id="sort-select" class="dropdown-select rounded-xl px-4 py-2 text-sm w-full sm:w-auto appearance-none cursor-pointer pr-10">
+									<option value="newest" class="bg-[#121212] text-white dark:bg-white dark:text-black">Most recent</option>
+									<option value="oldest" class="bg-[#121212] text-white dark:bg-white dark:text-black">Oldest first</option>
+								</select>
+								<span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 dark:text-black/40">
+									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80a8,8,0,0,1,11.32-11.32L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+								</span>
+							</div>
+
+							<!-- Category Dropdown -->
+							<div class="relative w-full sm:w-auto">
+								<select id="category-select" class="dropdown-select rounded-xl px-4 py-2 text-sm w-full sm:w-auto appearance-none cursor-pointer pr-10">
+									<option value="all" class="bg-[#121212] text-white dark:bg-white dark:text-black">All categories</option>
+									{Array.from(new Set(posts.flatMap(p => p.data.tags))).map(tag => (
+										<option value={tag.toLowerCase()} class="bg-[#121212] text-white dark:bg-white dark:text-black">{tag}</option>
+									))}
+								</select>
+								<span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 dark:text-black/40">
+									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80a8,8,0,0,1,11.32-11.32L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+								</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
 
 		<!-- Blog Posts Grid -->
-		<section class="pb-32">
+		<section class="pb-32 flex-1">
 			<div class="section-container">
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-8 md:gap-y-12">
-					{posts.map((post, index) => (
-						<a 
-							href={`/blog/${post.id}`}
-							class="group flex flex-col text-left p-5 md:p-6 rounded-none border transition-all duration-500 reveal-up blog-card-wrapper"
-							style={`animation-delay: ${0.2 + index * 0.1}s`}
-						>
-							<!-- Featured Image Container -->
-							{post.data.image && (
-								<div class="aspect-[4/3] w-full overflow-hidden rounded-none mb-6 bg-white/[0.02]">
-									<img 
-										src={post.data.image} 
-										alt={post.data.title}
-										class="w-full h-full object-cover grayscale-[15%] transition-all duration-700 ease-out-expo group-hover:scale-[1.015] group-hover:grayscale-0"
-									/>
+				<!-- Grid Container -->
+				<div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-y-12">
+					{posts.map((post, index) => {
+						// Format date
+						const date = new Date(post.data.pubDate);
+						const formattedDate = date.toLocaleDateString('en-US', {
+							month: 'short',
+							day: 'numeric',
+							year: 'numeric'
+						});
+						
+						// Get first tag or fallback
+						const categoryTag = post.data.tags[0] || 'Tech';
+						const currentColor = colors[index % colors.length];
+
+						return (
+							<a 
+								href={`/blog/${post.id}`}
+								class="blog-grid-card group flex flex-col text-left reveal-up"
+								style={`animation-delay: ${0.1 + index * 0.05}s`}
+								data-title={post.data.title.toLowerCase()}
+								data-tags={post.data.tags.join(',').toLowerCase()}
+								data-date={post.data.pubDate.getTime()}
+							>
+								<!-- Top Visual Container split into Left details & Right headshot -->
+								<div class={`rounded-3xl overflow-hidden flex flex-row h-[190px] relative transition-all duration-500 group-hover:scale-[1.015] ${currentColor.bg}`}>
+									
+									<!-- Left Side: Category Title & Hashtag -->
+									<div class="w-[58%] p-5 sm:p-6 flex flex-col justify-between h-full z-10">
+										<span class={`text-lg sm:text-xl font-bold leading-tight tracking-tight uppercase ${currentColor.text}`}>
+											{categoryTag}
+										</span>
+										<div>
+											<span class={`inline-block px-3.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ${currentColor.tagBorder} ${currentColor.tagText}`}>
+												#{categoryTag}
+											</span>
+										</div>
+									</div>
+
+									<!-- Right Side: Gradient background, Author image, overlay metadata -->
+									<div class={`w-[42%] bg-gradient-to-br ${currentColor.gradient} relative h-full flex items-end justify-center overflow-hidden`}>
+										<!-- Author Image -->
+										<img 
+											src="/mee.png" 
+											alt="Farid Mahmoudi"
+											class="h-[105%] object-contain object-bottom translate-y-3 z-10 transition-transform duration-500 group-hover:scale-[1.03] filter brightness-95"
+										/>
+										
+										<!-- Author Info Overlay -->
+										<div class="absolute bottom-2 left-0 right-0 z-20 px-2 text-center bg-gradient-to-t from-black/55 to-transparent pt-3 pointer-events-none">
+											<p class="text-[9px] font-extrabold text-white tracking-widest leading-none uppercase">
+												Farid Mahmoudi
+											</p>
+											<p class="text-[7px] text-white/70 font-semibold tracking-wider uppercase leading-none mt-0.5">
+												Data Scientist
+											</p>
+										</div>
+									</div>
 								</div>
-							)}
 
-							<!-- Details: Title & Diagonal Arrow Link -->
-							<div class="flex items-start justify-between gap-3 mt-1">
-								<h2 class="blog-post-title text-xl md:text-2xl font-sans font-bold leading-snug">
-									{post.data.title}
-								</h2>
-								<div class="blog-card-arrow pt-1.5 shrink-0">
-									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" class="transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-									</svg>
-								</div>
-							</div>
-
-							<!-- Description -->
-							<p class="blog-card-desc mt-3 text-sm md:text-base leading-relaxed font-light line-clamp-3">
-								{post.data.description}
-							</p>
-
-							<!-- Tags Row of Pill Badges -->
-							<div class="flex flex-wrap gap-2 mt-6">
-								{post.data.tags.map(tag => (
-									<span class="blog-tag-pill border text-[11px] px-3.5 py-1 rounded-full transition-all duration-300">
-										{tag}
+								<!-- Metadata Section below card visual -->
+								<div class="pt-4 flex flex-col gap-1.5 flex-1">
+									<!-- Date -->
+									<span class="text-xs text-white/40 dark:text-black/40 font-medium">
+										{formattedDate}
 									</span>
-								))}
-							</div>
-						</a>
-					))}
+									<!-- Title -->
+									<h2 class="text-base sm:text-lg font-bold tracking-tight text-white dark:text-neutral-900 leading-snug group-hover:text-white/80 dark:group-hover:text-black/70 transition-colors">
+										{post.data.title}
+									</h2>
+									<!-- Description -->
+									<p class="text-xs sm:text-sm text-white/50 dark:text-black/50 leading-relaxed font-light line-clamp-2 mt-0.5">
+										{post.data.description}
+									</p>
+									<!-- Read More -->
+									<div class="mt-2 text-xs sm:text-sm font-semibold text-white/80 dark:text-black/80 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-300">
+										<span class="underline underline-offset-4">Read article</span>
+										<span>→</span>
+									</div>
+								</div>
+							</a>
+						);
+					})}
+				</div>
+				
+				<!-- Empty State if no articles match filters -->
+				<div id="empty-state" class="hidden text-center py-24">
+					<p class="text-base text-white/40 dark:text-black/40 font-semibold uppercase tracking-widest">No articles found matching your search</p>
 				</div>
 			</div>
 		</section>
@@ -84,101 +197,88 @@ const posts = (await getCollection('blog')).sort(
 	main {
 		width: 100%;
 		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.blog-hero {
 		padding-top: clamp(9rem, 15vh, 11rem);
 	}
 
-	.blog-hero-title {
-		font-weight: 800 !important;
-	}
-
-	/* Base (Dark Mode) Styles */
-	.blog-card-wrapper {
-		background-color: rgba(255, 255, 255, 0.03);
-		border-color: rgba(255, 255, 255, 0.08);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.blog-card-wrapper:hover {
-		border-color: rgba(255, 255, 255, 0.2);
-		background-color: rgba(255, 255, 255, 0.05);
-		box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
-	}
-
-	.blog-post-title {
-		font-weight: 700 !important;
-		color: #ffffff !important;
-		transition: opacity 0.2s ease;
-	}
-
-	.group:hover .blog-post-title {
-		opacity: 0.8;
-	}
-
-	.blog-card-arrow {
-		color: rgba(255, 255, 255, 0.4);
-		transition: color 0.2s ease;
-	}
-
-	.group:hover .blog-card-arrow {
+	.blog-title {
 		color: #ffffff;
 	}
 
-	.blog-card-desc {
-		color: rgba(255, 255, 255, 0.55);
-		transition: color 0.2s ease;
+	html.light .blog-title {
+		color: #0A0A0A;
 	}
 
-	.blog-tag-pill {
-		border-color: rgba(255, 255, 255, 0.15);
+	.blog-desc {
 		color: rgba(255, 255, 255, 0.5);
 	}
 
-	.group:hover .blog-tag-pill {
-		border-color: rgba(255, 255, 255, 0.3);
-		color: rgba(255, 255, 255, 0.85);
-	}
-
-	/* Light Mode Override Styles */
-	html.light .blog-card-wrapper {
-		background-color: #ffffff;
-		border-color: rgba(0, 0, 0, 0.08);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-	}
-
-	html.light .blog-card-wrapper:hover {
-		border-color: rgba(0, 0, 0, 0.18);
-		background-color: #ffffff;
-		box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
-	}
-
-	html.light .blog-post-title {
-		color: #111827 !important;
-	}
-
-	html.light .blog-card-arrow {
-		color: rgba(0, 0, 0, 0.35);
-	}
-
-	html.light .group:hover .blog-card-arrow {
-		color: #111827;
-	}
-
-	html.light .blog-card-desc {
-		color: #4b5563;
-	}
-
-	html.light .blog-tag-pill {
-		border-color: rgba(0, 0, 0, 0.15);
+	html.light .blog-desc {
 		color: rgba(0, 0, 0, 0.5);
 	}
 
-	html.light .group:hover .blog-tag-pill {
-		border-color: rgba(0, 0, 0, 0.35);
-		color: rgba(0, 0, 0, 0.85);
+	.filter-row {
+		border-bottom-color: rgba(255, 255, 255, 0.08);
+	}
+
+	html.light .filter-row {
+		border-bottom-color: rgba(0, 0, 0, 0.08);
+	}
+
+	/* Card Base Styling */
+	.blog-grid-card {
+		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	/* Dropdown Custom Styling */
+	.dropdown-select {
+		background-color: transparent;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		color: #ffffff;
+		padding-right: 2.25rem !important;
+		transition: all 0.3s ease;
+	}
+
+	html.light .dropdown-select {
+		border-color: rgba(0, 0, 0, 0.12);
+		color: #0A0A0A;
+	}
+
+	.dropdown-select:hover {
+		border-color: rgba(255, 255, 255, 0.25);
+	}
+
+	html.light .dropdown-select:hover {
+		border-color: rgba(0, 0, 0, 0.25);
+	}
+
+	/* Search Input Custom Styling */
+	.search-input {
+		background-color: transparent;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		color: #ffffff;
+		transition: all 0.3s ease;
+	}
+
+	html.light .search-input {
+		border-color: rgba(0, 0, 0, 0.12);
+		color: #0A0A0A;
+	}
+
+	.search-input:focus {
+		outline: none;
+		border-color: rgba(255, 255, 255, 0.3);
+		background-color: rgba(255, 255, 255, 0.02);
+	}
+
+	html.light .search-input:focus {
+		outline: none;
+		border-color: rgba(0, 0, 0, 0.3);
+		background-color: rgba(0, 0, 0, 0.02);
 	}
 
 	@media (max-width: 767px) {
@@ -187,3 +287,61 @@ const posts = (await getCollection('blog')).sort(
 		}
 	}
 </style>
+
+<script>
+	const searchInput = document.getElementById('blog-search') as HTMLInputElement;
+	const categorySelect = document.getElementById('category-select') as HTMLSelectElement;
+	const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+	const grid = document.getElementById('blog-grid');
+	const emptyState = document.getElementById('empty-state');
+
+	if (grid) {
+		const cards = Array.from(grid.querySelectorAll('.blog-grid-card')) as HTMLElement[];
+
+		const filterAndSort = () => {
+			const query = searchInput?.value.toLowerCase().trim() || '';
+			const category = categorySelect?.value.toLowerCase() || 'all';
+			const sortOrder = sortSelect?.value || 'newest';
+
+			// 1. Filter
+			let visibleCount = 0;
+			cards.forEach(card => {
+				const title = card.getAttribute('data-title') || '';
+				const tags = card.getAttribute('data-tags') || '';
+				const cardTags = tags.split(',');
+
+				const matchesSearch = title.includes(query) || tags.includes(query);
+				const matchesCategory = category === 'all' || cardTags.includes(category);
+
+				if (matchesSearch && matchesCategory) {
+					card.style.display = '';
+					visibleCount++;
+				} else {
+					card.style.display = 'none';
+				}
+			});
+
+			// 2. Toggle Empty State
+			if (visibleCount === 0) {
+				emptyState?.classList.remove('hidden');
+			} else {
+				emptyState?.classList.add('hidden');
+			}
+
+			// 3. Sort Elements
+			const sorted = [...cards].sort((a, b) => {
+				const dateA = parseInt(a.getAttribute('data-date') || '0', 10);
+				const dateB = parseInt(b.getAttribute('data-date') || '0', 10);
+				return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+			});
+			sorted.forEach(card => grid.appendChild(card));
+		};
+
+		searchInput?.addEventListener('input', filterAndSort);
+		categorySelect?.addEventListener('change', filterAndSort);
+		sortSelect?.addEventListener('change', filterAndSort);
+
+		// Initial application
+		filterAndSort();
+	}
+</script>
