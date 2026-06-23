@@ -6,6 +6,20 @@ import {
 
 const experiences = [
   {
+    id: 3,
+    title: "Full Stack Developer",
+    company: "MarocDesMerveilles",
+    type: "Internship",
+    date: "Jul 2025 - May 2026",
+    duration: "11 months",
+    location: "Morocco",
+    workMode: "Remote",
+    description: "Enhanced and maintained the existing website marocdesmerveilles.com, alongside my studies. Updated the interface, optimized the user experience, and resolved functional issues. Managed, organized, and structured data related to the platform's tourism content.",
+    skills: ["Full Stack Development", "Data Management", "UI/UX Optimization", "Web Maintenance"],
+    logo: "/Background.jpg",
+    logoAlt: "MarocDesMerveilles logo"
+  },
+  {
     id: 1,
     title: "Data & Automation Engineer",
     company: "Voila.partners",
