@@ -42,6 +42,7 @@ const colors = [
 		<section class="blog-hero pb-8 overflow-hidden">
 			<div class="section-container">
 				<div class="flex flex-col gap-6 reveal-up">
+					{posts.length > 0 && (
 					<!-- Header Row with Title and Filter Search -->
 					<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 dark:border-black/10 pb-8 mt-8 filter-row">
 						<h1 class="text-3xl md:text-4xl font-semibold tracking-tight font-sans blog-title">
@@ -90,6 +91,7 @@ const colors = [
 							</div>
 						</div>
 					</div>
+					)}
 				</div>
 			</div>
 		</section>
@@ -97,95 +99,104 @@ const colors = [
 		<!-- Blog Posts Grid -->
 		<section class="pb-32 flex-1">
 			<div class="section-container">
-				<!-- Grid Container -->
-				<div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-y-12">
-					{posts.map((post, index) => {
-						// Format date
-						const date = new Date(post.data.pubDate);
-						const formattedDate = date.toLocaleDateString('en-US', {
-							month: 'short',
-							day: 'numeric',
-							year: 'numeric'
-						});
+				{posts.length > 0 ? (
+					<>
+						<!-- Grid Container -->
+						<div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-y-12">
+							{posts.map((post, index) => {
+								// Format date
+								const date = new Date(post.data.pubDate);
+								const formattedDate = date.toLocaleDateString('en-US', {
+									month: 'short',
+									day: 'numeric',
+									year: 'numeric'
+								});
+								
+								// Get first tag or fallback
+								const categoryTag = post.data.tags[0] || 'Tech';
+								const currentColor = colors[index % colors.length];
+
+								return (
+									<a 
+										href={`/blog/${post.id}`}
+										class="blog-grid-card group flex flex-col text-left reveal-up"
+										style={`animation-delay: ${0.1 + index * 0.05}s`}
+										data-title={post.data.title.toLowerCase()}
+										data-tags={post.data.tags.join(',').toLowerCase()}
+										data-date={post.data.pubDate.getTime()}
+									>
+										<!-- Top Visual Container split into Left details & Right headshot -->
+										<div class={`rounded-3xl overflow-hidden flex flex-row h-[190px] relative transition-all duration-500 group-hover:scale-[1.015] ${currentColor.bg}`}>
+											
+											<!-- Left Side: Category Title & Hashtag -->
+											<div class="w-[58%] p-5 sm:p-6 flex flex-col justify-between h-full z-10">
+												<span class={`text-lg sm:text-xl font-bold leading-tight tracking-tight uppercase ${currentColor.text}`}>
+													{categoryTag}
+												</span>
+												<div>
+													<span class={`inline-block px-3.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ${currentColor.tagBorder} ${currentColor.tagText}`}>
+														#{categoryTag}
+													</span>
+												</div>
+											</div>
+
+											<!-- Right Side: Gradient background, Author image, overlay metadata -->
+											<div class={`w-[42%] bg-gradient-to-br ${currentColor.gradient} relative h-full flex items-end justify-center overflow-hidden`}>
+												<!-- Author Image -->
+												<img 
+													src="/mee.png" 
+													alt="Farid Mahmoudi"
+													class="h-[105%] object-contain object-bottom translate-y-3 z-10 transition-transform duration-500 group-hover:scale-[1.03] filter brightness-95"
+												/>
+												
+												<!-- Author Info Overlay -->
+												<div class="absolute bottom-2 left-0 right-0 z-20 px-2 text-center bg-gradient-to-t from-black/55 to-transparent pt-3 pointer-events-none">
+													<p class="text-[9px] font-extrabold text-white tracking-widest leading-none uppercase">
+														Farid Mahmoudi
+													</p>
+													<p class="text-[7px] text-white/80 uppercase tracking-widest mt-0.5">
+														Data Scientist
+													</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- Bottom Content -->
+										<div class="mt-5 flex flex-col gap-2 relative z-10">
+											<!-- Metadata (Date) -->
+											<div class="flex items-center gap-3 text-xs font-medium text-white/40 dark:text-black/40 uppercase tracking-wider">
+												<time datetime={date.toISOString()}>{formattedDate}</time>
+											</div>
+											<!-- Title -->
+											<h3 class="text-xl sm:text-2xl font-semibold text-white dark:text-black leading-tight tracking-tight">
+												{post.data.title}
+											</h3>
+											<!-- Description -->
+											<p class="text-xs sm:text-sm text-white/50 dark:text-black/50 leading-relaxed font-light line-clamp-2 mt-0.5">
+												{post.data.description}
+											</p>
+											<!-- Read More -->
+											<div class="mt-2 text-xs sm:text-sm font-semibold text-white/80 dark:text-black/80 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-300">
+												<span class="underline underline-offset-4">Read article</span>
+												<span>→</span>
+											</div>
+										</div>
+									</a>
+								);
+							})}
+						</div>
 						
-						// Get first tag or fallback
-						const categoryTag = post.data.tags[0] || 'Tech';
-						const currentColor = colors[index % colors.length];
-
-						return (
-							<a 
-								href={`/blog/${post.id}`}
-								class="blog-grid-card group flex flex-col text-left reveal-up"
-								style={`animation-delay: ${0.1 + index * 0.05}s`}
-								data-title={post.data.title.toLowerCase()}
-								data-tags={post.data.tags.join(',').toLowerCase()}
-								data-date={post.data.pubDate.getTime()}
-							>
-								<!-- Top Visual Container split into Left details & Right headshot -->
-								<div class={`rounded-3xl overflow-hidden flex flex-row h-[190px] relative transition-all duration-500 group-hover:scale-[1.015] ${currentColor.bg}`}>
-									
-									<!-- Left Side: Category Title & Hashtag -->
-									<div class="w-[58%] p-5 sm:p-6 flex flex-col justify-between h-full z-10">
-										<span class={`text-lg sm:text-xl font-bold leading-tight tracking-tight uppercase ${currentColor.text}`}>
-											{categoryTag}
-										</span>
-										<div>
-											<span class={`inline-block px-3.5 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider ${currentColor.tagBorder} ${currentColor.tagText}`}>
-												#{categoryTag}
-											</span>
-										</div>
-									</div>
-
-									<!-- Right Side: Gradient background, Author image, overlay metadata -->
-									<div class={`w-[42%] bg-gradient-to-br ${currentColor.gradient} relative h-full flex items-end justify-center overflow-hidden`}>
-										<!-- Author Image -->
-										<img 
-											src="/mee.png" 
-											alt="Farid Mahmoudi"
-											class="h-[105%] object-contain object-bottom translate-y-3 z-10 transition-transform duration-500 group-hover:scale-[1.03] filter brightness-95"
-										/>
-										
-										<!-- Author Info Overlay -->
-										<div class="absolute bottom-2 left-0 right-0 z-20 px-2 text-center bg-gradient-to-t from-black/55 to-transparent pt-3 pointer-events-none">
-											<p class="text-[9px] font-extrabold text-white tracking-widest leading-none uppercase">
-												Farid Mahmoudi
-											</p>
-											<p class="text-[7px] text-white/70 font-semibold tracking-wider uppercase leading-none mt-0.5">
-												Data Scientist
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<!-- Metadata Section below card visual -->
-								<div class="pt-4 flex flex-col gap-1.5 flex-1">
-									<!-- Date -->
-									<span class="text-xs text-white/40 dark:text-black/40 font-medium">
-										{formattedDate}
-									</span>
-									<!-- Title -->
-									<h2 class="text-base sm:text-lg font-bold tracking-tight text-white dark:text-neutral-900 leading-snug group-hover:text-white/80 dark:group-hover:text-black/70 transition-colors">
-										{post.data.title}
-									</h2>
-									<!-- Description -->
-									<p class="text-xs sm:text-sm text-white/50 dark:text-black/50 leading-relaxed font-light line-clamp-2 mt-0.5">
-										{post.data.description}
-									</p>
-									<!-- Read More -->
-									<div class="mt-2 text-xs sm:text-sm font-semibold text-white/80 dark:text-black/80 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-300">
-										<span class="underline underline-offset-4">Read article</span>
-										<span>→</span>
-									</div>
-								</div>
-							</a>
-						);
-					})}
-				</div>
-				
-				<!-- Empty State if no articles match filters -->
-				<div id="empty-state" class="hidden text-center py-24">
-					<p class="text-base text-white/40 dark:text-black/40 font-semibold uppercase tracking-widest">No articles found matching your search</p>
-				</div>
+						<!-- Empty State if no articles match filters -->
+						<div id="empty-state" class="hidden text-center py-24">
+							<p class="text-base text-white/40 dark:text-black/40 font-semibold uppercase tracking-widest">No articles found matching your search</p>
+						</div>
+					</>
+				) : (
+					<div class="flex flex-col items-center justify-center py-24 text-center reveal-up">
+						<p class="text-xl md:text-2xl text-white/50 dark:text-black/50 font-medium tracking-tight">No posts for now.</p>
+						<p class="text-base text-white/30 dark:text-black/30 mt-2">Check back later for new writings and insights.</p>
+					</div>
+				)}
 			</div>
 		</section>
 
