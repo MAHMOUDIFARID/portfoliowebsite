@@ -1,53 +1,80 @@
 import {
   CalendarBlankIcon,
   MapPinIcon,
-  LaptopIcon
+  LaptopIcon,
+  BuildingsIcon
 } from '@phosphor-icons/react';
 
 const experiences = [
   {
-    id: 3,
-    title: "Full Stack Developer",
-    company: "MarocDesMerveilles",
-    type: "Internship",
-    date: "Jul 2025 - May 2026",
-    duration: "11 months",
-    location: "Morocco",
-    workMode: "Remote",
-    description: "Enhanced and maintained the existing website marocdesmerveilles.com, alongside my studies. Updated the interface, optimized the user experience, and resolved functional issues. Managed, organized, and structured data related to the platform's tourism content.",
-    skills: ["Full Stack Development", "Data Management", "UI/UX Optimization", "Web Maintenance"],
-    logo: "/Background.jpg",
-    logoAlt: "MarocDesMerveilles logo"
-  },
-  {
     id: 1,
-    title: "Data & Automation Engineer",
-    company: "Voila.partners",
+    title: "Machine Learning Engineer Intern (AIOps)",
+    company: "Intra Infrastructures Services",
     type: "Internship",
-    date: "Sep 2024 - Dec 2024",
-    duration: "4 months",
-    location: "Bruxelles",
-    workMode: "Remote",
-    description: "Designed and implemented robust relational database structures, automated ETL pipelines, and created unified process dashboards.",
-    skills: ["Data Engineering", "ETL Pipelines", "Relational Databases", "Airtable Systems", "Make.com Automation", "Workflow Optimization", "Process Analytics"],
-    logo: "/logos/voila-partners.png",
-    logoAlt: "Voila.partners logo"
+    date: "Jan 2026 - Jun 2026",
+    duration: "6 months",
+    location: "Casablanca, Morocco",
+    workMode: "On-site",
+    description: [
+      "Engineered an automated Root Cause Analysis (RCA) machine learning system that reduced microservice incident resolution time (MTTR) by 60%, significantly improving operational efficiency.",
+      "Processed millions of unstructured server logs in real-time using the Drain3 parsing algorithm, extracting dynamic features to enhance downstream anomaly detection models.",
+      "Deployed an Isolation Forest-based anomaly detection framework to proactively identify and trace system failures across distributed infrastructure components, enabling faster incident response."
+    ],
+    skills: ["Machine Learning", "AIOps", "Anomaly Detection", "Log Analysis", "Drain3", "Isolation Forest", "Root Cause Analysis"],
+    logo: "",
+    logoAlt: "Intra Infrastructures Services logo"
   },
   {
     id: 2,
-    title: "Software & Data Engineer",
+    title: "Full Stack Developer Intern",
+    company: "Marocdesmerveilles",
+    type: "Internship",
+    date: "Jun 2025 - Oct 2025",
+    duration: "5 months",
+    location: "Kelaat Mgouna, Morocco",
+    workMode: "Remote",
+    description: [
+      "Optimized and maintained the marocdesmerveilles.com web platform while balancing full-time studies, ensuring consistent performance and reliability.",
+      "Redesigned the user interface and enhanced user experience (UX), resolving critical functional issues and improving site navigation.",
+      "Structured and organized a comprehensive database for tourism-related content, improving data accessibility and content management efficiency."
+    ],
+    skills: ["Full Stack Development", "Web Optimization", "UI/UX", "Database Management", "Drupal", "PHP"],
+    logo: "/logos/Marocdesmerveilles.png",
+    logoAlt: "Marocdesmerveilles logo"
+  },
+  {
+    id: 3,
+    title: "No-Code Developer",
+    company: "Voilà.partners",
+    type: "Internship",
+    date: "Sep 2024 - Dec 2024",
+    duration: "4 months",
+    location: "Brussels, Belgium",
+    workMode: "Remote",
+    description: [
+      "Architected a custom Low-Code CRM system for tracking elected officials, mandates, and stakeholder engagement activities, streamlining political relationship management.",
+      "Designed and implemented a scalable Airtable database structure with collaborative interfaces, enhancing operational tracking and team coordination.",
+      "Automated complex workflows using Make (Integromat) and Airtable Automations, significantly reducing manual data entry and improving operational efficiency by 70%."
+    ],
+    skills: ["Low-Code/No-Code", "CRM Systems", "Airtable", "Make (Integromat)", "Workflow Automation", "Process Optimization"],
+    logo: "/logos/voila-partners.png",
+    logoAlt: "Voilà.partners logo"
+  },
+  {
+    id: 4,
+    title: "Full Stack Developer Intern",
     company: "Norsys Afrique",
     type: "Internship",
     date: "Nov 2023 - Dec 2023",
     duration: "2 months",
-    location: "Marrakesh-Safi, Morocco",
+    location: "Marrakech, Morocco",
     workMode: "Hybrid",
-    description: "Delivered backend system logic, database designs, and interactive web dashboard solutions in an Agile environment. Supported the complete technical development of a solidary web platform.",
-    featuredProject: {
-      title: "Plateforme Web Solidaire - Association Abbed, Enfants Diabetiques",
-      description: "Architected and implemented a backend relational database structure and clean dashboard views to help manage diabetes tracking analytics."
-    },
-    skills: ["Backend Development", "Database Management", "Data Modeling", "Web App Development", "Git Version Control", "Agile Development", "React Systems"],
+    description: [
+      "Developed a comprehensive solidarity web platform using Drupal and PHP for the Abbed Association, digitizing healthcare management for diabetic children and streamlining administrative processes.",
+      "Designed and implemented a robust MySQL database architecture to centralize beneficiaries' medical records, enabling secure data management and rapid information retrieval for healthcare coordination.",
+      "Built a modern, intuitive web interface with custom Drupal modules and responsive design, specifically tailored to the association's workflow requirements and improving volunteer productivity."
+    ],
+    skills: ["Full Stack Development", "Drupal", "PHP", "MySQL", "Database Architecture", "Responsive Design"],
     logo: "/logos/norsys-afrique.png",
     logoAlt: "Norsys Afrique logo"
   }
@@ -77,11 +104,15 @@ export default function ExperienceReact() {
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
                   <div className="flex items-start gap-5">
                     <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 overflow-hidden p-2 border border-white/5">
-                      <img 
-                        src={exp.logo} 
-                        alt={exp.logoAlt} 
-                        className="w-full h-full object-contain"
-                      />
+                      {exp.logo ? (
+                        <img 
+                          src={exp.logo} 
+                          alt={exp.logoAlt} 
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <BuildingsIcon size={28} weight="duotone" className="text-white/60" />
+                      )}
                     </div>
                     <div>
                       <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight mb-1">
@@ -110,9 +141,17 @@ export default function ExperienceReact() {
                   </div>
                 </div>
 
-                <p className="text-white/50 text-lg leading-relaxed mb-8 font-medium">
-                  {exp.description}
-                </p>
+                {Array.isArray(exp.description) ? (
+                  <ul className="list-disc pl-5 text-white/50 text-base md:text-lg leading-relaxed mb-8 font-medium space-y-3">
+                    {exp.description.map((bullet, idx) => (
+                      <li key={idx}>{bullet}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-white/50 text-lg leading-relaxed mb-8 font-medium">
+                    {exp.description}
+                  </p>
+                )}
 
                 {exp.featuredProject && (
                   <div className="mb-8 p-6 bg-white/[0.02] border border-white/5 rounded-2xl">
