@@ -41,6 +41,35 @@ export default function YoutubeDownloaderReact() {
   const [customServer, setCustomServer] = useState(FALLBACK_INSTANCES[0].url);
   const [showSettings, setShowSettings] = useState(false);
 
+  // Python Backend Engine State
+  const [pythonStatus, setPythonStatus] = useState<'checking' | 'online' | 'offline'>('checking');
+  const [pythonVersion, setPythonVersion] = useState<string>('');
+  const [usePythonBackend, setUsePythonBackend] = useState(true);
+
+  // Check Python Flask backend health
+  const checkPythonHealth = async () => {
+    try {
+      setPythonStatus('checking');
+      const res = await fetch('http://localhost:5000/api/health');
+      if (res.ok) {
+        const data = await res.json();
+        setPythonStatus('online');
+        setPythonVersion(data.version || '');
+        setUsePythonBackend(true);
+      } else {
+        setPythonStatus('offline');
+        setUsePythonBackend(false);
+      }
+    } catch {
+      setPythonStatus('offline');
+      setUsePythonBackend(false);
+    }
+  };
+
+  useEffect(() => {
+    checkPythonHealth();
+  }, []);
+
   const activeInstances = dynamicInstances.length > 0 ? dynamicInstances : FALLBACK_INSTANCES;
 
   // Dynamically load instances from instances.cobalt.best API via CORS proxy
@@ -187,9 +216,71 @@ export default function YoutubeDownloaderReact() {
 
     setStatus('api-request');
     setErrorMessage('');
-    setStatusMessage('Contacting Cobalt API server...');
+    setStatusMessage('Initiating media extraction...');
     setProgress(0);
     abortControllerRef.current = new AbortController();
+
+    // 0. Python Backend Handler (High Speed yt-dlp Engine)
+    if (usePythonBackend && pythonStatus === 'online') {
+      try {
+        setStatus('downloading');
+        setStatusMessage('Downloading & processing stream via Python yt-dlp...');
+        setProgress(35);
+
+        const res = await fetch('http://localhost:5000/api/download', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: url.trim(),
+            mode: mode,
+            quality: videoQuality,
+            title: title.trim(),
+            artist: artist.trim(),
+            album: album.trim()
+          }),
+          signal: abortControllerRef.current.signal
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `Python backend server returned error ${res.status}`);
+        }
+
+        setProgress(85);
+        setStatusMessage('Finalizing file output...');
+
+        const blob = await res.blob();
+        const contentDisposition = res.headers.get('Content-Disposition');
+        let filename = mode === 'audio' ? 'downloaded_audio.mp3' : 'downloaded_video.mp4';
+
+        if (contentDisposition) {
+          const match = contentDisposition.match(/filename="?([^"]+)"?/);
+          if (match && match[1]) {
+            filename = match[1];
+          }
+        }
+
+        const downloadUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 5000);
+
+        setProgress(100);
+        setDownloadedFileName(filename);
+        setStatus('success');
+        setStatusMessage('Downloaded successfully via Python yt-dlp Engine!');
+        return;
+      } catch (err: any) {
+        if (err.name === 'AbortError') return;
+        console.warn('Python engine error, falling back to Web Proxy:', err);
+        setStatusMessage('Python engine fallback to Web Proxy...');
+      }
+    }
 
     try {
       // 1. Determine servers to try (failover logic)
@@ -395,33 +486,65 @@ export default function YoutubeDownloaderReact() {
       <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none"></div>
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-8 border-b border-neutral-200/10 dark:border-white/5 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-neutral-200/10 dark:border-white/5 pb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-2xl bg-indigo-500/15 border border-indigo-500/20 text-indigo-400">
             <DownloadSimple size={24} weight="bold" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">YouTube Media Sync</h2>
-            <p className="text-xs text-neutral-500 dark:text-white/40">Download video or audio with customizable metadata & cover art</p>
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">YouTube Media Sync</h2>
+              {pythonStatus === 'online' && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Python Engine Active
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-neutral-500 dark:text-white/40">Powered by Python yt-dlp & mutagen metadata tagger</p>
           </div>
         </div>
 
-        <button 
-          onClick={() => setShowSettings(!showSettings)}
-          className={`p-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
-            showSettings 
-              ? 'bg-neutral-800 border-neutral-700 text-indigo-400' 
-              : 'bg-neutral-950/40 border-neutral-800/80 text-neutral-400 hover:text-white hover:bg-neutral-800/30'
-          }`}
-          title="Server Settings"
-        >
-          <Gear size={18} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={checkPythonHealth}
+            className="text-[10px] font-semibold text-white/50 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 rounded-xl transition-all cursor-pointer"
+            title="Check Python Server"
+          >
+            {pythonStatus === 'checking' ? 'Checking...' : pythonStatus === 'online' ? 'Python: 5000 Active' : 'Check Python'}
+          </button>
+
+          <button 
+            onClick={() => setShowSettings(!showSettings)}
+            className={`p-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
+              showSettings 
+                ? 'bg-neutral-800 border-neutral-700 text-indigo-400' 
+                : 'bg-neutral-950/40 border-neutral-800/80 text-neutral-400 hover:text-white hover:bg-neutral-800/30'
+            }`}
+            title="Server Settings"
+          >
+            <Gear size={18} />
+          </button>
+        </div>
       </div>
 
       {/* Expandable Settings */}
       {showSettings && (
         <div className="mb-6 p-5 rounded-2xl bg-neutral-950/60 border border-neutral-800/60 backdrop-blur-md">
+          <div className="mb-4 pb-4 border-b border-white/10">
+            <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <CheckCircle size={14} />
+              Python yt-dlp Backend Integration
+            </h3>
+            <p className="text-[11px] text-neutral-400 mb-2">
+              Status: <span className={pythonStatus === 'online' ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>{pythonStatus.toUpperCase()}</span> {pythonVersion && `(v${pythonVersion})`}
+            </p>
+            <p className="text-[11px] text-neutral-500">
+              Run standalone server: <code className="bg-black/60 text-emerald-300 px-2 py-0.5 rounded text-[10px] font-mono">python python_backend/app.py</code>
+              <br />
+              Run CLI downloader: <code className="bg-black/60 text-indigo-300 px-2 py-0.5 rounded text-[10px] font-mono">python scripts/yt_downloader.py "URL" --mode audio</code>
+            </p>
+          </div>
           <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
             <Globe size={14} />
             Cobalt API Configuration
