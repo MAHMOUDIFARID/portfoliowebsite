@@ -14,9 +14,9 @@ const navLinks = [
     class="site-nav-shell pointer-events-auto w-full max-w-[1500px] mx-auto flex items-center justify-between transition-all duration-500"
     aria-label="Main navigation"
   >
-    <a href="/" class="flex items-center group outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full">
-      <div class="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center group-hover:scale-105 transition-transform">
-        <img src="/Logo.png" alt="Farid Mahmoudi logo" class="site-nav-logo w-full h-full object-contain transition-all duration-500" />
+    <a href="/" class="flex items-center group outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-xl">
+      <div class="h-5 sm:h-6 md:h-6.5 w-auto flex items-center group-hover:scale-105 transition-transform">
+        <img src="/Logo.png" alt="Farid Mahmoudi logo" class="site-nav-logo h-full w-auto object-contain transition-all duration-500" />
       </div>
     </a>
 
@@ -379,7 +379,6 @@ const navLinks = [
   }
 
   .site-nav-logo {
-    filter: brightness(0) invert(1);
     opacity: 1;
   }
 
@@ -432,10 +431,6 @@ const navLinks = [
   /* Light Theme */
   :global(html.light) .site-nav-link {
     color: rgba(0, 0, 0, 0.6);
-  }
-
-  :global(html.light) .site-nav-logo {
-    filter: brightness(0);
   }
 
   :global(html.light) .site-nav-link:hover,
