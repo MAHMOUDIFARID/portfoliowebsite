@@ -17,28 +17,7 @@ interface Tool {
 export default function PlaygroundReact() {
   const [activeTool, setActiveTool] = useState<string | null>(null);
 
-  const tools: Tool[] = [
-    {
-      id: 'eda',
-      title: 'CSV Auto-EDA',
-      description: 'Upload any CSV dataset to instantly generate summary statistics, plot numerical distributions, and compute correlation matrices locally.',
-      category: 'Data Analytics',
-      status: 'active',
-      tags: ['Exploratory Data', 'Local Processing', 'SVG Charts'],
-      pastelBg: 'bg-[#e0f2fe] dark:bg-[#1e293b]',
-      tagBg: 'bg-[#bae6fd] text-[#0369a1] dark:bg-blue-900/50 dark:text-blue-200'
-    },
-    {
-      id: 'yt-downloader',
-      title: 'YouTube Media Sync',
-      description: 'Download video or audio streams from YouTube and other platforms. Customize tags and embed cover art directly into downloaded MP3 files.',
-      category: 'Media Processing',
-      status: 'active',
-      tags: ['Audio Extraction', 'ID3v2 Tagger', 'File Streams'],
-      pastelBg: 'bg-[#ffedd5] dark:bg-[#32231b]',
-      tagBg: 'bg-[#fed7aa] text-[#c2410c] dark:bg-amber-900/50 dark:text-amber-200'
-    }
-  ];
+  const tools: Tool[] = [];
 
   if (activeTool === 'eda') {
     return (
@@ -72,7 +51,7 @@ export default function PlaygroundReact() {
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold uppercase tracking-wider text-white/40">Playground</span>
               <span className="text-white/20">/</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-400">YouTube Media Sync</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">YouTube Media Sync</span>
             </div>
             <button 
               onClick={() => setActiveTool(null)}
@@ -89,12 +68,15 @@ export default function PlaygroundReact() {
   }
 
   return (
-    <div className="relative bg-transparent pt-36 pb-28">
-      <div className="section-container max-w-5xl mx-auto px-6 sm:px-8 relative z-10">
+    <div className="relative min-h-screen bg-transparent pt-32 pb-32">
+      <div className="section-container max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         
-        {/* Simple Clean Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+        {/* Header */}
+        <div className="max-w-2xl mb-16">
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/40 mb-3 block">
+            LAB & EXPERIMENTS
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
             Playground
           </h1>
           <p className="text-base text-white/60 font-light leading-relaxed">
@@ -102,16 +84,22 @@ export default function PlaygroundReact() {
           </p>
         </div>
 
-        {/* Clean 2x2 Grid matching the reference image */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {tools.map((tool) => (
-            <PlaygroundCard 
-              key={tool.id} 
-              tool={tool} 
-              onLaunch={() => setActiveTool(tool.id)} 
-            />
-          ))}
-        </div>
+        {/* Content / Empty state */}
+        {tools.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {tools.map((tool) => (
+              <PlaygroundCard 
+                key={tool.id} 
+                tool={tool} 
+                onLaunch={() => setActiveTool(tool.id)} 
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="py-24 text-center border border-dashed border-white/10 rounded-3xl bg-white/5 backdrop-blur-md">
+            <p className="text-lg font-medium text-white/40">No tools for now.</p>
+          </div>
+        )}
 
       </div>
     </div>
