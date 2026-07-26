@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@phosphor-icons/react';
 import EdaToolReact from './EdaToolReact';
 import YoutubeDownloaderReact from './YoutubeDownloaderReact';
+import ImageToPdfReact from './ImageToPdfReact';
 
 interface Tool {
   id: string;
@@ -17,7 +18,18 @@ interface Tool {
 export default function PlaygroundReact() {
   const [activeTool, setActiveTool] = useState<string | null>(null);
 
-  const tools: Tool[] = [];
+  const tools: Tool[] = [
+    {
+      id: 'image-to-pdf',
+      title: 'Image to PDF Converter',
+      description: 'Convert PNG, JPG, JPEG, and WEBP images into a clean, high-resolution PDF document directly in your browser with zero data uploads.',
+      category: 'Document Utility',
+      status: 'active',
+      tags: ['100% Client-Side', 'Multi-Page PDF', 'Custom Layout'],
+      pastelBg: 'bg-[#ffe4e6] dark:bg-[#381c24]',
+      tagBg: 'bg-[#fecdd3] text-[#e11d48] dark:bg-rose-900/50 dark:text-rose-200'
+    }
+  ];
 
   if (activeTool === 'eda') {
     return (
@@ -67,15 +79,36 @@ export default function PlaygroundReact() {
     );
   }
 
+  if (activeTool === 'image-to-pdf') {
+    return (
+      <div className="relative min-h-screen bg-transparent pt-32 pb-32">
+        <div className="section-container max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-semibold uppercase tracking-wider text-white/40">Playground</span>
+              <span className="text-white/20">/</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-rose-400">Image to PDF</span>
+            </div>
+            <button 
+              onClick={() => setActiveTool(null)}
+              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
+            >
+              <ArrowLeftIcon className="w-4 h-4" />
+              <span>Back to Playground</span>
+            </button>
+          </div>
+          <ImageToPdfReact />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen bg-transparent pt-32 pb-32">
       <div className="section-container max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="max-w-2xl mb-16">
-          <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/40 mb-3 block">
-            LAB & EXPERIMENTS
-          </span>
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
             Playground
           </h1>
