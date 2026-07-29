@@ -18,6 +18,20 @@ interface Tool {
 export default function PlaygroundReact() {
   const [activeTool, setActiveTool] = useState<string | null>(null);
 
+  const handleLaunchTool = (id: string) => {
+    setActiveTool(id);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleBackToPlayground = () => {
+    setActiveTool(null);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const tools: Tool[] = [
     {
       id: 'image-to-pdf',
@@ -26,8 +40,8 @@ export default function PlaygroundReact() {
       category: 'Document Utility',
       status: 'active',
       tags: ['100% Client-Side', 'Multi-Page PDF', 'Custom Layout'],
-      pastelBg: 'bg-[#ffe4e6] dark:bg-[#381c24]',
-      tagBg: 'bg-[#fecdd3] text-[#e11d48] dark:bg-rose-900/50 dark:text-rose-200'
+      pastelBg: 'bg-indigo-500/10 border border-indigo-500/20',
+      tagBg: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30'
     }
   ];
 
@@ -35,15 +49,15 @@ export default function PlaygroundReact() {
     return (
       <div className="relative min-h-screen bg-transparent pt-32 pb-32">
         <div className="section-container max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+          <div className="flex items-center justify-between mb-8 pb-6 border-b border-neutral-200 dark:border-white/10">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-white/40">Playground</span>
-              <span className="text-white/20">/</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">CSV Auto-EDA</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-white/40">Playground</span>
+              <span className="text-neutral-300 dark:text-white/20">/</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">CSV Auto-EDA</span>
             </div>
             <button 
-              onClick={() => setActiveTool(null)}
-              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
+              onClick={handleBackToPlayground}
+              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-white/70 hover:text-neutral-900 dark:hover:text-white bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 border border-neutral-200 dark:border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
             >
               <ArrowLeftIcon className="w-4 h-4" />
               <span>Back to Playground</span>
@@ -59,15 +73,15 @@ export default function PlaygroundReact() {
     return (
       <div className="relative min-h-screen bg-transparent pt-32 pb-32">
         <div className="section-container max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+          <div className="flex items-center justify-between mb-8 pb-6 border-b border-neutral-200 dark:border-white/10">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-white/40">Playground</span>
-              <span className="text-white/20">/</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">YouTube Media Sync</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-white/40">Playground</span>
+              <span className="text-neutral-300 dark:text-white/20">/</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">YouTube Media Sync</span>
             </div>
             <button 
-              onClick={() => setActiveTool(null)}
-              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
+              onClick={handleBackToPlayground}
+              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-white/70 hover:text-neutral-900 dark:hover:text-white bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 border border-neutral-200 dark:border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
             >
               <ArrowLeftIcon className="w-4 h-4" />
               <span>Back to Playground</span>
@@ -83,15 +97,15 @@ export default function PlaygroundReact() {
     return (
       <div className="relative min-h-screen bg-transparent pt-32 pb-32">
         <div className="section-container max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+          <div className="flex items-center justify-between mb-8 pb-6 border-b border-neutral-200 dark:border-white/10">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-white/40">Playground</span>
-              <span className="text-white/20">/</span>
-              <span className="text-xs font-bold uppercase tracking-wider text-rose-400">Image to PDF</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-white/40">Playground</span>
+              <span className="text-neutral-300 dark:text-white/20">/</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Image to PDF</span>
             </div>
             <button 
-              onClick={() => setActiveTool(null)}
-              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
+              onClick={handleBackToPlayground}
+              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-white/70 hover:text-neutral-900 dark:hover:text-white bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 border border-neutral-200 dark:border-white/10 px-5 py-2.5 rounded-full transition-all cursor-pointer shadow-lg active:scale-95"
             >
               <ArrowLeftIcon className="w-4 h-4" />
               <span>Back to Playground</span>
@@ -109,10 +123,10 @@ export default function PlaygroundReact() {
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
             Playground
           </h1>
-          <p className="text-base text-white/60 font-light leading-relaxed">
+          <p className="text-base text-neutral-600 dark:text-white/60 font-light leading-relaxed">
             Interactive client-side tools, data utilities, and predictive models.
           </p>
         </div>
@@ -124,13 +138,13 @@ export default function PlaygroundReact() {
               <PlaygroundCard 
                 key={tool.id} 
                 tool={tool} 
-                onLaunch={() => setActiveTool(tool.id)} 
+                onLaunch={() => handleLaunchTool(tool.id)} 
               />
             ))}
           </div>
         ) : (
-          <div className="py-24 text-center border border-dashed border-white/10 rounded-3xl bg-white/5 backdrop-blur-md">
-            <p className="text-lg font-medium text-white/40">No tools for now.</p>
+          <div className="py-24 text-center border border-dashed border-neutral-200 dark:border-white/10 rounded-3xl bg-neutral-50 dark:bg-white/5 backdrop-blur-md">
+            <p className="text-lg font-medium text-neutral-400 dark:text-white/40">No tools for now.</p>
           </div>
         )}
 
@@ -149,10 +163,21 @@ function PlaygroundCard({ tool, onLaunch }: PlaygroundCardProps) {
 
   return (
     <div 
-      onClick={() => isActive && onLaunch()}
+      role="button"
+      tabIndex={0}
+      onClick={(e) => {
+        e.preventDefault();
+        if (isActive) onLaunch();
+      }}
+      onKeyDown={(e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && isActive) {
+          e.preventDefault();
+          onLaunch();
+        }
+      }}
       className={`group bg-white dark:bg-[#18181c] rounded-[32px] p-4 sm:p-5 flex flex-col justify-between shadow-lg hover:shadow-2xl transition-all duration-300 border border-black/5 dark:border-white/10 ${
         isActive 
-          ? 'cursor-pointer hover:-translate-y-1' 
+          ? 'cursor-pointer hover:-translate-y-1 active:scale-[0.98]' 
           : 'opacity-70 cursor-not-allowed select-none'
       }`}
     >
@@ -186,7 +211,7 @@ function PlaygroundCard({ tool, onLaunch }: PlaygroundCardProps) {
           {isActive ? 'Explore' : 'In Pipeline'}
         </span>
 
-        <div className={`w-10 h-10 rounded-2xl bg-neutral-100 dark:bg-white/10 flex items-center justify-center text-neutral-900 dark:text-white transition-all duration-300 ${
+        <div className={`w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 flex items-center justify-center text-neutral-900 dark:text-white transition-all duration-300 ${
           isActive ? 'group-hover:bg-neutral-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black' : 'opacity-40'
         }`}>
           <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

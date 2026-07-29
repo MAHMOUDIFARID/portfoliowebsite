@@ -1,11 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { 
-  FilePdf, 
-  UploadSimple, 
+  Paperclip, 
+  Link as LinkIcon, 
   Trash, 
   ArrowLeft, 
   ArrowRight, 
-  DownloadSimple, 
   SlidersHorizontal,
   CheckCircle,
   Plus,
@@ -16,21 +15,30 @@ import jsPDF from 'jspdf';
 
 interface ImageFileItem {
   id: string;
-  file: File;
+  file?: File;
   previewUrl: string;
   name: string;
-  size: string;
+  size?: string;
+  isUrl?: boolean;
 }
 
 export default function ImageToPdfReact() {
+  const [uploadTab, setUploadTab] = useState<'file' | 'url'>('file');
+  const [imageUrl, setImageUrl] = useState('');
   const [images, setImages] = useState<ImageFileItem[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  // Settings
   const [pageSize, setPageSize] = useState<'a4' | 'letter' | 'auto'>('a4');
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
-  const [margin, setMargin] = useState<number>(10); // mm
+  const [margin, setMargin] = useState<number>(10);
   const [outputFilename, setOutputFilename] = useState('converted_document');
+
+  // Status
   const [isGenerating, setIsGenerating] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -52,7 +60,8 @@ export default function ImageToPdfReact() {
           file,
           previewUrl,
           name: file.name,
-          size: formatFileSize(file.size)
+          size: formatFileSize(file.size),
+          isUrl: false
         });
       }
     });
@@ -60,21 +69,35 @@ export default function ImageToPdfReact() {
     if (newItems.length > 0) {
       setImages(prev => [...prev, ...newItems]);
       setSuccessMessage('');
+      setErrorMessage('');
     }
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFiles(e.dataTransfer.files);
-    }
+  const handleAddUrl = () => {
+    if (!imageUrl.trim()) return;
+
+    const trimmed = imageUrl.trim();
+    const filename = trimmed.split('/').pop()?.split('?')[0] || 'Image URL';
+
+    setImages(prev => [
+      ...prev,
+      {
+        id: Math.random().toString(36).substring(2, 9),
+        previewUrl: trimmed,
+        name: filename,
+        isUrl: true
+      }
+    ]);
+
+    setImageUrl('');
+    setSuccessMessage('');
+    setErrorMessage('');
   };
 
   const removeImage = (id: string) => {
     setImages(prev => {
       const target = prev.find(item => item.id === id);
-      if (target) URL.revokeObjectURL(target.previewUrl);
+      if (target && !target.isUrl) URL.revokeObjectURL(target.previewUrl);
       return prev.filter(item => item.id !== id);
     });
   };
@@ -93,19 +116,25 @@ export default function ImageToPdfReact() {
   };
 
   const clearAll = () => {
-    images.forEach(item => URL.revokeObjectURL(item.previewUrl));
+    images.forEach(item => {
+      if (!item.isUrl) URL.revokeObjectURL(item.previewUrl);
+    });
     setImages([]);
     setSuccessMessage('');
+    setErrorMessage('');
   };
 
   const generatePdf = async () => {
-    if (images.length === 0) return;
+    if (images.length === 0) {
+      setErrorMessage('Please select at least one image to convert.');
+      return;
+    }
 
     setIsGenerating(true);
     setSuccessMessage('');
+    setErrorMessage('');
 
     try {
-      // Create jsPDF document
       const doc = new jsPDF({
         orientation: orientation,
         unit: 'mm',
@@ -115,15 +144,14 @@ export default function ImageToPdfReact() {
       for (let i = 0; i < images.length; i++) {
         const item = images[i];
         
-        // Load image onto Image object to get natural width/height
         const imgObj = await new Promise<HTMLImageElement>((resolve, reject) => {
           const img = new Image();
+          img.crossOrigin = 'Anonymous';
           img.onload = () => resolve(img);
-          img.onerror = reject;
+          img.onerror = () => reject(new Error(`Failed to load image: ${item.name}`));
           img.src = item.previewUrl;
         });
 
-        // Add page if not the first iteration
         if (i > 0) {
           if (pageSize === 'auto') {
             const isLandscape = imgObj.width > imgObj.height;
@@ -133,7 +161,6 @@ export default function ImageToPdfReact() {
           }
         }
 
-        // Calculate dimensions
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
 
@@ -155,7 +182,6 @@ export default function ImageToPdfReact() {
         const xPos = margin + (availWidth - drawWidth) / 2;
         const yPos = margin + (availHeight - drawHeight) / 2;
 
-        // Render onto canvas to handle webp/png transparency smoothly
         const canvas = document.createElement('canvas');
         canvas.width = imgObj.width;
         canvas.height = imgObj.height;
@@ -173,251 +199,279 @@ export default function ImageToPdfReact() {
       const filename = (outputFilename.trim() || 'converted_document') + '.pdf';
       doc.save(filename);
 
-      setSuccessMessage(`Successfully created "${filename}" (${images.length} page${images.length > 1 ? 's' : ''})!`);
+      setSuccessMessage(`Successfully converted ${images.length} image${images.length > 1 ? 's' : ''} into "${filename}"!`);
     } catch (err: any) {
       console.error('PDF generation error:', err);
-      alert('Error generating PDF. Please try again.');
+      setErrorMessage(err.message || 'Error generating PDF. Please check your image URLs or files.');
     } finally {
       setIsGenerating(false);
     }
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-neutral-900/40 dark:bg-black/40 backdrop-blur-xl border border-neutral-200/20 dark:border-white/5 rounded-4xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-      {/* Glow Accents */}
-      <div className="absolute -top-20 -left-20 w-48 h-48 bg-rose-500/10 rounded-full blur-[80px] pointer-events-none"></div>
-      <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+    <div className="w-full max-w-2xl mx-auto flex flex-col items-center py-6">
 
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-neutral-200/10 dark:border-white/5 pb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-rose-500/15 border border-rose-500/20 text-rose-400">
-            <FilePdf size={26} weight="bold" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">Image to PDF Converter</h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                100% Free & Local
+      {/* 1. Top Segmented Selector (Matching Reference Image) */}
+      <div className="inline-flex items-center bg-neutral-200/70 dark:bg-neutral-800/70 p-1 rounded-xl mb-6 shadow-sm border border-black/5 dark:border-white/10">
+        <button
+          onClick={() => setUploadTab('file')}
+          className={`px-5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
+            uploadTab === 'file'
+              ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-md'
+              : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+          }`}
+        >
+          File Upload
+        </button>
+        <button
+          onClick={() => setUploadTab('url')}
+          className={`px-5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
+            uploadTab === 'url'
+              ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-md'
+              : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+          }`}
+        >
+          URL Upload
+        </button>
+      </div>
+
+      {/* Hidden File Input */}
+      <input 
+        ref={fileInputRef} 
+        type="file" 
+        multiple 
+        accept="image/*" 
+        onChange={(e) => e.target.files && handleFiles(e.target.files)} 
+        className="hidden" 
+      />
+
+      {/* 2. Main Capsule Input Box with Dashed Border (Matching Reference Image) */}
+      <div className="w-full relative">
+        <div 
+          onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+          onDragLeave={() => setIsDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setIsDragOver(false);
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+              handleFiles(e.dataTransfer.files);
+            }
+          }}
+          className={`w-full border-2 border-dashed rounded-2xl p-2 sm:p-2.5 flex items-center justify-between transition-all duration-300 bg-white dark:bg-[#18181c] shadow-lg ${
+            isDragOver 
+              ? 'border-neutral-900 dark:border-white scale-[0.995]' 
+              : 'border-neutral-900 dark:border-neutral-400'
+          }`}
+        >
+          {uploadTab === 'file' ? (
+            /* File Upload Mode */
+            <div 
+              onClick={() => fileInputRef.current?.click()}
+              className="flex-1 flex items-center gap-3 px-3 py-2 cursor-pointer select-none group"
+            >
+              <Paperclip size={20} className="text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors" />
+              <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors truncate">
+                {images.length > 0 
+                  ? `${images.length} image${images.length > 1 ? 's' : ''} selected` 
+                  : 'Select your images'}
               </span>
             </div>
-            <p className="text-xs text-neutral-500 dark:text-white/40">Convert PNG, JPG & WEBP images into a clean PDF document directly in your browser</p>
-          </div>
+          ) : (
+            /* URL Upload Mode */
+            <div className="flex-1 flex items-center gap-3 px-3 py-2">
+              <LinkIcon size={20} className="text-neutral-600 dark:text-neutral-400 shrink-0" />
+              <input
+                type="url"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddUrl()}
+                placeholder="Paste image URL here..."
+                className="w-full bg-transparent border-none outline-none text-sm text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500"
+              />
+              {imageUrl.trim() && (
+                <button
+                  onClick={handleAddUrl}
+                  className="px-3 py-1 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs font-semibold rounded-md hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors cursor-pointer shrink-0"
+                >
+                  Add
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Right Action Button (Convert) */}
+          <button
+            onClick={generatePdf}
+            disabled={isGenerating || images.length === 0}
+            className="bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold text-xs sm:text-sm px-6 py-2.5 sm:py-3 rounded-xl hover:opacity-90 active:scale-95 transition-all cursor-pointer shadow-md disabled:opacity-40 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+          >
+            {isGenerating ? (
+              <>
+                <Spinner size={16} className="animate-spin" />
+                <span>Converting...</span>
+              </>
+            ) : (
+              <span>Convert</span>
+            )}
+          </button>
         </div>
+      </div>
+
+      {/* 3. Settings Toggle */}
+      <div className="w-full flex items-center justify-between mt-4 px-2">
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          className="flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+        >
+          <SlidersHorizontal size={14} />
+          <span>{showSettings ? 'Hide Options' : 'PDF Options (A4, Margins, Name)'}</span>
+        </button>
 
         {images.length > 0 && (
           <button
             onClick={clearAll}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-all cursor-pointer"
+            className="flex items-center gap-1 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
           >
-            <Trash size={14} />
-            <span>Clear All</span>
+            <Trash size={13} />
+            <span>Clear ({images.length})</span>
           </button>
         )}
       </div>
 
-      {/* Drag & Drop Upload Zone */}
-      <div
-        onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
-        onDragLeave={() => setIsDragOver(false)}
-        onDrop={handleDrop}
-        onClick={() => fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 ${
-          isDragOver 
-            ? 'border-rose-400 bg-rose-500/10 scale-[0.99]' 
-            : 'border-white/10 hover:border-white/20 bg-neutral-950/40 hover:bg-neutral-900/40'
-        }`}
-      >
-        <input 
-          ref={fileInputRef} 
-          type="file" 
-          multiple 
-          accept="image/*" 
-          onChange={(e) => e.target.files && handleFiles(e.target.files)} 
-          className="hidden" 
-        />
-        <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
-          <UploadSimple size={28} weight="bold" />
-        </div>
-        <h3 className="text-base font-bold text-white mb-1">
-          Drop images here or <span className="text-rose-400 underline underline-offset-4">browse</span>
-        </h3>
-        <p className="text-xs text-white/40 max-w-sm mx-auto">
-          Supports PNG, JPG, JPEG, WEBP files. Multiple images will be merged into a single multi-page PDF.
-        </p>
-      </div>
-
-      {/* Uploaded Images Grid */}
-      {images.length > 0 && (
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xs font-bold text-white/70 uppercase tracking-wider flex items-center gap-2">
-              <ImageIcon size={16} className="text-rose-400" />
-              <span>Selected Images ({images.length} page{images.length > 1 ? 's' : ''})</span>
-            </h3>
-            <span className="text-[11px] text-white/40">Drag or reorder pages below</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {images.map((item, idx) => (
-              <div 
-                key={item.id} 
-                className="group relative bg-neutral-950/60 border border-white/10 rounded-2xl p-2.5 flex flex-col justify-between hover:border-rose-500/50 transition-all duration-300 shadow-md"
-              >
-                {/* Page Number Badge */}
-                <div className="absolute top-4 left-4 z-10 w-6 h-6 rounded-full bg-black/80 backdrop-blur-md text-white text-[11px] font-bold flex items-center justify-center border border-white/20">
-                  {idx + 1}
-                </div>
-
-                {/* Remove Button */}
-                <button
-                  onClick={(e) => { e.stopPropagation(); removeImage(item.id); }}
-                  className="absolute top-4 right-4 z-10 w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg hover:scale-110 cursor-pointer"
-                  title="Remove image"
-                >
-                  <Trash size={12} weight="bold" />
-                </button>
-
-                {/* Thumbnail Preview */}
-                <div className="w-full h-32 rounded-xl overflow-hidden bg-black/40 flex items-center justify-center mb-2">
-                  <img src={item.previewUrl} alt={item.name} className="max-w-full max-h-full object-contain" />
-                </div>
-
-                {/* Info & Order Controls */}
-                <div className="flex items-center justify-between text-[11px] text-white/60 pt-1 border-t border-white/5">
-                  <span className="truncate max-w-[90px]" title={item.name}>{item.name}</span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      disabled={idx === 0}
-                      onClick={() => moveImage(idx, 'left')}
-                      className="p-1 hover:text-white disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
-                      title="Move left"
-                    >
-                      <ArrowLeft size={12} />
-                    </button>
-                    <button
-                      disabled={idx === images.length - 1}
-                      onClick={() => moveImage(idx, 'right')}
-                      className="p-1 hover:text-white disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
-                      title="Move right"
-                    >
-                      <ArrowRight size={12} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* Add More Card */}
-            <div 
-              onClick={() => fileInputRef.current?.click()}
-              className="border-2 border-dashed border-white/10 hover:border-rose-500/40 rounded-2xl h-44 flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/5 hover:bg-rose-500/5 transition-all text-white/40 hover:text-rose-400"
-            >
-              <Plus size={24} />
-              <span className="text-xs font-semibold">Add More</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* PDF Settings */}
-      {images.length > 0 && (
-        <div className="mt-8 p-6 rounded-3xl bg-neutral-950/60 border border-white/10 backdrop-blur-md">
-          <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <SlidersHorizontal size={16} />
-            <span>PDF Configuration</span>
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      {/* 4. Expandable PDF Settings Drawer */}
+      {showSettings && (
+        <div className="w-full mt-4 p-5 rounded-2xl bg-white dark:bg-[#18181c] border border-neutral-200 dark:border-neutral-800 shadow-md">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-[11px] font-bold text-white/50 uppercase tracking-wider mb-2">Page Size</label>
+              <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">Page Size</label>
               <select
                 value={pageSize}
                 onChange={(e) => setPageSize(e.target.value as any)}
-                className="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500/50 cursor-pointer"
+                className="w-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none cursor-pointer"
               >
-                <option value="a4">Standard A4 (210 x 297 mm)</option>
-                <option value="letter">US Letter (8.5 x 11 in)</option>
+                <option value="a4">A4 (210 x 297 mm)</option>
+                <option value="letter">Letter (8.5 x 11 in)</option>
                 <option value="auto">Auto (Match Image Aspect)</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-white/50 uppercase tracking-wider mb-2">Orientation</label>
+              <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">Orientation</label>
               <select
                 value={orientation}
                 onChange={(e) => setOrientation(e.target.value as any)}
-                className="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500/50 cursor-pointer"
+                className="w-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none cursor-pointer"
               >
-                <option value="portrait">Portrait (Vertical)</option>
-                <option value="landscape">Landscape (Horizontal)</option>
+                <option value="portrait">Portrait</option>
+                <option value="landscape">Landscape</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-white/50 uppercase tracking-wider mb-2">Margins</label>
+              <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">Margins</label>
               <select
                 value={margin}
                 onChange={(e) => setMargin(Number(e.target.value))}
-                className="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500/50 cursor-pointer"
+                className="w-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none cursor-pointer"
               >
-                <option value={0}>No Margin (Edge-to-Edge)</option>
+                <option value={0}>No Margin</option>
                 <option value={10}>Small (10 mm)</option>
                 <option value={20}>Normal (20 mm)</option>
               </select>
             </div>
           </div>
 
-          <div className="mt-5 pt-5 border-t border-white/5">
-            <label className="block text-[11px] font-bold text-white/50 uppercase tracking-wider mb-2">Output PDF Name</label>
-            <div className="flex items-center gap-2 max-w-md">
-              <input
-                type="text"
-                value={outputFilename}
-                onChange={(e) => setOutputFilename(e.target.value)}
-                placeholder="my_converted_document"
-                className="flex-1 bg-neutral-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500/50 font-mono"
-              />
-              <span className="text-xs text-white/40 font-mono font-bold">.pdf</span>
-            </div>
+          <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-2">
+            <label className="text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider shrink-0">PDF Filename:</label>
+            <input
+              type="text"
+              value={outputFilename}
+              onChange={(e) => setOutputFilename(e.target.value)}
+              placeholder="my_document"
+              className="flex-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg px-3 py-1.5 text-xs text-neutral-900 dark:text-white outline-none"
+              style={{ fontFamily: "'Inconsolata', monospace" }}
+            />
+            <span className="text-xs text-neutral-400" style={{ fontFamily: "'Inconsolata', monospace" }}>.pdf</span>
           </div>
         </div>
       )}
 
-      {/* Convert & Download Action */}
+      {/* 5. Selected Images Preview & Reorder Bar */}
       {images.length > 0 && (
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
-          <div className="text-xs text-white/50">
-            Ready to compile <span className="text-white font-bold">{images.length} image{images.length > 1 ? 's' : ''}</span> into PDF
+        <div className="w-full mt-6">
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-xs font-bold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider flex items-center gap-1.5">
+              <ImageIcon size={14} />
+              <span>Selected Images ({images.length})</span>
+            </h4>
+            <span className="text-[11px] text-neutral-400">Page Order</span>
           </div>
 
-          <button
-            onClick={generatePdf}
-            disabled={isGenerating}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-rose-500 to-indigo-600 hover:from-rose-400 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-xl hover:shadow-2xl transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isGenerating ? (
-              <>
-                <Spinner size={18} className="animate-spin" />
-                <span>Compiling PDF...</span>
-              </>
-            ) : (
-              <>
-                <DownloadSimple size={18} weight="bold" />
-                <span>Convert & Download PDF</span>
-              </>
-            )}
-          </button>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {images.map((item, idx) => (
+              <div 
+                key={item.id}
+                className="group relative bg-white dark:bg-[#18181c] border border-neutral-200 dark:border-neutral-800 rounded-xl p-2 flex flex-col justify-between shadow-sm hover:shadow-md transition-all"
+              >
+                {/* Page Badge */}
+                <div className="absolute top-3 left-3 z-10 w-5 h-5 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center">
+                  {idx + 1}
+                </div>
+
+                {/* Trash Delete */}
+                <button
+                  onClick={() => removeImage(item.id)}
+                  className="absolute top-3 right-3 z-10 w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow"
+                >
+                  <Trash size={10} />
+                </button>
+
+                {/* Thumbnail Image */}
+                <div className="w-full h-24 rounded-lg bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center overflow-hidden mb-1.5">
+                  <img src={item.previewUrl} alt={item.name} className="max-w-full max-h-full object-contain" />
+                </div>
+
+                {/* Controls */}
+                <div className="flex items-center justify-between text-[10px] text-neutral-500 dark:text-neutral-400 pt-1 border-t border-neutral-100 dark:border-neutral-800">
+                  <span className="truncate max-w-[80px]" title={item.name}>{item.name}</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      disabled={idx === 0}
+                      onClick={() => moveImage(idx, 'left')}
+                      className="hover:text-neutral-900 dark:hover:text-white disabled:opacity-20 cursor-pointer"
+                    >
+                      <ArrowLeft size={11} />
+                    </button>
+                    <button
+                      disabled={idx === images.length - 1}
+                      onClick={() => moveImage(idx, 'right')}
+                      className="hover:text-neutral-900 dark:hover:text-white disabled:opacity-20 cursor-pointer"
+                    >
+                      <ArrowRight size={11} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Success Notification */}
+      {/* 6. Notifications */}
       {successMessage && (
-        <div className="mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center gap-2.5">
-          <CheckCircle size={18} className="text-emerald-400 shrink-0" />
+        <div className="w-full mt-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-2">
+          <CheckCircle size={16} className="text-emerald-500 shrink-0" />
           <span>{successMessage}</span>
         </div>
       )}
+
+      {errorMessage && (
+        <div className="w-full mt-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-2">
+          <Trash size={16} className="text-rose-500 shrink-0" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
     </div>
   );
 }
