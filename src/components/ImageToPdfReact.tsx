@@ -7,7 +7,6 @@ import {
   ArrowRight, 
   SlidersHorizontal,
   CheckCircle,
-  Plus,
   Spinner,
   Image as ImageIcon
 } from '@phosphor-icons/react';
@@ -211,14 +210,14 @@ export default function ImageToPdfReact() {
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col items-center py-6">
 
-      {/* 1. Top Segmented Selector (Matching Reference Image) */}
-      <div className="inline-flex items-center bg-neutral-200/70 dark:bg-neutral-800/70 p-1 rounded-xl mb-6 shadow-sm border border-black/5 dark:border-white/10">
+      {/* 1. Top Segmented Selector (Theme Tokens for Light/Dark Mode) */}
+      <div className="inline-flex items-center bg-brand-gray p-1 rounded-xl mb-6 shadow-sm border border-black/10 dark:border-white/10">
         <button
           onClick={() => setUploadTab('file')}
           className={`px-5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
             uploadTab === 'file'
-              ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-md'
-              : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              ? 'bg-brand-charcoal text-white shadow-md'
+              : 'text-white/60 hover:text-white'
           }`}
         >
           File Upload
@@ -227,8 +226,8 @@ export default function ImageToPdfReact() {
           onClick={() => setUploadTab('url')}
           className={`px-5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
             uploadTab === 'url'
-              ? 'bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white shadow-md'
-              : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              ? 'bg-brand-charcoal text-white shadow-md'
+              : 'text-white/60 hover:text-white'
           }`}
         >
           URL Upload
@@ -245,7 +244,7 @@ export default function ImageToPdfReact() {
         className="hidden" 
       />
 
-      {/* 2. Main Capsule Input Box with Dashed Border (Matching Reference Image) */}
+      {/* 2. Main Capsule Input Box with Dashed Border */}
       <div className="w-full relative">
         <div 
           onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
@@ -257,10 +256,10 @@ export default function ImageToPdfReact() {
               handleFiles(e.dataTransfer.files);
             }
           }}
-          className={`w-full border-2 border-dashed rounded-2xl p-2 sm:p-2.5 flex items-center justify-between transition-all duration-300 bg-white dark:bg-[#18181c] shadow-lg ${
+          className={`w-full border-2 border-dashed rounded-2xl p-2 sm:p-2.5 flex items-center justify-between transition-all duration-300 bg-brand-charcoal shadow-lg border-black/30 dark:border-white/30 ${
             isDragOver 
-              ? 'border-neutral-900 dark:border-white scale-[0.995]' 
-              : 'border-neutral-900 dark:border-neutral-400'
+              ? 'scale-[0.995]' 
+              : ''
           }`}
         >
           {uploadTab === 'file' ? (
@@ -269,8 +268,8 @@ export default function ImageToPdfReact() {
               onClick={() => fileInputRef.current?.click()}
               className="flex-1 flex items-center gap-3 px-3 py-2 cursor-pointer select-none group"
             >
-              <Paperclip size={20} className="text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors" />
-              <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-900 dark:group-hover:text-white transition-colors truncate">
+              <Paperclip size={20} className="text-white opacity-70 group-hover:opacity-100 transition-opacity" />
+              <span className="text-sm font-medium text-white opacity-70 group-hover:opacity-100 transition-opacity truncate">
                 {images.length > 0 
                   ? `${images.length} image${images.length > 1 ? 's' : ''} selected` 
                   : 'Select your images'}
@@ -279,19 +278,19 @@ export default function ImageToPdfReact() {
           ) : (
             /* URL Upload Mode */
             <div className="flex-1 flex items-center gap-3 px-3 py-2">
-              <LinkIcon size={20} className="text-neutral-600 dark:text-neutral-400 shrink-0" />
+              <LinkIcon size={20} className="text-white opacity-70 shrink-0" />
               <input
                 type="url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddUrl()}
                 placeholder="Paste image URL here..."
-                className="w-full bg-transparent border-none outline-none text-sm text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500"
+                className="w-full bg-transparent border-none outline-none text-sm text-white placeholder-white/40"
               />
               {imageUrl.trim() && (
                 <button
                   onClick={handleAddUrl}
-                  className="px-3 py-1 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-white text-xs font-semibold rounded-md hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors cursor-pointer shrink-0"
+                  className="px-3 py-1 bg-brand-gray text-white text-xs font-semibold rounded-md hover:opacity-90 transition-opacity cursor-pointer shrink-0"
                 >
                   Add
                 </button>
@@ -303,7 +302,7 @@ export default function ImageToPdfReact() {
           <button
             onClick={generatePdf}
             disabled={isGenerating || images.length === 0}
-            className="bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold text-xs sm:text-sm px-6 py-2.5 sm:py-3 rounded-xl hover:opacity-90 active:scale-95 transition-all cursor-pointer shadow-md disabled:opacity-40 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
+            className="bg-white text-black font-bold text-xs sm:text-sm px-6 py-2.5 sm:py-3 rounded-xl hover:opacity-90 active:scale-95 transition-all cursor-pointer shadow-md disabled:opacity-40 disabled:cursor-not-allowed shrink-0 flex items-center gap-2"
           >
             {isGenerating ? (
               <>
@@ -321,7 +320,7 @@ export default function ImageToPdfReact() {
       <div className="w-full flex items-center justify-between mt-4 px-2">
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className="flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white transition-colors cursor-pointer"
         >
           <SlidersHorizontal size={14} />
           <span>{showSettings ? 'Hide Options' : 'PDF Options (A4, Margins, Name)'}</span>
@@ -330,7 +329,7 @@ export default function ImageToPdfReact() {
         {images.length > 0 && (
           <button
             onClick={clearAll}
-            className="flex items-center gap-1 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
+            className="flex items-center gap-1 text-xs font-semibold text-rose-500 hover:underline cursor-pointer"
           >
             <Trash size={13} />
             <span>Clear ({images.length})</span>
@@ -340,14 +339,14 @@ export default function ImageToPdfReact() {
 
       {/* 4. Expandable PDF Settings Drawer */}
       {showSettings && (
-        <div className="w-full mt-4 p-5 rounded-2xl bg-white dark:bg-[#18181c] border border-neutral-200 dark:border-neutral-800 shadow-md">
+        <div className="w-full mt-4 p-5 rounded-2xl bg-brand-charcoal border border-black/10 dark:border-white/10 shadow-md text-white">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">Page Size</label>
+              <label className="block text-[11px] font-bold text-white/70 uppercase tracking-wider mb-1.5">Page Size</label>
               <select
                 value={pageSize}
                 onChange={(e) => setPageSize(e.target.value as any)}
-                className="w-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none cursor-pointer"
+                className="w-full bg-brand-gray border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none cursor-pointer"
               >
                 <option value="a4">A4 (210 x 297 mm)</option>
                 <option value="letter">Letter (8.5 x 11 in)</option>
@@ -356,11 +355,11 @@ export default function ImageToPdfReact() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">Orientation</label>
+              <label className="block text-[11px] font-bold text-white/70 uppercase tracking-wider mb-1.5">Orientation</label>
               <select
                 value={orientation}
                 onChange={(e) => setOrientation(e.target.value as any)}
-                className="w-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none cursor-pointer"
+                className="w-full bg-brand-gray border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none cursor-pointer"
               >
                 <option value="portrait">Portrait</option>
                 <option value="landscape">Landscape</option>
@@ -368,11 +367,11 @@ export default function ImageToPdfReact() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1.5">Margins</label>
+              <label className="block text-[11px] font-bold text-white/70 uppercase tracking-wider mb-1.5">Margins</label>
               <select
                 value={margin}
                 onChange={(e) => setMargin(Number(e.target.value))}
-                className="w-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-none cursor-pointer"
+                className="w-full bg-brand-gray border border-black/10 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none cursor-pointer"
               >
                 <option value={0}>No Margin</option>
                 <option value={10}>Small (10 mm)</option>
@@ -381,17 +380,17 @@ export default function ImageToPdfReact() {
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex items-center gap-2">
-            <label className="text-[11px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider shrink-0">PDF Filename:</label>
+          <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex items-center gap-2">
+            <label className="text-[11px] font-bold text-white/70 uppercase tracking-wider shrink-0">PDF Filename:</label>
             <input
               type="text"
               value={outputFilename}
               onChange={(e) => setOutputFilename(e.target.value)}
               placeholder="my_document"
-              className="flex-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg px-3 py-1.5 text-xs text-neutral-900 dark:text-white outline-none"
+              className="flex-1 bg-brand-gray border border-black/10 dark:border-white/10 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
               style={{ fontFamily: "'Inconsolata', monospace" }}
             />
-            <span className="text-xs text-neutral-400" style={{ fontFamily: "'Inconsolata', monospace" }}>.pdf</span>
+            <span className="text-xs text-white/60" style={{ fontFamily: "'Inconsolata', monospace" }}>.pdf</span>
           </div>
         </div>
       )}
@@ -400,21 +399,21 @@ export default function ImageToPdfReact() {
       {images.length > 0 && (
         <div className="w-full mt-6">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-xs font-bold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider flex items-center gap-1.5">
+            <h4 className="text-xs font-bold text-white/80 uppercase tracking-wider flex items-center gap-1.5">
               <ImageIcon size={14} />
               <span>Selected Images ({images.length})</span>
             </h4>
-            <span className="text-[11px] text-neutral-400">Page Order</span>
+            <span className="text-[11px] text-white/50">Page Order</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {images.map((item, idx) => (
               <div 
                 key={item.id}
-                className="group relative bg-white dark:bg-[#18181c] border border-neutral-200 dark:border-neutral-800 rounded-xl p-2 flex flex-col justify-between shadow-sm hover:shadow-md transition-all"
+                className="group relative bg-brand-charcoal border border-black/10 dark:border-white/10 rounded-xl p-2 flex flex-col justify-between shadow-sm hover:shadow-md transition-all text-white"
               >
                 {/* Page Badge */}
-                <div className="absolute top-3 left-3 z-10 w-5 h-5 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center">
+                <div className="absolute top-3 left-3 z-10 w-5 h-5 rounded-full bg-white text-black text-[10px] font-bold flex items-center justify-center">
                   {idx + 1}
                 </div>
 
@@ -427,25 +426,25 @@ export default function ImageToPdfReact() {
                 </button>
 
                 {/* Thumbnail Image */}
-                <div className="w-full h-24 rounded-lg bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center overflow-hidden mb-1.5">
+                <div className="w-full h-24 rounded-lg bg-brand-gray flex items-center justify-center overflow-hidden mb-1.5">
                   <img src={item.previewUrl} alt={item.name} className="max-w-full max-h-full object-contain" />
                 </div>
 
                 {/* Controls */}
-                <div className="flex items-center justify-between text-[10px] text-neutral-500 dark:text-neutral-400 pt-1 border-t border-neutral-100 dark:border-neutral-800">
+                <div className="flex items-center justify-between text-[10px] text-white/70 pt-1 border-t border-black/5 dark:border-white/5">
                   <span className="truncate max-w-[80px]" title={item.name}>{item.name}</span>
                   <div className="flex items-center gap-1">
                     <button
                       disabled={idx === 0}
                       onClick={() => moveImage(idx, 'left')}
-                      className="hover:text-neutral-900 dark:hover:text-white disabled:opacity-20 cursor-pointer"
+                      className="hover:text-white disabled:opacity-20 cursor-pointer"
                     >
                       <ArrowLeft size={11} />
                     </button>
                     <button
                       disabled={idx === images.length - 1}
                       onClick={() => moveImage(idx, 'right')}
-                      className="hover:text-neutral-900 dark:hover:text-white disabled:opacity-20 cursor-pointer"
+                      className="hover:text-white disabled:opacity-20 cursor-pointer"
                     >
                       <ArrowRight size={11} />
                     </button>
@@ -459,14 +458,14 @@ export default function ImageToPdfReact() {
 
       {/* 6. Notifications */}
       {successMessage && (
-        <div className="w-full mt-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-2">
+        <div className="w-full mt-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-300 text-xs font-semibold flex items-center gap-2">
           <CheckCircle size={16} className="text-emerald-500 shrink-0" />
           <span>{successMessage}</span>
         </div>
       )}
 
       {errorMessage && (
-        <div className="w-full mt-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-2">
+        <div className="w-full mt-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-300 text-xs font-semibold flex items-center gap-2">
           <Trash size={16} className="text-rose-500 shrink-0" />
           <span>{errorMessage}</span>
         </div>
