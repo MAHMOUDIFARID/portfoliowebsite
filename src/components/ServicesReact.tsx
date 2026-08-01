@@ -29,8 +29,6 @@ interface ServiceItem {
 }
 
 export default function ServicesReact() {
-  const [activeTab, setActiveTab] = useState<string>('all');
-
   const services: ServiceItem[] = [
     {
       id: 'fullstack',
@@ -178,63 +176,25 @@ export default function ServicesReact() {
             High-Performance <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Web Solutions</span> Tailored to Scale.
           </h1>
 
-          <p className="text-base sm:text-lg text-neutral-600 dark:text-white/70 font-light leading-relaxed mb-8">
+          <p className="text-base sm:text-lg text-neutral-600 dark:text-white/70 font-light leading-relaxed">
             I build clean, reliable web applications and custom websites. Whether you need a full-stack web app, a CMS portal, or performance optimization, I handle the engineering from code to deployment.
           </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a 
-              href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 font-bold text-xs sm:text-sm uppercase tracking-wider hover:opacity-90 active:scale-95 transition-all shadow-xl cursor-pointer"
-            >
-              <span>Discuss Your Project</span>
-              <ArrowRight size={16} weight="bold" />
-            </a>
-
-            <a 
-              href="#services-list"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10 text-neutral-900 dark:text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-neutral-200 dark:hover:bg-white/10 transition-all cursor-pointer"
-            >
-              <span>Explore Services</span>
-            </a>
-          </div>
         </div>
 
         {/* Services List Section */}
         <div id="services-list" className="mb-24">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-neutral-200 dark:border-white/10 pb-6">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white tracking-tight mb-2">
-                What I Provide
-              </h2>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400 font-medium">
-                Comprehensive web development services designed for performance, security, and growth.
-              </p>
-            </div>
-
-            {/* Filter Tabs */}
-            <div className="flex flex-wrap gap-2">
-              {['all', 'fullstack', 'cms-ecomm', 'api-ai', 'performance-seo'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer capitalize ${
-                    activeTab === tab
-                      ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-md'
-                      : 'bg-neutral-100 dark:bg-white/5 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
-                  }`}
-                >
-                  {tab === 'cms-ecomm' ? 'CMS & E-Commerce' : tab === 'api-ai' ? 'APIs & AI' : tab === 'performance-seo' ? 'Performance' : tab}
-                </button>
-              ))}
-            </div>
+          <div className="text-center max-w-2xl mx-auto mb-12 border-b border-neutral-200 dark:border-white/10 pb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white tracking-tight mb-2">
+              What I Provide
+            </h2>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 font-medium">
+              Comprehensive web development services designed for performance, security, and growth.
+            </p>
           </div>
 
           {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services
-              .filter(s => activeTab === 'all' || s.id === activeTab)
-              .map((service) => {
+            {services.map((service) => {
                 const IconComponent = service.icon;
                 return (
                   <div
