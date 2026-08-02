@@ -37,30 +37,24 @@ $to = 'contact@mahmoudi.ma';
 // Subject is EXACTLY what the user typed in the contact form
 $subject = $subjectInput;
 
-// Simple, Clean Minimalist HTML Email Body with Manrope Font
+// Ultra-Simple HTML Email Body with Verdana Font
 $htmlContent = '
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body style="margin: 0; padding: 0; background-color: #ffffff; font-family: \'Manrope\', -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif; color: #111827; line-height: 1.7; font-size: 15px;">
-  <div style="max-width: 680px; margin: 0 auto; padding: 40px 24px;">
+<body style="margin: 0; padding: 24px; background-color: #ffffff; font-family: Verdana, Geneva, sans-serif; color: #222222; font-size: 14px; line-height: 1.6;">
+  <div style="max-width: 650px;">
     
-    <p style="margin-top: 0; margin-bottom: 24px; font-size: 16px; font-weight: 600; color: #111827;">
-      Good day Farid,
-    </p>
+    <div style="white-space: pre-wrap; margin-bottom: 24px; color: #222222; font-size: 14px; line-height: 1.6;">' . nl2br(htmlspecialchars($message)) . '</div>
 
-    <div style="margin-bottom: 32px; color: #1f2937; font-weight: 400; white-space: pre-wrap; font-size: 15px; line-height: 1.7;">' . nl2br(htmlspecialchars($message)) . '</div>
+    <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 24px 0 16px 0;">
 
-    <div style="border-top: 1px solid #e5e7eb; padding-top: 24px; margin-top: 40px; font-size: 14px; color: #4b5563;">
-      <p style="margin: 0 0 6px 0; font-weight: 600; color: #111827;">Sender Details:</p>
+    <div style="font-size: 13px; color: #555555; line-height: 1.6;">
       <p style="margin: 0 0 4px 0;"><strong>Name:</strong> ' . htmlspecialchars($name) . '</p>
-      <p style="margin: 0;"><strong>Email:</strong> <a href="mailto:' . htmlspecialchars($email) . '" style="color: #2563eb; text-decoration: none;">' . htmlspecialchars($email) . '</a></p>
+      <p style="margin: 0;"><strong>Email:</strong> <a href="mailto:' . htmlspecialchars($email) . '" style="color: #0066cc; text-decoration: none;">' . htmlspecialchars($email) . '</a></p>
     </div>
 
   </div>
@@ -68,7 +62,7 @@ $htmlContent = '
 </html>
 ';
 
-// Email Headers (Simple & Clean with "MAHMOUDI")
+// Email Headers
 $headers = array();
 $headers[] = "MIME-Version: 1.0";
 $headers[] = "Content-type: text/html; charset=UTF-8";
