@@ -50,7 +50,7 @@ const marqueeSkills2 = [...skills.slice(6), ...skills.slice(0, 6), ...skills.sli
           <img 
             src={tech.logo} 
             alt={tech.name} 
-            class="w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300"
+            class={`w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300 ${tech.name === "GitHub" ? "dark:invert" : ""}`}
             loading="lazy"
           />
           <span class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-white tracking-tight whitespace-nowrap">
@@ -67,7 +67,7 @@ const marqueeSkills2 = [...skills.slice(6), ...skills.slice(0, 6), ...skills.sli
           <img 
             src={tech.logo} 
             alt={tech.name} 
-            class="w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300"
+            class={`w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300 ${tech.name === "GitHub" ? "dark:invert" : ""}`}
             loading="lazy"
           />
           <span class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-white tracking-tight whitespace-nowrap">
