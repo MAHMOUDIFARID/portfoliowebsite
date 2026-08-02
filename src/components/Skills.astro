@@ -3,28 +3,31 @@ const skills = [
   { name: "Python", logo: "/logos/skills/python.svg" },
   { name: "SQL", logo: "/logos/skills/sql.svg" },
   { name: "PostgreSQL", logo: "/logos/skills/postgresql.svg" },
-  { name: "Google Cloud", logo: "/logos/skills/google-cloud.svg" },
-  { name: "Apache Spark", logo: "/logos/skills/apache-spark.svg" },
-  { name: "Docker", logo: "/logos/skills/docker.svg" },
+  { name: "Big Data (Spark)", logo: "/logos/skills/apache-spark.svg" },
+  { name: "Cloud (GCP)", logo: "/logos/skills/google-cloud.svg" },
+  { name: "Pandas", logo: "/logos/skills/pandas.svg" },
+  { name: "Scikit-Learn", logo: "/logos/skills/scikit-learn.svg" },
   { name: "Git", logo: "/logos/skills/git.svg" },
   { name: "GitHub", logo: "/logos/skills/github.svg" },
+  { name: "Docker", logo: "/logos/skills/docker.svg" },
   { name: "Node.js", logo: "/logos/skills/nodejs.svg" },
+  { name: "FastAPI", logo: "/logos/skills/fastapi.svg" },
+  { name: "Supabase", logo: "/logos/skills/supabase.svg" },
+  { name: "Airtable", logo: "/logos/skills/airtable.svg" },
+  { name: "Make", logo: "/logos/skills/make.svg" },
+  { name: "Agile (Jira)", logo: "/logos/skills/jira.svg" },
   { name: "React", logo: "/logos/skills/react.svg" },
   { name: "Next.js", logo: "/logos/skills/nextjs.svg" },
   { name: "Astro", logo: "/logos/skills/astro.svg" },
   { name: "TypeScript", logo: "/logos/skills/typescript.svg" },
   { name: "JavaScript", logo: "/logos/skills/javascript.svg" },
   { name: "Tailwind CSS", logo: "/logos/skills/tailwindcss.svg" },
-  { name: "FastAPI", logo: "/logos/skills/fastapi.svg" },
-  { name: "Supabase", logo: "/logos/skills/supabase.svg" },
-  { name: "Pandas", logo: "/logos/skills/pandas.svg" },
-  { name: "Scikit-Learn", logo: "/logos/skills/scikit-learn.svg" },
   { name: "Figma", logo: "/logos/skills/figma.svg" }
 ];
 
 // Duplicate skills array to ensure seamless 100% infinite marquee loop
 const marqueeSkills1 = [...skills, ...skills];
-const marqueeSkills2 = [...skills.slice(6), ...skills.slice(0, 6), ...skills.slice(6), ...skills.slice(0, 6)];
+const marqueeSkills2 = [...skills.slice(8), ...skills.slice(0, 8), ...skills.slice(8), ...skills.slice(0, 8)];
 ---
 
 <section id="skills" class="relative py-24 md:py-32 bg-transparent overflow-hidden">
