@@ -1,13 +1,10 @@
 ---
 const skills = [
   { name: "Python", logo: "/logos/skills/python.svg" },
-  { name: "SQL", logo: "/logos/skills/sql.svg" },
   { name: "PostgreSQL", logo: "/logos/skills/postgresql.svg" },
   { name: "Big Data (Spark)", logo: "/logos/skills/apache-spark.svg" },
   { name: "AWS", logo: "/aws-color.svg" },
-  { name: "Pandas", logo: "/logos/skills/pandas.svg" },
   { name: "Scikit-Learn", logo: "/logos/skills/scikit-learn.svg" },
-  { name: "Git", logo: "/logos/skills/git.svg" },
   { name: "GitHub", logo: "/logos/skills/github.svg" },
   { name: "Docker", logo: "/logos/skills/docker.svg" },
   { name: "Node.js", logo: "/logos/skills/nodejs.svg" },
@@ -20,14 +17,13 @@ const skills = [
   { name: "Next.js", logo: "/logos/skills/nextjs.svg" },
   { name: "Astro", logo: "/logos/skills/astro.svg" },
   { name: "TypeScript", logo: "/logos/skills/typescript.svg" },
-  { name: "JavaScript", logo: "/logos/skills/javascript.svg" },
   { name: "Tailwind CSS", logo: "/logos/skills/tailwindcss.svg" },
   { name: "Figma", logo: "/logos/skills/figma.svg" }
 ];
 
 // Duplicate skills array to ensure seamless 100% infinite marquee loop
 const marqueeSkills1 = [...skills, ...skills];
-const marqueeSkills2 = [...skills.slice(8), ...skills.slice(0, 8), ...skills.slice(8), ...skills.slice(0, 8)];
+const marqueeSkills2 = [...skills.slice(6), ...skills.slice(0, 6), ...skills.slice(6), ...skills.slice(0, 6)];
 ---
 
 <section id="skills" class="relative py-24 md:py-32 bg-transparent overflow-hidden">
