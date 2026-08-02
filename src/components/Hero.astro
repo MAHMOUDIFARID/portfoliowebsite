@@ -1,39 +1,29 @@
 ---
 ---
-<section id="profile" class="relative min-h-screen w-full flex flex-col items-center justify-start text-center px-6 pt-16 sm:pt-20 md:pt-20 overflow-hidden">
+<section id="profile" class="relative w-full flex flex-col items-center justify-center text-center px-6 pt-32 pb-20 sm:pt-40 sm:pb-28 md:pt-44 md:pb-32 overflow-hidden">
   
-  <div class="relative z-10 w-full max-w-[1500px] mx-auto flex flex-col items-center">
-    <div class="relative w-full min-h-[calc(100vh-5rem)] flex items-start justify-center">
-      <!-- Removed large FARID title -->
+  <div class="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
+    
+    {/* Hero Heading matching reference image */}
+    <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-neutral-900 dark:text-white leading-[1.15] mb-8 font-sans">
+      Hey, I'm Farid 👋<br />
+      I engineer web applications, automated workflows, & AI solutions that feel <span class="italic font-light text-neutral-500 dark:text-neutral-400 font-serif">simple.</span>
+    </h1>
 
-      <div class="reveal-up absolute right-0 top-[55%] z-30 hidden text-left sm:right-4 sm:block lg:right-8" style="animation-delay: 0.25s;">
-        <p class="mb-2 text-2xl font-medium leading-tight tracking-tight text-white/85 lg:text-3xl">
-          Do you have time?
-        </p>
-        <a href="/motivation" class="motivation-link group inline-flex items-center text-[15px] font-normal leading-none text-white/55 transition-colors duration-300 hover:text-white lg:text-base">
-          <span class="read-this-link">Read this please</span>
-        </a>
-      </div>
+    {/* Hero Subtitle */}
+    <p class="text-sm sm:text-base md:text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl leading-relaxed font-normal">
+      Holding a Master's degree in Big Data & Cloud Computing, I combine full-stack web engineering, automated business workflows, and smart AI integrations to build fast, reliable digital products.
+    </p>
 
-      <div class="reveal-up absolute bottom-24 left-1/2 z-30 -translate-x-1/2 text-center sm:hidden" style="animation-delay: 0.25s;">
-        <p class="mb-2 whitespace-nowrap text-xl font-medium leading-tight tracking-tight text-white/85">
-          Do you have time?
-        </p>
-        <a href="/motivation" class="motivation-link group inline-flex items-center whitespace-nowrap text-[15px] font-normal leading-none text-white/55 transition-colors duration-300 hover:text-white">
-          <span class="read-this-link">Read this please</span>
-        </a>
-      </div>
-      <div class="reveal-up relative z-20 h-[calc(100vh-2.5rem)] min-h-[760px] max-h-[1080px] w-[min(142vw,1750px)]" style="animation-delay: 0.2s;">
-        <img src="/mee.png" alt="Farid Mahmoudi" class="w-full h-full object-contain object-top drop-shadow-[0_36px_60px_rgba(0,0,0,0.55)]" style="-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); mask-image: linear-gradient(to bottom, black 80%, transparent 100%);" />
-      </div>
+    {/* Optional motivation link */}
+    <div class="pt-8">
+      <a 
+        href="/motivation" 
+        class="inline-flex items-center gap-2 text-xs sm:text-sm text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white underline underline-offset-4 decoration-neutral-400 hover:decoration-neutral-900 dark:hover:decoration-white transition-colors"
+      >
+        <span>Do you have time? Read this please</span>
+      </a>
     </div>
+
   </div>
 </section>
-
-<style>
-  .read-this-link {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    letter-spacing: 0;
-  }
-</style>

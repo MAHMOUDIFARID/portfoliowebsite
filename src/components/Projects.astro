@@ -1,19 +1,12 @@
 ---
 const projects = [
   {
-    title: "Bdarija Translator Extension",
-    description: "A production-grade, DOM-preserving browser extension that translates webpage content into Moroccan Darija in real-time, utilizing a secure Node.js backend integration with the Gemini Live API and SHA-256 caching for performance.",
-    tags: ["React", "TypeScript", "WXT", "Hono", "Node.js", "Tailwind CSS"],
-    image: "/bdarija.png",
-    link: "https://github.com/MAHMOUDIFARID/bdarija-extension",
-    visual: "normal"
-  },
-  {
     title: "Mitex",
     description: "A premium, data-driven product sourcing and supplier intelligence SaaS for COD e-commerce operators, replacing manual sourcing with real-time database statistics and a responsive analytics dashboard.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS v4", "Firebase", "Node.js"],
     image: "/mitex.png",
-    link: "https://github.com/Moad666/mitex_ecomm",
+    link: null,
+    comingSoon: true,
     visual: "normal"
   },
   {
@@ -56,6 +49,14 @@ const projects = [
     image: "/quishing.png",
     link: "https://github.com/MAHMOUDIFARID/quishing-detection",
     visual: "normal"
+  },
+  {
+    title: "Bdarija Translator Extension",
+    description: "A production-grade, DOM-preserving browser extension that translates webpage content into Moroccan Darija in real-time, utilizing a secure Node.js backend integration with the Gemini Live API and SHA-256 caching for performance.",
+    tags: ["React", "TypeScript", "WXT", "Hono", "Node.js", "Tailwind CSS"],
+    image: "/bdarija.png",
+    link: "https://github.com/MAHMOUDIFARID/bdarija-extension",
+    visual: "normal"
   }
 ];
 ---
@@ -84,16 +85,16 @@ const projects = [
     </div>
   </div>
 
-  <!-- Carousel Wrapper (Overflow Hidden, Snaps) -->
-  <div class="relative w-full">
+  <!-- Carousel Wrapper (Clean 3-Card Container, No Bleeding Right) -->
+  <div class="relative w-full max-w-[1400px] mx-auto px-6 overflow-hidden">
     <div 
       id="project-carousel" 
-      class="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 scroll-smooth pb-8 px-6 md:px-[calc((100vw-80rem)/2+3rem)]"
+      class="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 scroll-smooth pb-8"
     >
       {projects.map((project) => {
         const isGitHub = project.link?.includes("github.com") ?? false;
         return (
-          <div class="snap-start shrink-0 w-[85vw] sm:w-[380px] md:w-[400px] min-h-[580px] bg-brand-charcoal border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-white/20 transition-all duration-500 hover:shadow-2xl flex flex-col group/card relative">
+          <div class="snap-start shrink-0 w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4rem)/3)] min-h-[580px] bg-brand-charcoal border border-neutral-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden hover:border-neutral-400 dark:hover:border-white/20 transition-all duration-500 hover:shadow-2xl flex flex-col group/card relative">
             <!-- Top half: Image / Logo -->
             <div class="relative w-full h-[230px] overflow-hidden shrink-0">
               {project.visual === "qr" ? (
@@ -128,10 +129,10 @@ const projects = [
             <!-- Bottom half: Info & Action Button -->
             <div class="flex-1 p-6 md:p-8 flex flex-col justify-between">
               <div>
-                <h3 class="text-2xl font-semibold text-white mb-2 tracking-tight">
+                <h3 class="text-2xl font-semibold text-neutral-900 dark:text-white mb-2 tracking-tight">
                   {project.title}
                 </h3>
-                <p class="text-sm text-white/50 mb-6 leading-relaxed font-light" set:html={project.description}>
+                <p class="text-sm text-neutral-600 dark:text-white/50 mb-6 leading-relaxed font-light" set:html={project.description}>
                 </p>
               </div>
 
@@ -139,19 +140,24 @@ const projects = [
                 <!-- Badges -->
                 <div class="flex flex-wrap gap-2 mb-6">
                   {project.tags.map(tag => (
-                    <span class="px-3.5 py-1.5 bg-white/[0.04] border border-white/10 text-white/70 text-xs font-normal tracking-wide rounded-full cursor-default hover:bg-white/[0.08] hover:text-white transition-all duration-300">
+                    <span class="px-3.5 py-1.5 bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-white/70 text-xs font-normal tracking-wide rounded-full cursor-default hover:bg-neutral-200 dark:hover:bg-white/[0.08] transition-all duration-300">
                       {tag}
                     </span>
                   ))}
                 </div>
 
                 <!-- Call to Action Button -->
-                {project.link && (
+                {project.comingSoon ? (
+                  <div class="w-full bg-neutral-200 dark:bg-white/10 text-neutral-600 dark:text-white/60 py-4 px-6 rounded-full text-sm font-semibold flex items-center justify-center gap-2 cursor-default select-none border border-neutral-300 dark:border-white/10">
+                    <span>Coming Soon</span>
+                    <span>⏳</span>
+                  </div>
+                ) : project.link && (
                   <a 
                     href={project.link} 
                     target="_blank"
                     rel="noreferrer"
-                    class="w-full bg-white text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-white/5"
+                    class="w-full bg-neutral-900 dark:bg-white text-white dark:text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
                   >
                     <span>{isGitHub ? "Visit GitHub Repository" : "Visit Live Site"}</span>
                     {isGitHub ? (
@@ -177,7 +183,7 @@ const projects = [
   <div class="flex justify-center gap-2.5 mt-8">
     {projects.map((_, index) => (
       <button 
-        class="carousel-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-white/40 transition-all duration-300 cursor-pointer"
+        class="carousel-dot w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20 hover:bg-neutral-400 dark:hover:bg-white/40 transition-all duration-300 cursor-pointer"
         data-index={index}
         aria-label={`Go to slide ${index + 1}`}
       ></button>
@@ -189,18 +195,9 @@ const projects = [
   #project-carousel {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-    scroll-padding-left: 1.5rem; /* px-6 on mobile */
-    scroll-padding-right: 1.5rem;
   }
   #project-carousel::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
-  }
-  
-  @media (min-width: 768px) {
-    #project-carousel {
-      scroll-padding-left: calc((100vw - 80rem) / 2 + 3rem);
-      scroll-padding-right: calc((100vw - 80rem) / 2 + 3rem);
-    }
   }
   
   /* Active Indicator Pill Style */
@@ -291,9 +288,10 @@ const projects = [
       if (firstCard) {
         const style = window.getComputedStyle(carousel);
         const gap = parseInt(style.gap || '32', 10);
-        return firstCard.clientWidth + gap; // card width + gap
+        const cardsToScroll = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1;
+        return (firstCard.clientWidth + gap) * cardsToScroll;
       }
-      return carousel.clientWidth * 0.75;
+      return carousel.clientWidth;
     };
 
     prevBtn?.addEventListener('click', () => {

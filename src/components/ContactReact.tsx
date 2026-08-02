@@ -5,36 +5,61 @@ import {
   PaperPlaneRightIcon
 } from '@phosphor-icons/react';
 
-const CONTACT_EMAIL = 'faridmahmoudicontact@gmail.com';
+const CONTACT_EMAIL = 'contact@mahmoudi.ma';
 
 export default function ContactReact() {
   const [status, setStatus] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  function handleSubmit(event: { preventDefault: () => void; currentTarget: HTMLFormElement }) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsSubmitting(true);
+    setStatus('');
 
-    const form = new FormData(event.currentTarget);
-    const firstName = String(form.get('firstName') || '').trim();
-    const lastName = String(form.get('lastName') || '').trim();
-    const email = String(form.get('email') || '').trim();
-    const subject = String(form.get('subject') || 'Project inquiry').trim();
-    const message = String(form.get('message') || '').trim();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const firstName = String(formData.get('firstName') || '').trim();
+    const lastName = String(formData.get('lastName') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const subject = String(formData.get('subject') || 'Project inquiry').trim();
+    const message = String(formData.get('message') || '').trim();
 
     if (!firstName || !email || !message) {
       setStatus('Please add your name, email, and message before sending.');
+      setIsSubmitting(false);
       return;
     }
 
-    const body = [
-      message,
-      '',
-      `From: ${firstName}${lastName ? ` ${lastName}` : ''}`,
-      `Email: ${email}`
-    ].join('\n');
+    try {
+      // Direct native submission to /api/contact.php (Official cPanel Server Handler)
+      const response = await fetch('/api/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: `${firstName} ${lastName}`.trim(),
+          email: email,
+          subject: subject,
+          message: message
+        })
+      });
 
-    const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
-    setStatus('Opening your email app...');
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSuccess(true);
+        setStatus('Thank you! Your message has been sent successfully.');
+        form.reset();
+      } else {
+        setStatus(data.message || 'Something went wrong. Please try again or email contact@mahmoudi.ma directly.');
+      }
+    } catch {
+      setStatus('Something went wrong. Please try again or email contact@mahmoudi.ma directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -121,9 +146,19 @@ export default function ContactReact() {
 
           <button
             type="submit"
-            className="w-full bg-white text-brand-black font-semibold py-4 rounded-xl transition-all duration-300 mt-2 hover:bg-white/90 inline-flex items-center justify-center gap-2 cursor-pointer"
+            disabled={isSubmitting}
+            className="w-full bg-white text-brand-black font-semibold py-4 rounded-xl transition-all duration-300 mt-2 hover:bg-white/90 inline-flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Send message <PaperPlaneRightIcon weight="fill" />
+            {isSubmitting ? (
+              <span>Sending...</span>
+            ) : isSuccess ? (
+              <span>Message Sent!</span>
+            ) : (
+              <>
+                <span>Send message</span>
+                <PaperPlaneRightIcon weight="fill" />
+              </>
+            )}
           </button>
 
           {status && (

@@ -5,7 +5,7 @@ import {
   Trash, 
   ArrowLeft, 
   ArrowRight, 
-  SlidersHorizontal,
+  Gear,
   CheckCircle,
   Spinner,
   Image as ImageIcon
@@ -322,7 +322,7 @@ export default function ImageToPdfReact() {
           onClick={() => setShowSettings(!showSettings)}
           className="flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white transition-colors cursor-pointer"
         >
-          <SlidersHorizontal size={14} />
+          <Gear size={14} />
           <span>{showSettings ? 'Hide Options' : 'PDF Options (A4, Margins, Name)'}</span>
         </button>
 

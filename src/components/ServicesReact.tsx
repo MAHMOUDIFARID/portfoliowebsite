@@ -140,19 +140,16 @@ export default function ServicesReact() {
           </h1>
 
           <p className="text-base sm:text-lg text-neutral-600 dark:text-white/70 font-light leading-relaxed">
-            I build clean, reliable web applications and custom websites. Whether you need a full-stack web app, a CMS portal, or performance optimization, I handle the engineering from code to deployment.
+            I engineer high-performance web applications, automated workflows, and AI solutions, taking your ideas seamlessly from concept to production deployment.
           </p>
         </div>
 
         {/* Services List Section */}
         <div id="services-list" className="mb-24">
-          <div className="text-center max-w-2xl mx-auto mb-12 border-b border-neutral-200 dark:border-white/10 pb-6">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white tracking-tight mb-2">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 dark:text-white tracking-tight">
               What I Provide
             </h2>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400 font-medium">
-              Comprehensive web development services designed for performance, security, and growth.
-            </p>
           </div>
 
           {/* Cards Grid - Hand-Drawn Pencil Sketch Design ("Mrssom Blyed Bl9alam") */}
@@ -199,10 +196,10 @@ export default function ServicesReact() {
                       {/* Call to Action Button */}
                       <a
                         href="/contact"
-                        className="group/btn w-full py-3.5 px-6 rounded-2xl bg-white/[0.05] border border-white/10 hover:bg-white/10 hover:border-white/25 text-white font-medium text-sm transition-all duration-300 flex items-center justify-between"
+                        className="group/btn w-full py-3.5 px-6 rounded-2xl bg-neutral-900 dark:bg-white/[0.05] border border-neutral-800 dark:border-white/10 hover:bg-neutral-800 dark:hover:bg-white/10 font-medium text-sm transition-all duration-300 flex items-center justify-between"
                       >
-                        <span>Discuss Service</span>
-                        <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all">
+                        <span className="text-[#ffffff]">Discuss Service</span>
+                        <div className="w-7 h-7 rounded-full bg-neutral-800 dark:bg-white/10 text-white flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all">
                           <ArrowRight size={14} weight="bold" />
                         </div>
                       </a>
@@ -253,22 +250,23 @@ export default function ServicesReact() {
         </div>
 
         {/* Simple & Clean Call to Action */}
-        <div className="rounded-[2.5rem] bg-brand-charcoal border border-black/10 dark:border-white/10 p-8 sm:p-12 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="rounded-[2.5rem] bg-brand-charcoal border border-neutral-200 dark:border-white/10 p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="max-w-2xl text-center sm:text-left">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
-              Have a web project in mind?
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white mb-3">
+              Have a project in mind?
             </h2>
-            <p className="text-sm text-white/70 font-light leading-relaxed">
-              Whether you need a custom React web app, a high-converting Drupal CMS portal, or speed optimization for your existing site, let's build something extraordinary.
+            <p className="text-sm text-neutral-600 dark:text-white/70 font-light leading-relaxed">
+              Whether you need a custom full-stack web application, automated business workflows, or smart AI integrations, let's build something extraordinary together.
             </p>
           </div>
 
           <a
             href="/contact"
-            className="group shrink-0 bg-white text-black font-semibold text-xs sm:text-sm px-7 py-3.5 rounded-full hover:bg-neutral-200 transition-colors cursor-pointer flex items-center gap-2"
+            className="group shrink-0 font-semibold text-xs sm:text-sm px-7 py-3.5 rounded-full transition-all cursor-pointer flex items-center gap-2 shadow-md hover:opacity-90"
+            style={{ backgroundColor: '#0A0A0A', color: '#FFFFFF' }}
           >
-            <span>Let's talk</span>
-            <ArrowRight size={16} weight="bold" className="group-hover:translate-x-1 transition-transform" />
+            <span style={{ color: '#FFFFFF' }}>Let's talk</span>
+            <span className="text-base group-hover:scale-110 transition-transform">💬</span>
           </a>
         </div>
 

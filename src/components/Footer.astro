@@ -1,8 +1,18 @@
 ---
 ---
 
-<footer class="bg-brand-black border-t border-white/10 w-full py-16 md:py-20 px-6 md:px-12 text-white/70">
-  <div class="w-full max-w-[1400px] mx-auto flex flex-col gap-12">
+<footer class="relative bg-brand-black border-t border-white/10 w-full py-16 md:py-24 px-6 md:px-12 text-white/70 overflow-hidden">
+  
+  {/* Giant Watermark Background Logo matching reference screenshot */}
+  <div class="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden select-none opacity-[0.08] dark:opacity-[0.10]">
+    <img 
+      src="/Logo.png" 
+      alt="Background Logo Watermark" 
+      class="w-[50%] max-w-[650px] h-auto object-contain filter grayscale contrast-200 [.light_&]:brightness-0"
+    />
+  </div>
+
+  <div class="relative z-10 w-full max-w-[1400px] mx-auto flex flex-col gap-12">
     
     {/* Top Grid: 3 Columns matching reference layout */}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 pb-4">
@@ -71,10 +81,10 @@
     {/* Bottom Sub-Footer: Legal & Copyright matching reference bottom row */}
     <div class="flex flex-col items-center justify-center gap-4 text-xs text-white/50 pt-4">
       <div class="flex flex-wrap items-center justify-center gap-8 text-xs text-white/60 font-medium">
-        <a href="/contact" class="hover:text-white transition-colors">
+        <a href="/privacy" class="hover:text-white transition-colors">
           Privacy Policy
         </a>
-        <a href="/contact" class="hover:text-white transition-colors">
+        <a href="/terms" class="hover:text-white transition-colors">
           Terms of Service
         </a>
         <a href="/contact" class="hover:text-white transition-colors">
