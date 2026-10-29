@@ -1,6 +1,9 @@
 # build output
 dist/
+.contact-security-build/
+cpanel_contact_security_*.zip
 dist.zip
+cpanel_mahmoudi_with_trekking*.zip
 # generated types
 .astro/
 

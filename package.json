@@ -7,7 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/build-trekking.mjs",
+    "build:portfolio": "astro build",
+    "build:trekking": "node scripts/build-trekking.mjs",
+    "test:contact": "php tests/contact.php",
     "preview": "astro preview",
     "astro": "astro"
   },

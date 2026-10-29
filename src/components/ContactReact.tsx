@@ -15,6 +15,7 @@ export default function ContactReact() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
+    setIsSuccess(false);
     setStatus('');
 
     const form = event.currentTarget;
@@ -42,13 +43,14 @@ export default function ContactReact() {
           name: `${firstName} ${lastName}`.trim(),
           email: email,
           subject: subject,
+          website: String(formData.get('website') || ''),
           message: message
         })
       });
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok && data.success) {
         setIsSuccess(true);
         setStatus('Thank you! Your message has been sent successfully.');
         form.reset();
@@ -84,6 +86,10 @@ export default function ContactReact() {
         </div>
 
         <form className="w-full flex flex-col gap-6" onSubmit={handleSubmit}>
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="contact-website">Website</label>
+            <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label htmlFor="firstName" className="text-sm font-medium text-white/70 ml-1">First name</label>
@@ -92,6 +98,7 @@ export default function ContactReact() {
                 type="text"
                 name="firstName"
                 id="firstName"
+                maxLength={80}
                 placeholder="Your first name"
                 className="w-full bg-white/5 border border-white/10 focus:border-white/30 rounded-xl py-3 px-4 text-white placeholder-white/25 focus:outline-none transition-all"
               />
@@ -102,6 +109,7 @@ export default function ContactReact() {
                 type="text"
                 name="lastName"
                 id="lastName"
+                maxLength={80}
                 placeholder="Your last name"
                 className="w-full bg-white/5 border border-white/10 focus:border-white/30 rounded-xl py-3 px-4 text-white placeholder-white/25 focus:outline-none transition-all"
               />
@@ -116,6 +124,7 @@ export default function ContactReact() {
                 type="email"
                 name="email"
                 id="email"
+                maxLength={254}
                 placeholder="you@example.com"
                 className="w-full bg-white/5 border border-white/10 focus:border-white/30 rounded-xl py-3 px-4 text-white placeholder-white/25 focus:outline-none transition-all"
               />
@@ -126,6 +135,7 @@ export default function ContactReact() {
                 type="text"
                 name="subject"
                 id="subject"
+                maxLength={200}
                 placeholder="How can I help?"
                 className="w-full bg-white/5 border border-white/10 focus:border-white/30 rounded-xl py-3 px-4 text-white placeholder-white/25 focus:outline-none transition-all"
               />
@@ -138,6 +148,7 @@ export default function ContactReact() {
               required
               name="message"
               id="message"
+              maxLength={5000}
               placeholder="Write your message here..."
               rows={5}
               className="w-full bg-white/5 border border-white/10 focus:border-white/30 rounded-xl py-3 px-4 text-white placeholder-white/25 focus:outline-none transition-all resize-none"
