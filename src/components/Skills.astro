@@ -33,29 +33,25 @@ const marqueeSkills2 = [...skills.slice(7), ...skills.slice(0, 7), ...skills.sli
   
   <div class="relative z-10 w-full max-w-[1400px] mx-auto px-6 mb-12 text-center">
     <!-- Title matching reference screenshot -->
-    <h2 class="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white font-sans">
+    <h2 class="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight skill-text font-sans">
       Technologies I Use
     </h2>
   </div>
 
   <!-- Infinite Marquee Slider Container -->
-  <div class="relative w-full overflow-hidden py-4">
+  <div class="skill-marquee relative w-full overflow-hidden py-4">
     
-    <!-- Gradient Fade Masks on Left & Right Edges -->
-    <div class="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-44 bg-gradient-to-r from-white dark:from-brand-black to-transparent z-10"></div>
-    <div class="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-44 bg-gradient-to-l from-white dark:from-brand-black to-transparent z-10"></div>
-
     <!-- Row 1: Right-to-Left Infinite Marquee -->
     <div class="flex w-max gap-4 sm:gap-6 animate-marquee-left">
       {marqueeSkills1.map((tech) => (
-        <div class="flex items-center gap-3.5 px-6 sm:px-7 py-3.5 sm:py-4 bg-neutral-100 dark:bg-[#070e1b] border border-neutral-200 dark:border-white/10 rounded-xl sm:rounded-2xl shadow-sm hover:border-neutral-300 dark:hover:border-white/25 transition-all shrink-0 group cursor-default">
+        <div class="flex items-center gap-3.5 px-6 sm:px-7 py-3.5 sm:py-4 skill-card border rounded-xl sm:rounded-2xl shadow-sm transition-all shrink-0 group cursor-default">
           <img 
             src={tech.logo} 
             alt={tech.name} 
-            class={`w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300 ${tech.name === "GitHub" ? "dark:invert" : ""}`}
+            class={`w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300 ${tech.name === "GitHub" ? "skill-logo-monochrome" : ""}`}
             loading="lazy"
           />
-          <span class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-white tracking-tight whitespace-nowrap">
+          <span class="text-sm sm:text-base font-semibold skill-text tracking-tight whitespace-nowrap">
             {tech.name}
           </span>
         </div>
@@ -65,14 +61,14 @@ const marqueeSkills2 = [...skills.slice(7), ...skills.slice(0, 7), ...skills.sli
     <!-- Row 2: Dual Direction Marquee -->
     <div class="flex w-max gap-4 sm:gap-6 animate-marquee-right mt-4 sm:mt-6">
       {marqueeSkills2.map((tech) => (
-        <div class="flex items-center gap-3.5 px-6 sm:px-7 py-3.5 sm:py-4 bg-neutral-100 dark:bg-[#070e1b] border border-neutral-200 dark:border-white/10 rounded-xl sm:rounded-2xl shadow-sm hover:border-neutral-300 dark:hover:border-white/25 transition-all shrink-0 group cursor-default">
+        <div class="flex items-center gap-3.5 px-6 sm:px-7 py-3.5 sm:py-4 skill-card border rounded-xl sm:rounded-2xl shadow-sm transition-all shrink-0 group cursor-default">
           <img 
             src={tech.logo} 
             alt={tech.name} 
-            class={`w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300 ${tech.name === "GitHub" ? "dark:invert" : ""}`}
+            class={`w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-90 group-hover:scale-110 transition-transform duration-300 ${tech.name === "GitHub" ? "skill-logo-monochrome" : ""}`}
             loading="lazy"
           />
-          <span class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-white tracking-tight whitespace-nowrap">
+          <span class="text-sm sm:text-base font-semibold skill-text tracking-tight whitespace-nowrap">
             {tech.name}
           </span>
         </div>
@@ -83,6 +79,42 @@ const marqueeSkills2 = [...skills.slice(7), ...skills.slice(0, 7), ...skills.sli
 </section>
 
 <style>
+  /* Follow the site's html.light toggle, independently of the OS theme. */
+  #skills {
+    --skill-surface: #070e1b;
+    --skill-border: rgba(255, 255, 255, 0.1);
+    --skill-border-hover: rgba(255, 255, 255, 0.25);
+    --skill-logo-filter: invert(1);
+  }
+
+  :global(html.light) #skills {
+    --skill-surface: #f5f5f5;
+    --skill-border: #e5e5e5;
+    --skill-border-hover: #d4d4d4;
+    --skill-logo-filter: none;
+  }
+
+  .skill-text {
+    color: var(--site-text);
+  }
+
+  .skill-card {
+    background-color: var(--skill-surface);
+    border-color: var(--skill-border);
+  }
+
+  .skill-card:hover {
+    border-color: var(--skill-border-hover);
+  }
+
+  .skill-logo-monochrome {
+    filter: var(--skill-logo-filter);
+  }
+
+  .skill-marquee {
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+
   @keyframes marquee-left {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
