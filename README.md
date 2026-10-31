@@ -180,7 +180,7 @@ The HTTP suite launches an isolated local PHP server with `mail()` disabled. The
 
 The combined build publishes a separate travel website at `/marocsaharatrekking/`, alongside the portfolio.
 
-It requires the full companion source in `MOROCCO SAHARA TREKKING/`, including `scripts/build-cpanel.cjs` and `scripts/check-cpanel.cjs`. This repository currently records that directory as a Git link without a `.gitmodules` mapping, so a fresh clone does not automatically provide its source. The standalone portfolio build does not require it.
+It requires the full companion source in `MOROCCO SAHARA TREKKING/`, including `scripts/build-cpanel.cjs` and `scripts/check-cpanel.cjs`. The directory is a Git submodule; initialize it with `git submodule update --init` when you have access to its repository. The standalone portfolio build and automatic deployment do not require it or fetch it.
 
 Once the companion source is available locally:
 
