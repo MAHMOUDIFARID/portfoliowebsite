@@ -1,4 +1,5 @@
 # build output
+cpanel_deploy.zip
 dist/
 .contact-security-build/
 .portfolio-polish-build/
