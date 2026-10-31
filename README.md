@@ -1,135 +1,178 @@
-# Farid Mahmoudi Portfolio
+<div align="center">
 
-A clean personal portfolio for FARID MAHMOUDI, built to present my background, skills, projects, and contact information in one focused website.
+# Farid Mahmoudi
 
-## Overview
+### AI research. Practical software. Thoughtful interfaces.
 
-This portfolio highlights my work across data science, Big Data, cloud computing, and frontend development. It includes an introduction section, selected projects, skills, experience, education, a motivation page, a blog area, and a contact page.
+First-year PhD student in Artificial Intelligence<br>
+Master's in Big Data & Cloud Computing
 
-## Tech Stack
+**[Explore the portfolio](https://mahmoudi.ma)** · **[About me](https://mahmoudi.ma/about/)** · **[Get in touch](https://mahmoudi.ma/contact/)**
 
-- Astro
-- React
-- TypeScript
-- Tailwind CSS
-- Phosphor Icons
+![Astro](https://img.shields.io/badge/Astro-6-BC52EE?style=flat-square&logo=astro&logoColor=white)
+![React](https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-0F172A?style=flat-square&logo=tailwindcss&logoColor=38BDF8)
 
-## Getting Started
+</div>
 
-Install dependencies:
+---
+
+## The project
+
+The source behind **[mahmoudi.ma](https://mahmoudi.ma)**: my personal portfolio for AI projects, web applications, and workflow automation. It brings selected work, professional experience, education, writing, and ways to get in touch into one place.
+
+The implementation combines statically generated Astro pages with React components for interactive features. A PHP contact endpoint supports deployment on Apache/cPanel without a Node.js server in production.
+
+## What you can explore
+
+| Area | What's inside |
+| :--- | :--- |
+| [Selected work](https://mahmoudi.ma/#work) | Project context, technology stacks, and links to live sites or source code |
+| [About](https://mahmoudi.ma/about/) | My background, current studies, and CV access |
+| [Services](https://mahmoudi.ma/services/) | Web development, AI solutions, and workflow automation |
+| [Playground](https://mahmoudi.ma/playground/) | Interactive tools and experiments |
+| [Blog](https://mahmoudi.ma/blog/) | Technical writing and project notes |
+| [Contact](https://mahmoudi.ma/contact/) | A contact form backed by server-side validation and rate limiting |
+
+The interface includes light and dark themes, responsive navigation, and reduced-motion support.
+
+## Engineering decisions
+
+- **Static pages, selective interactivity.** Astro handles page generation; React powers interactive features where needed. The portfolio can be hosted as static assets alongside PHP.
+- **An explicit image pipeline.** Sharp generates responsive WebP variants before development and production builds. A shared manifest provides image dimensions and `srcset` values for Astro and React components.
+- **Validation at the server boundary.** The contact endpoint validates input, rejects email header control characters, limits request and field sizes, and uses a honeypot plus persistent rate limits.
+- **Mail-independent verification.** Contact tests exercise validation, rate limits, concurrent access, and HTTP behavior without sending real messages.
+- **Content-aware CV access.** The About page offers a download when `public/resume.pdf` exists and an email request otherwise. The legacy `/motivation/` route remains an alias for About.
+
+## Run locally
+
+**Requirements:** Node.js `>=22.12.0` and npm. PHP is only needed to run the contact endpoint or its tests; Python 3 is needed for the HTTP test suite.
 
 ```sh
-npm install
-```
-
-Start the development server:
-
-```sh
+git clone https://github.com/MAHMOUDIFARID/portfoliowebsite.git
+cd portfoliowebsite
+npm ci
 npm run dev
 ```
 
-Build for production:
+Open the local URL printed by Astro, usually `http://localhost:4321`.
+
+To build and preview the **portfolio on its own**:
 
 ```sh
-npm run build
-```
-
-Preview the production build:
-
-```sh
+npm run build:portfolio
 npm run preview
 ```
 
-## Portfolio content and images
+Astro's development and preview servers do not execute PHP. Test actual contact-form delivery on PHP-enabled hosting.
 
-The About page lives at `/about/`; `/motivation/` remains a compatible alias
-showing the same About content. Add your current PDF at `public/resume.pdf`
-and rebuild to enable **Download my CV**. Until that file exists, the site offers
-**Request my CV** by email rather than linking to a missing file.
+## Commands
 
-`npm run dev`, `npm run build` and `npm run build:portfolio` generate responsive
-WebP images under `public/optimized/` using Sharp. Originals stay in `public/`.
-The generated manifest in `src/data/image-manifest.json` supplies image dimensions
-and `srcset` values for Astro and React. To register another optimized image,
-add it to `scripts/optimize-images.mjs` and run `npm run optimize:images`.
+| Command | Purpose |
+| :--- | :--- |
+| `npm run dev` | Generate optimized images and start the portfolio development server |
+| `npm run build:portfolio` | Generate images and build the portfolio into `dist/` |
+| `npm run preview` | Preview the existing production build |
+| `npm run optimize:images` | Regenerate responsive WebP assets and their manifest |
+| `npm run test:contact` | Run PHP validation and concurrency tests |
+| `python tests/contact_http.py` | Run HTTP checks against an isolated local PHP server |
+| `npm run build` | Build the portfolio and the optional trekking companion project |
+| `npm run build:trekking` | Build and copy only the companion site into `dist/marocsaharatrekking/` |
 
-## Portfolio contact endpoint
+## Repository map
 
-`public/api/contact.php` requires PHP 7.4+ and working local mail delivery in
-cPanel. It accepts JSON from the portfolio form and always sends to
-`contact@mahmoudi.ma`. Server validation rejects malformed emails, invalid
-types, oversized fields and header control characters. A hidden honeypot
-discards automated submissions.
+```text
+.
+├── public/
+│   ├── api/contact.php          # Portfolio contact endpoint
+│   ├── optimized/               # Generated WebP variants; ignored by Git
+│   └── ...                      # Original images, logos, fonts, and .htaccess
+├── src/
+│   ├── components/              # Astro and React UI components
+│   ├── data/image-manifest.json # Generated image metadata
+│   ├── layouts/                 # Shared document layout and theme setup
+│   ├── lib/images.ts            # Image manifest lookup
+│   ├── pages/                   # File-based routes
+│   └── styles/                  # Global styles and theme tokens
+├── scripts/
+│   ├── optimize-images.mjs      # Responsive image generation
+│   └── build-trekking.mjs       # Optional companion build integration
+├── tests/
+│   ├── contact.php              # Validation and concurrency checks
+│   └── contact_http.py          # HTTP endpoint checks
+└── astro.config.mjs
+```
 
-The endpoint permits 30 requests and 5 message attempts per IP per 15 minutes,
-with at most 3 attempts for one email within that IP's window. Counters persist
-across PHP workers using locked files under the server's private temporary
-directory. The PHP user must be able to write there; unavailable storage returns
-503 without sending mail. Limits trust `REMOTE_ADDR` only. If cPanel uses a
-CDN/proxy, have the hosting provider configure the real client IP in the web
-server rather than trusting arbitrary forwarding headers in PHP.
+## Content workflow
 
-Run the transport-free validation and concurrency tests with PHP installed:
+**Pages and components:** edit routes under `src/pages/` and their UI in `src/components/`. Shared presentation lives in `src/layouts/` and `src/styles/`.
+
+**Images:** keep original assets in `public/`, register optimized assets in `scripts/optimize-images.mjs`, then run `npm run optimize:images`. Commit the updated manifest with source changes; generated files under `public/optimized/` are rebuilt locally.
+
+**CV:** place the current PDF at `public/resume.pdf` and rebuild to enable the download link.
+
+## Deploy to cPanel
+
+1. Run `npm run build:portfolio` for the main site, or the combined build described below when the companion project is available.
+2. Back up the current hosting files, then upload the **contents** of `dist/` to `public_html/`, including hidden `.htaccess` files.
+3. Merge/overwrite the generated files. Preserve separately deployed directories such as `marocsaharatrekking/` when updating only the portfolio.
+4. Verify page navigation, assets, and contact-form delivery on the deployed domain.
+
+The portfolio contact endpoint requires **PHP 7.4+**, working local `mail()` delivery, and a writable private temporary directory. Its recipient is `contact@mahmoudi.ma`. Deployment ZIPs and generated build output stay outside Git tracking.
+
+<details>
+<summary><strong>Contact endpoint: operational details and tests</strong></summary>
+
+The endpoint accepts JSON and applies these limits per 15-minute window:
+
+| Scope | Limit |
+| :--- | ---: |
+| Requests per IP | 30 |
+| Message attempts per IP | 5 |
+| Message attempts for one email within that IP | 3 |
+
+Counters persist across PHP workers using locked files in the server's private temporary directory. If storage is unavailable, the endpoint returns `503` without sending mail.
+
+Limits use `REMOTE_ADDR`. When a CDN or reverse proxy is involved, configure the real client IP at the web-server level instead of trusting arbitrary forwarding headers in PHP.
+
+With PHP on your `PATH`, run:
 
 ```sh
 npm run test:contact
-```
-
-The optional HTTP checks need Python 3 and start an isolated local PHP server
-with `mail()` disabled:
-
-```sh
 python tests/contact_http.py
 ```
 
-Upload the updated `api/contact.php` from `dist` to `public_html/api/contact.php`
-after building. Previewing through Astro alone does not execute PHP, and actual
-mail receipt must be checked on cPanel after deployment.
+For a PHP executable elsewhere:
 
-## Morocco Sahara Trekking on mahmoudi.ma
+```sh
+python tests/contact_http.py --php /path/to/php
+```
 
-`npm run build` also builds the project in `MOROCCO SAHARA TREKKING` and adds it
-to `dist/marocsaharatrekking/`. Install that project's dependencies once first:
+The HTTP suite launches an isolated local PHP server with `mail()` disabled. These tests do not verify production mail delivery; confirm receipt after deployment.
+
+</details>
+
+<details>
+<summary><strong>Optional companion: Morocco Sahara Trekking</strong></summary>
+
+The combined build publishes a separate travel website at `/marocsaharatrekking/`, alongside the portfolio.
+
+It requires the full companion source in `MOROCCO SAHARA TREKKING/`, including `scripts/build-cpanel.cjs` and `scripts/check-cpanel.cjs`. This repository currently records that directory as a Git link without a `.gitmodules` mapping, so a fresh clone does not automatically provide its source. The standalone portfolio build does not require it.
+
+Once the companion source is available locally:
 
 ```sh
 npm --prefix "MOROCCO SAHARA TREKKING" ci
 npm run build
 ```
 
-Upload the **contents** of `dist`, including hidden `.htaccess` files, into the
-domain's `public_html` directory in cPanel. The portfolio stays at
-`https://mahmoudi.ma/` and the trekking website opens at
-`https://mahmoudi.ma/marocsaharatrekking/`, with its own pages, images and scripts.
-`npm run preview` previews both websites after building; `npm run dev` serves
-the portfolio source only. Use `npm run build:portfolio` to build the portfolio alone.
+The integration sets `CPANEL_BASE_PATH=/marocsaharatrekking`, runs the companion's cPanel build and checks, and copies the export into `dist/marocsaharatrekking/`.
 
-The cPanel ZIP version serves static pages and uses PHP 8.2+ for the contact
-form (`api/send-mail.php`). Check the sender address and email deliverability
-in cPanel, then verify actual receipt after uploading. WhatsApp is also available.
-SMTP credentials and the Next.js API are never included in `dist`.
-The original Next.js project retains its server email API for Node.js hosting.
+Upload the combined `dist/` contents to `public_html/`. The companion's cPanel contact endpoint uses **PHP 8.2+**; verify its sender configuration and actual email receipt separately. Its original Next.js server email API is not used by the static cPanel deployment.
 
-The local development server usually runs at:
+</details>
 
-```text
-http://localhost:4321
-```
+---
 
-## Project Structure
-
-```text
-public/          Static assets, images, logos, fonts, and favicon
-src/components/ Astro and React components
-src/layouts/    Shared page layout
-src/pages/      Website routes
-src/styles/     Global styles
-```
-
-## Requirements
-
-Node.js `>=22.12.0`
-
-## Contact
-
-- Email: [faridmahmoudicontact@gmail.com](mailto:faridmahmoudicontact@gmail.com)
-- GitHub: [MAHMOUDIFARID](https://github.com/MAHMOUDIFARID)
+**Let's connect.** Explore my work at [mahmoudi.ma](https://mahmoudi.ma), browse my [GitHub projects](https://github.com/MAHMOUDIFARID), or email [contact@mahmoudi.ma](mailto:contact@mahmoudi.ma).
