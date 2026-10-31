@@ -1,0 +1,32 @@
+---
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { imageFor } from '../lib/images';
+
+const portrait = imageFor('/FARID MAHMOUDI.jpg');
+const hasResume = existsSync(resolve('public/resume.pdf'));
+---
+
+<section class="mx-auto w-full max-w-3xl px-6 pt-36 pb-24 sm:px-10 sm:pt-44 sm:pb-32">
+  <div class="mb-10 flex flex-wrap items-center gap-5">
+    <img src={portrait.src} srcset={portrait.srcSet} sizes="80px" width="80" height="80" alt="Farid Mahmoudi" class="h-20 w-20 rounded-full object-cover" decoding="async" />
+    <div>
+      <p class="text-sm text-white/60">Farid Mahmoudi</p>
+      <p class="mt-1 text-sm text-white/80">First-year PhD student in Artificial Intelligence</p>
+    </div>
+  </div>
+
+  <h1 class="max-w-3xl text-4xl leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">About me</h1>
+  <p class="mt-5 max-w-2xl text-xl leading-relaxed text-white/60">AI research, with a practical side.</p>
+
+  <div class="mt-10 max-w-2xl space-y-6 text-base leading-8 text-white/75 sm:text-lg">
+    <p>I'm Farid, a first-year PhD student in Artificial Intelligence with a Master's degree in Big Data &amp; Cloud Computing.</p>
+    <p>Alongside my studies, I build web applications, automate workflows, and work on machine-learning projects. My portfolio brings together that mix of research and hands-on engineering.</p>
+  </div>
+
+  <div class="mt-12 flex flex-col gap-3 sm:flex-row">
+    <a href="/#work" class="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 py-3 text-sm text-brand-black transition-opacity hover:opacity-80">Explore my work</a>
+    <a href="/contact" class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm text-white transition-colors hover:bg-white/5">Get in touch</a>
+    <a href={hasResume ? '/resume.pdf' : 'mailto:contact@mahmoudi.ma?subject=CV%20request'} download={hasResume ? 'Farid-Mahmoudi-CV.pdf' : undefined} class="inline-flex min-h-12 items-center justify-center rounded-full px-7 py-3 text-sm text-white/70 underline underline-offset-4 transition-colors hover:text-white">{hasResume ? 'Download my CV' : 'Request my CV'}</a>
+  </div>
+</section>

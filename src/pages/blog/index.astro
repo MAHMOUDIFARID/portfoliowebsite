@@ -3,6 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { imageFor } from '../../lib/images';
+const portrait = imageFor('/FARID MAHMOUDI.jpg');
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -144,7 +146,13 @@ const colors = [
 											<div class={`w-[42%] bg-gradient-to-br ${currentColor.gradient} relative h-full flex items-end justify-center overflow-hidden`}>
 												<!-- Author Image -->
 												<img 
-													src="/me.png" 
+                                                src={portrait.src}
+                                                srcset={portrait.srcSet}
+                                                sizes="(max-width: 640px) 42vw, 240px"
+                                                width={portrait.width}
+                                                height={portrait.height}
+                                                loading="lazy"
+                                                decoding="async"
 													alt="Farid Mahmoudi"
 													class="h-[105%] object-contain object-bottom translate-y-3 z-10 transition-transform duration-500 group-hover:scale-[1.03] filter brightness-95"
 												/>
@@ -155,7 +163,7 @@ const colors = [
 														Farid Mahmoudi
 													</p>
 													<p class="text-[7px] text-white/80 uppercase tracking-widest mt-0.5">
-														Data Scientist
+                                                PhD Student in AI
 													</p>
 												</div>
 											</div>

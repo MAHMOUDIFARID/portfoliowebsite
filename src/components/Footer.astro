@@ -1,4 +1,7 @@
 ---
+import { imageFor } from '../lib/images';
+const portrait = imageFor('/FARID MAHMOUDI.jpg');
+const watermark = imageFor('/Logo.png');
 ---
 
 <footer class="relative bg-brand-black border-t border-white/10 w-full py-16 md:py-24 px-6 md:px-12 text-white/70 overflow-hidden">
@@ -6,8 +9,15 @@
   {/* Giant Watermark Background Logo matching reference screenshot */}
   <div class="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden select-none opacity-[0.08] dark:opacity-[0.10]">
     <img 
-      src="/Logo.png" 
-      alt="Background Logo Watermark" 
+      src={watermark.src}
+      srcset={watermark.srcSet}
+      sizes="(max-width: 768px) 50vw, 650px"
+      width={watermark.width}
+      height={watermark.height}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
       class="w-[50%] max-w-[650px] h-auto object-contain filter grayscale contrast-200 [.light_&]:brightness-0"
     />
   </div>
@@ -24,6 +34,7 @@
         </h3>
         <ul class="space-y-2.5 text-xs md:text-sm text-white/60">
           <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+          <li><a href="/about" class="hover:text-white transition-colors">About</a></li>
           <li><a href="/#work" class="hover:text-white transition-colors">Projects</a></li>
           <li><a href="/services" class="hover:text-white transition-colors">Services</a></li>
           <li><a href="/playground" class="hover:text-white transition-colors">Playground</a></li>
@@ -63,7 +74,13 @@
           aria-label="Contact FARID MAHMOUDI"
         >
           <img
-            src="/me.png"
+            src={portrait.src}
+            srcset={portrait.srcSet}
+            sizes="40px"
+            width="40"
+            height="40"
+            loading="lazy"
+            decoding="async"
             alt="FARID MAHMOUDI"
             class="w-10 h-10 rounded-full object-cover border border-white/20 transition-transform duration-300 group-hover:scale-105"
           />
@@ -86,9 +103,6 @@
         </a>
         <a href="/terms" class="hover:text-white transition-colors">
           Terms of Service
-        </a>
-        <a href="/contact" class="hover:text-white transition-colors">
-          Cookie Preferences
         </a>
       </div>
       <p class="text-white/50 text-xs md:text-sm font-light tracking-wide">

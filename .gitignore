@@ -1,6 +1,9 @@
 # build output
 dist/
 .contact-security-build/
+.portfolio-polish-build/
+public/optimized/
+cpanel_portfolio_polish_*.zip
 cpanel_contact_security_*.zip
 dist.zip
 cpanel_mahmoudi_with_trekking*.zip

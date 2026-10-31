@@ -1,8 +1,19 @@
 import {
   CalendarBlankIcon,
+  GraduationCapIcon,
 } from '@phosphor-icons/react';
 
 const education = [
+  {
+    id: 0,
+    degree: "PhD in Artificial Intelligence",
+    date: "Current · First year",
+    location: "",
+    logo: null,
+    logoAlt: "",
+    description: "First-year doctoral student in Artificial Intelligence, building on a background in Big Data & Cloud Computing.",
+    skills: ["Artificial Intelligence", "Research"]
+  },
   {
     id: 1,
     degree: "Master's in Big Data & Cloud Computing",
@@ -49,17 +60,17 @@ export default function EducationReact() {
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8 relative z-10">
                   <div className="flex items-start gap-5">
                     <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center shrink-0 overflow-hidden border border-white/5 shadow-inner">
-                      <img
+                      {edu.logo ? <img
                         src={edu.logo}
                         alt={edu.logoAlt}
                         className="w-full h-full rounded-full object-cover scale-110"
-                      />
+                      /> : <GraduationCapIcon className="h-8 w-8 text-white/70" aria-hidden="true" />}
                     </div>
                     <div>
                       <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight mb-2">
                         {edu.degree}
                       </h3>
-                      <p className="text-white/70 font-medium text-lg">{edu.location}</p>
+                      {edu.location && <p className="text-white/70 font-medium text-lg">{edu.location}</p>}
                     </div>
                   </div>
                 </div>

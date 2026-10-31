@@ -40,6 +40,19 @@ Preview the production build:
 npm run preview
 ```
 
+## Portfolio content and images
+
+The About page lives at `/about/`; `/motivation/` remains a compatible alias
+showing the same About content. Add your current PDF at `public/resume.pdf`
+and rebuild to enable **Download my CV**. Until that file exists, the site offers
+**Request my CV** by email rather than linking to a missing file.
+
+`npm run dev`, `npm run build` and `npm run build:portfolio` generate responsive
+WebP images under `public/optimized/` using Sharp. Originals stay in `public/`.
+The generated manifest in `src/data/image-manifest.json` supplies image dimensions
+and `srcset` values for Astro and React. To register another optimized image,
+add it to `scripts/optimize-images.mjs` and run `npm run optimize:images`.
+
 ## Portfolio contact endpoint
 
 `public/api/contact.php` requires PHP 7.4+ and working local mail delivery in

@@ -1,0 +1,80 @@
+{
+  "/FARID MAHMOUDI.jpg": {
+    "src": "/optimized/FARID-MAHMOUDI-128.webp",
+    "srcSet": "/optimized/FARID-MAHMOUDI-64.webp 64w, /optimized/FARID-MAHMOUDI-128.webp 128w, /optimized/FARID-MAHMOUDI-384.webp 384w",
+    "width": 400,
+    "height": 400
+  },
+  "/logobest.png": {
+    "src": "/optimized/logobest-64.webp",
+    "srcSet": "/optimized/logobest-64.webp 64w, /optimized/logobest-128.webp 128w",
+    "width": 2000,
+    "height": 2000
+  },
+  "/Logo.png": {
+    "src": "/optimized/Logo-650.webp",
+    "srcSet": "/optimized/Logo-320.webp 320w, /optimized/Logo-650.webp 650w",
+    "width": 2000,
+    "height": 2000
+  },
+  "/mitex.png": {
+    "src": "/optimized/mitex-800.webp",
+    "srcSet": "/optimized/mitex-480.webp 480w, /optimized/mitex-800.webp 800w, /optimized/mitex-1200.webp 1200w",
+    "width": 1911,
+    "height": 941
+  },
+  "/Marocdesmerveilles.png": {
+    "src": "/optimized/Marocdesmerveilles-800.webp",
+    "srcSet": "/optimized/Marocdesmerveilles-480.webp 480w, /optimized/Marocdesmerveilles-800.webp 800w, /optimized/Marocdesmerveilles-1200.webp 1200w",
+    "width": 1567,
+    "height": 734
+  },
+  "/dadesmgoun.png": {
+    "src": "/optimized/dadesmgoun-800.webp",
+    "srcSet": "/optimized/dadesmgoun-480.webp 480w, /optimized/dadesmgoun-800.webp 800w, /optimized/dadesmgoun-1200.webp 1200w",
+    "width": 1902,
+    "height": 949
+  },
+  "/dartimitar.png": {
+    "src": "/optimized/dartimitar-800.webp",
+    "srcSet": "/optimized/dartimitar-480.webp 480w, /optimized/dartimitar-800.webp 800w, /optimized/dartimitar-1200.webp 1200w",
+    "width": 1904,
+    "height": 919
+  },
+  "/tidyx.png": {
+    "src": "/optimized/tidyx-800.webp",
+    "srcSet": "/optimized/tidyx-480.webp 480w, /optimized/tidyx-800.webp 800w, /optimized/tidyx-1200.webp 1200w",
+    "width": 2816,
+    "height": 1536
+  },
+  "/quishing.png": {
+    "src": "/optimized/quishing-416.webp",
+    "srcSet": "/optimized/quishing-416.webp 416w",
+    "width": 416,
+    "height": 250
+  },
+  "/bdarija.png": {
+    "src": "/optimized/bdarija-800.webp",
+    "srcSet": "/optimized/bdarija-480.webp 480w, /optimized/bdarija-800.webp 800w, /optimized/bdarija-1200.webp 1200w",
+    "width": 1545,
+    "height": 885
+  },
+  "/service_fullstack.png": {
+    "src": "/optimized/service_fullstack-800.webp",
+    "srcSet": "/optimized/service_fullstack-480.webp 480w, /optimized/service_fullstack-800.webp 800w, /optimized/service_fullstack-1200.webp 1200w",
+    "width": 1264,
+    "height": 848
+  },
+  "/service_automation.png": {
+    "src": "/optimized/service_automation-800.webp",
+    "srcSet": "/optimized/service_automation-480.webp 480w, /optimized/service_automation-800.webp 800w, /optimized/service_automation-1200.webp 1200w",
+    "width": 1264,
+    "height": 848
+  },
+  "/service_ai.png": {
+    "src": "/optimized/service_ai-800.webp",
+    "srcSet": "/optimized/service_ai-480.webp 480w, /optimized/service_ai-800.webp 800w, /optimized/service_ai-1200.webp 1200w",
+    "width": 1264,
+    "height": 848
+  }
+}

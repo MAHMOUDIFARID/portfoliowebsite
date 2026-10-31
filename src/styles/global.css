@@ -70,6 +70,7 @@ html.light {
 }
 
 @layer base {
+  html { scroll-padding-top: 7rem; }
   body {
     font-family: var(--font-sans);
     @apply antialiased transition-colors duration-500 ease-in-out;
@@ -83,6 +84,16 @@ html.light {
     background-color: var(--selection-bg);
     color: var(--selection-text);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-up { opacity: 1; transform: none; }
 }
 
 @layer utilities {

@@ -5,9 +5,10 @@ interface Props {
 	title: string;
 	description?: string;
 	robots?: string;
+	canonical?: string;
 }
 
-const { title, description = "Farid Mahmoudi - Data Scientist focused on machine learning, data engineering, and scalable computing.", robots } = Astro.props;
+const { title, description = "Farid Mahmoudi, first-year PhD student in Artificial Intelligence, building practical AI tools, web applications and automated workflows.", robots, canonical } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,6 +23,7 @@ const { title, description = "Farid Mahmoudi - Data Scientist focused on machine
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		{robots && <meta name="robots" content={robots} />}
+		{canonical && <link rel="canonical" href={canonical} />}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Google+Sans+Code:wght@400;500;600&family=Inconsolata:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600&family=Playpen+Sans+Arabic:wght@400;500;600&family=Reenie+Beanie&display=swap" rel="stylesheet">

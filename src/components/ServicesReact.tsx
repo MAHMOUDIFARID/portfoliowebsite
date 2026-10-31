@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { imageFor } from '../lib/images';
 import { 
   Code, 
   Cpu, 
@@ -155,6 +156,7 @@ export default function ServicesReact() {
           {/* Cards Grid - Hand-Drawn Pencil Sketch Design ("Mrssom Blyed Bl9alam") */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {services.map((service) => {
+              const image = imageFor(service.id === 'fullstack' ? '/service_fullstack.png' : service.id === 'automation' ? '/service_automation.png' : '/service_ai.png');
               return (
                 <div
                   key={service.id}
@@ -163,7 +165,13 @@ export default function ServicesReact() {
                   {/* Top half: Hand-Drawn Pencil Sketch Banner */}
                   <div className="relative w-full h-[220px] overflow-hidden shrink-0 bg-neutral-950">
                     <img
-                      src={service.id === 'fullstack' ? '/service_fullstack.png' : service.id === 'automation' ? '/service_automation.png' : '/service_ai.png'}
+                      src={image.src}
+                      srcSet={image.srcSet}
+                      sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) 50vw, 420px"
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                      decoding="async"
                       alt={service.title}
                       className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500 opacity-90"
                     />
