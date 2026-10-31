@@ -1,0 +1,19 @@
+# Explicit FTPS: protect both login and file transfers; verify the server certificate.
+set cmd:fail-exit yes
+set ftp:ssl-force yes
+set ftp:ssl-protect-data yes
+set ssl:verify-certificate yes
+set ftp:passive-mode yes
+set net:timeout 30
+set net:max-retries 2
+set net:reconnect-interval-base 5
+set xfer:use-temp-file yes
+
+# The mahmoudi FTP account starts in /home/mahmoudi.
+# Refuse to deploy if its existing public_html directory cannot be opened.
+cd public_html
+
+# Upload dependencies before HTML. No --delete: preserve unrelated hosted files
+# and old hashed assets used by visitors with an older page open.
+mirror --reverse --transfer-all --no-perms --no-symlinks --parallel=2 --max-errors=1 --exclude-glob 'marocsaharatrekking/' --exclude-glob '.well-known/' --exclude-glob '*.html' dist/ ./
+mirror --reverse --transfer-all --no-perms --no-symlinks --parallel=2 --max-errors=1 --include '(/$|\.html$)' --exclude-glob 'marocsaharatrekking/' --exclude-glob '.well-known/' dist/ ./

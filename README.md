@@ -112,6 +112,28 @@ Astro's development and preview servers do not execute PHP. Test actual contact-
 
 **CV:** place the current PDF at `public/resume.pdf` and rebuild to enable the download link.
 
+## Automatic deployment
+
+`.github/workflows/deploy-cpanel.yml` checks and builds the standalone portfolio on every push to `main`. Once FTP secrets are configured, it uploads `dist/` to the FTP account's existing `public_html/` directory using explicit FTPS on port 21. You can also start it from **Actions → Deploy portfolio to cPanel → Run workflow** on `main`.
+
+In **Settings → Secrets and variables → Actions → New repository secret**, add:
+
+| Secret | Value |
+| :--- | :--- |
+| `FTP_SERVER` | `giant.naja7host.com` (hostname only; verified FTPS certificate) |
+| `FTP_USERNAME` | `mahmoudi` |
+| `FTP_PASSWORD` | The password for that FTP account |
+
+The supplied alias `ftp.mahmoudi.ma` resolves to the same server, but its FTPS certificate is issued for `giant.naja7host.com`; use the verified hostname above.
+
+Until all three secrets are present, the workflow runs tests and the build, then skips the upload with a warning. A successful build with that warning does **not** mean the live site was updated. Adding secrets does not itself trigger deployment; run the workflow manually or push another commit.
+
+The workflow checks the PHP contact endpoint and exercises the upload rules against local fixtures before building. FTPS verifies the server certificate and encrypts both credentials and transfers. If certificate verification fails, obtain the correct FTP hostname from the hosting provider instead of disabling verification.
+
+Assets upload before HTML, with temporary files used during transfer. Deployments run one at a time. Remote-only files, old hashed assets, `marocsaharatrekking/`, and `.well-known/` are preserved. This is not an atomic whole-site release: a failed upload can leave a partial update, and removing a source file does not delete its deployed copy. Re-run a failed deployment; review obsolete hosted files separately when removing a page or endpoint.
+
+The destination assumes the main FTP account starts in `/home/mahmoudi`, with the website in `public_html`. If you switch to an FTP account rooted directly in the website directory, update `cd public_html` in `scripts/deploy-cpanel.lftp` accordingly.
+
 ## Deploy to cPanel
 
 1. Run `npm run build:portfolio` for the main site, or the combined build described below when the companion project is available.
