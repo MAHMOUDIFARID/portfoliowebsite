@@ -52,7 +52,6 @@ export default function AdminBlogReact() {
 
   // Load draft values on mount
   useEffect(() => {
-    setToken(localStorage.getItem('admin_github_token') || '');
     setTitle(localStorage.getItem('admin_blog_draft_title') || '');
     setDescription(localStorage.getItem('admin_blog_draft_description') || '');
     setContent(localStorage.getItem('admin_blog_draft_content') || '');
@@ -72,11 +71,6 @@ export default function AdminBlogReact() {
   const handleContentChange = (val: string) => {
     setContent(val);
     localStorage.setItem('admin_blog_draft_content', val);
-  };
-
-  const handleTokenChange = (val: string) => {
-    setToken(val);
-    localStorage.setItem('admin_github_token', val);
   };
 
   const finalSlug = useMemo(() => slugify(title), [title]);
@@ -146,8 +140,9 @@ export default function AdminBlogReact() {
         throw new Error(error?.message || 'GitHub API rejected publish request.');
       }
 
+      setToken('');
       setStatus('success');
-      setMessage(`Successfully published ${finalSlug}.md! Your site will auto-update shortly.`);
+      setMessage(`Published ${finalSlug}.md to GitHub. Check GitHub Actions for deployment status.`);
     } catch (error) {
       setStatus('error');
       setMessage(error instanceof Error ? error.message : 'Something went wrong.');
@@ -178,14 +173,22 @@ export default function AdminBlogReact() {
             
             {/* GitHub Token Input */}
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-white/70">GitHub Access Token</label>
+              <label htmlFor="github-publish-token" className="text-sm font-semibold text-white/70">GitHub Access Token</label>
               <input
+                id="github-publish-token"
                 value={token}
-                onChange={(e) => handleTokenChange(e.target.value)}
+                onChange={(e) => setToken(e.target.value)}
                 type="password"
+                autoComplete="off"
+                spellCheck={false}
+                disabled={status === 'publishing'}
+                aria-describedby="github-publish-token-help"
                 placeholder="Paste your token here..."
                 className="admin-input"
               />
+              <p id="github-publish-token-help" className="text-xs text-white/60">
+                Enter your token for this page. It clears after publishing or reloading.
+              </p>
             </div>
 
             {/* Post Title */}

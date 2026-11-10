@@ -171,7 +171,7 @@ const projects = [
                     href={project.link} 
                     target="_blank"
                     rel="noreferrer"
-                    class="w-full bg-neutral-900 dark:bg-white text-white dark:text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                    class="w-full bg-white text-brand-black py-4 px-6 rounded-full text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
                   >
                     <span>{isGitHub ? "Visit GitHub Repository" : "Visit Live Site"}</span>
                     {isGitHub ? (
@@ -217,16 +217,9 @@ const projects = [
   /* Active Indicator Pill Style */
   .carousel-dot.active {
     width: 24px;
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgb(var(--color-white-base) / 0.85);
   }
   
-  html.light .carousel-dot.active {
-    background-color: rgba(0, 0, 0, 0.85);
-  }
-  html.light .carousel-dot {
-    background-color: rgba(0, 0, 0, 0.15);
-  }
-
   .qr-project-visual {
     position: relative;
     display: flex;

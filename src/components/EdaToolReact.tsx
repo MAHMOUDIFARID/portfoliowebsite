@@ -538,7 +538,7 @@ export default function EdaToolReact() {
   }, [analysis]);
 
   return (
-    <div className="w-full bg-white/70 dark:bg-white/[0.01] backdrop-blur-2xl border border-neutral-200 dark:border-white/10 rounded-4xl p-6 md:p-10 shadow-2xl relative overflow-hidden transition-all duration-300">
+    <div className="w-full bg-brand-charcoal/70 dark:bg-white/[0.01] backdrop-blur-2xl border border-neutral-200 dark:border-white/10 rounded-4xl p-6 md:p-10 shadow-2xl relative overflow-hidden transition-all duration-300">
       
       {/* Decorative Blur Dot */}
       <div className="absolute -top-32 -right-32 w-80 h-80 bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-[80px] pointer-events-none"></div>
@@ -567,7 +567,7 @@ export default function EdaToolReact() {
             className={`w-full max-w-xl border-2 border-dashed rounded-4xl p-12 md:p-16 flex flex-col items-center justify-center cursor-pointer transition-all duration-500 relative group overflow-hidden ${
               isDragOver 
                 ? 'border-neutral-800 dark:border-white bg-neutral-50 dark:bg-white/[0.04]' 
-                : 'border-neutral-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.005] hover:bg-neutral-50 dark:hover:bg-white/[0.015] hover:border-neutral-400 dark:hover:border-white/20'
+                : 'border-neutral-200 dark:border-white/10 bg-brand-charcoal/50 dark:bg-white/[0.005] hover:bg-neutral-50 dark:hover:bg-white/[0.015] hover:border-neutral-400 dark:hover:border-white/20'
             }`}
           >
             {/* Pulsing glow background on hover */}
@@ -585,7 +585,7 @@ export default function EdaToolReact() {
             </div>
             <h4 className="text-neutral-800 dark:text-white/80 font-bold mb-2">Drop your dataset here</h4>
             <p className="text-neutral-400 dark:text-white/30 text-xs font-light mb-6">Drag and drop `.csv` or `.txt` columns format</p>
-            <button className="bg-neutral-900 dark:bg-white text-white dark:text-black text-xs font-bold uppercase tracking-wider px-7 py-3.5 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-100 hover:shadow-md transition-all">
+            <button className="bg-white text-brand-black text-xs font-bold uppercase tracking-wider px-7 py-3.5 rounded-full hover:bg-white/85 hover:shadow-md transition-all">
               Choose File
             </button>
           </div>
@@ -598,21 +598,21 @@ export default function EdaToolReact() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <button 
                 onClick={() => loadSample('housing')}
-                className="bg-white/40 dark:bg-white/5 border border-neutral-200 dark:border-white/5 text-neutral-600 dark:text-white/60 hover:bg-neutral-100 dark:hover:bg-white/10 hover:text-neutral-950 dark:hover:text-white px-5 py-3.5 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md"
+                className="bg-brand-charcoal/40 dark:bg-white/5 border border-neutral-200 dark:border-white/5 text-neutral-600 dark:text-white/60 hover:bg-neutral-100 dark:hover:bg-white/10 hover:text-neutral-950 dark:hover:text-white px-5 py-3.5 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md"
               >
                 <DatabaseIcon className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                 <span>Housing Specs</span>
               </button>
               <button 
                 onClick={() => loadSample('students')}
-                className="bg-white/40 dark:bg-white/5 border border-neutral-200 dark:border-white/5 text-neutral-600 dark:text-white/60 hover:bg-neutral-100 dark:hover:bg-white/10 hover:text-neutral-950 dark:hover:text-white px-5 py-3.5 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md"
+                className="bg-brand-charcoal/40 dark:bg-white/5 border border-neutral-200 dark:border-white/5 text-neutral-600 dark:text-white/60 hover:bg-neutral-100 dark:hover:bg-white/10 hover:text-neutral-950 dark:hover:text-white px-5 py-3.5 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md"
               >
                 <DatabaseIcon className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                 <span>Student Marks</span>
               </button>
               <button 
                 onClick={() => loadSample('sales')}
-                className="bg-white/40 dark:bg-white/5 border border-neutral-200 dark:border-white/5 text-neutral-600 dark:text-white/60 hover:bg-neutral-100 dark:hover:bg-white/10 hover:text-neutral-950 dark:hover:text-white px-5 py-3.5 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md"
+                className="bg-brand-charcoal/40 dark:bg-white/5 border border-neutral-200 dark:border-white/5 text-neutral-600 dark:text-white/60 hover:bg-neutral-100 dark:hover:bg-white/10 hover:text-neutral-950 dark:hover:text-white px-5 py-3.5 rounded-2xl text-xs font-semibold transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md"
               >
                 <DatabaseIcon className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                 <span>Revenue Metrics</span>
@@ -852,7 +852,7 @@ export default function EdaToolReact() {
                       onClick={() => setChartType('bar')}
                       className={`px-3 py-3 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer transition-all border ${
                         chartType === 'bar' 
-                          ? 'bg-neutral-900 dark:bg-white text-white dark:text-black border-neutral-950 dark:border-white' 
+                          ? 'bg-white text-brand-black border-neutral-950 dark:border-white'
                           : 'bg-neutral-100 dark:bg-white/5 text-neutral-500 dark:text-white/60 border-neutral-200 dark:border-white/5 hover:text-neutral-950 dark:hover:text-white'
                       }`}
                     >
@@ -870,7 +870,7 @@ export default function EdaToolReact() {
                       }}
                       className={`px-3 py-3 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer transition-all border disabled:opacity-20 disabled:pointer-events-none ${
                         chartType === 'scatter' 
-                          ? 'bg-neutral-900 dark:bg-white text-white dark:text-black border-neutral-950 dark:border-white' 
+                          ? 'bg-white text-brand-black border-neutral-950 dark:border-white'
                           : 'bg-neutral-100 dark:bg-white/5 text-neutral-500 dark:text-white/60 border-neutral-200 dark:border-white/5 hover:text-neutral-950 dark:hover:text-white'
                       }`}
                     >
@@ -886,7 +886,7 @@ export default function EdaToolReact() {
                       }}
                       className={`px-3 py-3 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer transition-all border disabled:opacity-20 disabled:pointer-events-none ${
                         chartType === 'line' 
-                          ? 'bg-neutral-900 dark:bg-white text-white dark:text-black border-neutral-950 dark:border-white' 
+                          ? 'bg-white text-brand-black border-neutral-950 dark:border-white'
                           : 'bg-neutral-100 dark:bg-white/5 text-neutral-500 dark:text-white/60 border-neutral-200 dark:border-white/5 hover:text-neutral-950 dark:hover:text-white'
                       }`}
                     >
@@ -1190,11 +1190,11 @@ export default function EdaToolReact() {
                           top: `${hoveredDataPoint.svgY}px`,
                           transform: 'translate(-50%, -100%)' 
                         }}
-                        className="absolute bg-neutral-950 dark:bg-white text-white dark:text-black text-[10px] font-bold px-3 py-2 rounded-xl shadow-xl pointer-events-none transition-all duration-75 flex flex-col items-center gap-0.5 border border-white/10 dark:border-black/5"
+                        className="absolute bg-white text-brand-black text-[10px] font-bold px-3 py-2 rounded-xl shadow-xl pointer-events-none transition-all duration-75 flex flex-col items-center gap-0.5 border border-white/10 dark:border-black/5"
                       >
                         <span className="opacity-60 text-[8px] uppercase tracking-widest font-black">X: {hoveredDataPoint.x}</span>
                         <span>Val: {hoveredDataPoint.y}</span>
-                        <div className="w-1.5 h-1.5 bg-neutral-950 dark:bg-white rotate-45 absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 border-r border-b border-white/10 dark:border-black/5"></div>
+                        <div className="w-1.5 h-1.5 bg-white rotate-45 absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 border-r border-b border-white/10 dark:border-black/5"></div>
                       </div>
                     )}
                   </div>
@@ -1258,7 +1258,7 @@ export default function EdaToolReact() {
                           >
                             {r}
                             {/* Cell custom tooltip */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-neutral-950 text-white text-[9px] font-bold px-2 py-1 rounded-md opacity-0 pointer-events-none group-hover/cell:opacity-100 transition-opacity whitespace-nowrap shadow-xl z-20">
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white text-brand-black text-[9px] font-bold px-2 py-1 rounded-md opacity-0 pointer-events-none group-hover/cell:opacity-100 transition-opacity whitespace-nowrap shadow-xl z-20">
                               r({rowCol}, {colCol}) = {r}
                             </div>
                           </div>

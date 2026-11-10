@@ -207,7 +207,7 @@ export default function ServicesReact() {
                         className="group/btn w-full py-3.5 px-6 rounded-2xl bg-neutral-900 dark:bg-white/[0.05] border border-neutral-800 dark:border-white/10 hover:bg-neutral-800 dark:hover:bg-white/10 font-medium text-sm transition-all duration-300 flex items-center justify-between"
                       >
                         <span className="text-[#ffffff]">Discuss Service</span>
-                        <div className="w-7 h-7 rounded-full bg-neutral-800 dark:bg-white/10 text-white flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-black transition-all">
+                        <div className="w-7 h-7 rounded-full bg-neutral-800 dark:bg-white/10 text-[#fff] flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-brand-black transition-all">
                           <ArrowRight size={14} weight="bold" />
                         </div>
                       </a>

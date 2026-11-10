@@ -29,35 +29,36 @@ const { title, description = "Farid Mahmoudi, first-year PhD student in Artifici
 		<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Google+Sans+Code:wght@400;500;600&family=Inconsolata:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600&family=Playpen+Sans+Arabic:wght@400;500;600&family=Reenie+Beanie&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 		<script is:inline>
-			const theme = (() => {
-				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-					return localStorage.getItem('theme');
+			(() => {
+				const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
+				let preference = 'system';
+				try {
+					// Remove tokens persisted by earlier versions of the blog admin.
+					localStorage.removeItem('admin_github_token');
+					const savedTheme = localStorage.getItem('theme');
+					if (savedTheme === 'light' || savedTheme === 'dark') preference = savedTheme;
+				} catch {
+					// The theme still works for this page if storage is unavailable.
 				}
-				return 'system';
+
+				const applyTheme = () => {
+					const isLight = preference === 'system' ? systemTheme.matches : preference === 'light';
+					document.documentElement.classList.toggle('light', isLight);
+					document.dispatchEvent(new Event('portfolio:theme-changed'));
+				};
+
+				applyTheme();
+				systemTheme.addEventListener('change', applyTheme);
+				document.addEventListener('portfolio:toggle-theme', () => {
+					preference = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+					applyTheme();
+					try {
+						localStorage.setItem('theme', preference);
+					} catch {
+						// Keep the in-memory preference for this page.
+					}
+				});
 			})();
-			
-			const applyTheme = (t) => {
-				let resolvedTheme = t;
-				if (t === 'system') {
-					resolvedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-				}
-				if (resolvedTheme === 'light') {
-					document.documentElement.classList.add('light');
-				} else {
-					document.documentElement.classList.remove('light');
-				}
-			};
-			
-			applyTheme(theme);
-			window.localStorage.setItem('theme', theme);
-
-			// Listen for system preference changes live
-			window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
-				if (localStorage.getItem('theme') === 'system') {
-					applyTheme('system');
-				}
-			});
-
 		</script>
 	</head>
 	<body>

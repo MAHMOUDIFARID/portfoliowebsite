@@ -140,33 +140,21 @@ const navLinks = [
     if (event.matches && menu?.open) closeMenu();
   });
 
-  // Theme Button Script: Instant 1-Click Toggle between Light and Dark
   const themeMenuBtn = document.getElementById('theme-menu-btn');
   const lightIcon = document.getElementById('theme-icon-light');
   const darkIcon = document.getElementById('theme-icon-dark');
 
-  const updateThemeUI = (isLight: boolean) => {
+  const updateThemeUI = () => {
+    const isLight = document.documentElement.classList.contains('light');
     themeMenuBtn?.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
-    if (isLight) {
-      document.documentElement.classList.add('light');
-      lightIcon?.classList.add('hidden');
-      darkIcon?.classList.remove('hidden');
-    } else {
-      document.documentElement.classList.remove('light');
-      darkIcon?.classList.add('hidden');
-      lightIcon?.classList.remove('hidden');
-    }
+    lightIcon?.classList.toggle('hidden', isLight);
+    darkIcon?.classList.toggle('hidden', !isLight);
   };
 
-  // Initial Sync
-  const currentIsLight = document.documentElement.classList.contains('light');
-  updateThemeUI(currentIsLight);
-
-  // 1-Click Instant Toggle
+  updateThemeUI();
+  document.addEventListener('portfolio:theme-changed', updateThemeUI);
   themeMenuBtn?.addEventListener('click', () => {
-    const isNowLight = !document.documentElement.classList.contains('light');
-    localStorage.setItem('theme', isNowLight ? 'light' : 'dark');
-    updateThemeUI(isNowLight);
+    document.dispatchEvent(new Event('portfolio:toggle-theme'));
   });
 
   // Scroll handling to toggle floating state

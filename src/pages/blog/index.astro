@@ -46,7 +46,7 @@ const colors = [
 				<div class="flex flex-col gap-6 reveal-up">
 					{posts.length > 0 && (
 					<!-- Header Row with Title and Filter Search -->
-					<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 dark:border-black/10 pb-8 mt-8 filter-row">
+					<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-8 mt-8">
 						<h1 class="text-3xl md:text-4xl font-semibold tracking-tight font-sans blog-title">
 							Read past writings
 						</h1>
@@ -55,7 +55,7 @@ const colors = [
 						<div class="flex flex-wrap items-center gap-3">
 							<!-- Search Input -->
 							<div class="relative flex items-center w-full sm:w-auto">
-								<span class="absolute left-4 text-white/40 dark:text-black/40">
+								<span class="absolute left-4 text-white/40">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
 										<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
 									</svg>
@@ -71,10 +71,10 @@ const colors = [
 							<!-- Sort Dropdown -->
 							<div class="relative w-full sm:w-auto">
 								<select id="sort-select" class="dropdown-select rounded-xl px-4 py-2 text-sm w-full sm:w-auto appearance-none cursor-pointer pr-10">
-									<option value="newest" class="bg-[#121212] text-white dark:bg-white dark:text-black">Most recent</option>
-									<option value="oldest" class="bg-[#121212] text-white dark:bg-white dark:text-black">Oldest first</option>
+									<option value="newest" class="bg-brand-charcoal text-white">Most recent</option>
+									<option value="oldest" class="bg-brand-charcoal text-white">Oldest first</option>
 								</select>
-								<span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 dark:text-black/40">
+								<span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
 									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80a8,8,0,0,1,11.32-11.32L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
 								</span>
 							</div>
@@ -82,12 +82,12 @@ const colors = [
 							<!-- Category Dropdown -->
 							<div class="relative w-full sm:w-auto">
 								<select id="category-select" class="dropdown-select rounded-xl px-4 py-2 text-sm w-full sm:w-auto appearance-none cursor-pointer pr-10">
-									<option value="all" class="bg-[#121212] text-white dark:bg-white dark:text-black">All categories</option>
+									<option value="all" class="bg-brand-charcoal text-white">All categories</option>
 									{Array.from(new Set(posts.flatMap(p => p.data.tags))).map(tag => (
-										<option value={tag.toLowerCase()} class="bg-[#121212] text-white dark:bg-white dark:text-black">{tag}</option>
+										<option value={tag.toLowerCase()} class="bg-brand-charcoal text-white">{tag}</option>
 									))}
 								</select>
-								<span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 dark:text-black/40">
+								<span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
 									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80a8,8,0,0,1,11.32-11.32L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
 								</span>
 							</div>
@@ -159,10 +159,10 @@ const colors = [
 												
 												<!-- Author Info Overlay -->
 												<div class="absolute bottom-2 left-0 right-0 z-20 px-2 text-center bg-gradient-to-t from-black/55 to-transparent pt-3 pointer-events-none">
-													<p class="text-[9px] font-extrabold text-white tracking-widest leading-none uppercase">
+													<p class="text-[9px] font-extrabold text-[#fff] tracking-widest leading-none uppercase">
 														Farid Mahmoudi
 													</p>
-													<p class="text-[7px] text-white/80 uppercase tracking-widest mt-0.5">
+													<p class="text-[7px] text-[#fff]/80 uppercase tracking-widest mt-0.5">
                                                 PhD Student in AI
 													</p>
 												</div>
@@ -172,19 +172,19 @@ const colors = [
 										<!-- Bottom Content -->
 										<div class="mt-5 flex flex-col gap-2 relative z-10">
 											<!-- Metadata (Date) -->
-											<div class="flex items-center gap-3 text-xs font-medium text-white/40 dark:text-black/40 uppercase tracking-wider">
+											<div class="flex items-center gap-3 text-xs font-medium text-white/40 uppercase tracking-wider">
 												<time datetime={date.toISOString()}>{formattedDate}</time>
 											</div>
 											<!-- Title -->
-											<h3 class="text-xl sm:text-2xl font-semibold text-white dark:text-black leading-tight tracking-tight">
+											<h3 class="text-xl sm:text-2xl font-semibold text-white leading-tight tracking-tight">
 												{post.data.title}
 											</h3>
 											<!-- Description -->
-											<p class="text-xs sm:text-sm text-white/50 dark:text-black/50 leading-relaxed font-light line-clamp-2 mt-0.5">
+											<p class="text-xs sm:text-sm text-white/50 leading-relaxed font-light line-clamp-2 mt-0.5">
 												{post.data.description}
 											</p>
 											<!-- Read More -->
-											<div class="mt-2 text-xs sm:text-sm font-semibold text-white/80 dark:text-black/80 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-300">
+											<div class="mt-2 text-xs sm:text-sm font-semibold text-white/80 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-300">
 												<span class="underline underline-offset-4">Read article</span>
 												<span>→</span>
 											</div>
@@ -225,27 +225,11 @@ const colors = [
 	}
 
 	.blog-title {
-		color: #ffffff;
-	}
-
-	html.light .blog-title {
-		color: #0A0A0A;
+		color: var(--site-text);
 	}
 
 	.blog-desc {
-		color: rgba(255, 255, 255, 0.5);
-	}
-
-	html.light .blog-desc {
-		color: rgba(0, 0, 0, 0.5);
-	}
-
-	.filter-row {
-		border-bottom-color: rgba(255, 255, 255, 0.08);
-	}
-
-	html.light .filter-row {
-		border-bottom-color: rgba(0, 0, 0, 0.08);
+		color: rgb(var(--color-white-base) / 0.5);
 	}
 
 	/* Card Base Styling */
@@ -256,48 +240,28 @@ const colors = [
 	/* Dropdown Custom Styling */
 	.dropdown-select {
 		background-color: transparent;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		color: #ffffff;
+		border: 1px solid rgb(var(--color-white-base) / 0.1);
+		color: var(--site-text);
 		padding-right: 2.25rem !important;
 		transition: all 0.3s ease;
 	}
 
-	html.light .dropdown-select {
-		border-color: rgba(0, 0, 0, 0.12);
-		color: #0A0A0A;
-	}
-
 	.dropdown-select:hover {
-		border-color: rgba(255, 255, 255, 0.25);
-	}
-
-	html.light .dropdown-select:hover {
-		border-color: rgba(0, 0, 0, 0.25);
+		border-color: rgb(var(--color-white-base) / 0.25);
 	}
 
 	/* Search Input Custom Styling */
 	.search-input {
 		background-color: transparent;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		color: #ffffff;
+		border: 1px solid rgb(var(--color-white-base) / 0.1);
+		color: var(--site-text);
 		transition: all 0.3s ease;
-	}
-
-	html.light .search-input {
-		border-color: rgba(0, 0, 0, 0.12);
-		color: #0A0A0A;
 	}
 
 	.search-input:focus {
 		outline: none;
-		border-color: rgba(255, 255, 255, 0.3);
-		background-color: rgba(255, 255, 255, 0.02);
-	}
-
-	html.light .search-input:focus {
-		outline: none;
-		border-color: rgba(0, 0, 0, 0.3);
-		background-color: rgba(0, 0, 0, 0.02);
+		border-color: rgb(var(--color-white-base) / 0.3);
+		background-color: rgb(var(--color-white-base) / 0.02);
 	}
 
 	@media (max-width: 767px) {

@@ -212,7 +212,7 @@ function PlaygroundCard({ tool, onLaunch }: PlaygroundCardProps) {
         </span>
 
         <div className={`w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 flex items-center justify-center text-neutral-900 dark:text-white transition-all duration-300 ${
-          isActive ? 'group-hover:bg-neutral-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black' : 'opacity-40'
+          isActive ? 'group-hover:bg-white group-hover:text-brand-black' : 'opacity-40'
         }`}>
           <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
         </div>
